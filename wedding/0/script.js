@@ -756,6 +756,13 @@ let musikid;
 
             setdata();
         } catch (err) {
+            if (
+                err.toString().toLowerCase() ==
+                "syntaxerror: unexpected end of json input"
+            ) {
+                document.body.innerHTML = `<h1 class="text-center" style="margin-top:30vh">UNDANGAN TIDAK DITEMUKAN !</h1>`;
+                return;
+            }
             if (jmlLoad < 4) {
                 setTimeout(() => {
                     load1();
@@ -1126,7 +1133,8 @@ let musikid;
                             ? "0" + nd.getMinutes()
                             : nd.getMinutes()
                     }`;
-                document.getElementById("inputname").style.textTransform ='capitalize';
+                document.getElementById("inputname").style.textTransform =
+                    "capitalize";
                 document.getElementById("inputname").value = datacoba.mempelai
                     .split(";")
                     .join(" & ");
