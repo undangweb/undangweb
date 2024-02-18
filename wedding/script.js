@@ -454,10 +454,10 @@ document.addEventListener("DOMContentLoaded", () => {
             `${data.lokasi == "" ? "indonesia" : data.lokasi}` +
             "&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8";
 
-        if (data.musik != "") {
+    
             document.getElementById("musikdipilih").textContent =
-                data.musik.split(";")[0];
-        }
+                data.musik.split(";")[0]==''?'~ Belum ada musik yang dipilih ~':data.musik.split(";")[0];
+        
 
         const b1 = data.hadiah.split("%")[0].split("$")[0];
         const b2 = data.hadiah.split("%")[0].split("$")[1];
