@@ -469,7 +469,7 @@ let musikid;
     const dataprev = {
         mempelai: "Dandi;Dinda",
         mempelai1:
-            "Dandi Setiawan;Putra;Pertama;Rudi Kurniawan;Lilis Sukarningsih",
+            "Dandi Setiawan;Putra;Pertama;Rudi Kurnia;Lilis Sulastri",
         mempelai2: "Dinda Fitriani;Putri;Kedua;Indra Wijaya;Dewi Puspita",
         resepsi:
             " 09:30;Selesai;WIB;Royal Hotel Bogor;Jl. Ir. H. Juanda No.16, Paledang, Kota Bogor",
