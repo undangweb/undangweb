@@ -454,10 +454,10 @@ document.addEventListener("DOMContentLoaded", () => {
             `${data.lokasi == "" ? "indonesia" : data.lokasi}` +
             "&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8";
 
-    
-            document.getElementById("musikdipilih").textContent =
-                data.musik.split(";")[0]==''?'~ Belum ada musik yang dipilih ~':data.musik.split(";")[0];
-        
+        document.getElementById("musikdipilih").textContent =
+            data.musik.split(";")[0] == ""
+                ? "~ Belum ada musik yang dipilih ~"
+                : data.musik.split(";")[0];
 
         const b1 = data.hadiah.split("%")[0].split("$")[0];
         const b2 = data.hadiah.split("%")[0].split("$")[1];
@@ -988,7 +988,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     data.link = obj.username;
                     document.querySelector(
                         "#link2 > span:nth-child(2)"
-                    ).textContent = obj.username+'#';
+                    ).textContent = obj.username + "#";
                     if (
                         !document
                             .getElementById("simpanlink")
@@ -1280,10 +1280,13 @@ ${data.mempelai.split(";").join(" & ")}`);
                 }, 2000);
             }
         } catch (err) {
-            alert(err);
-
-            console.log(err);
-            return;
+            if (
+                err.toString().toLowerCase() ==
+                "syntaxerror: unexpected end of json input"
+            ) {
+                document.body.innerHTML = `<h1 class="text-center" style="margin-top:30vh">UNDANGAN TIDAK DITEMUKAN !</h1>`;
+                return;
+            }
             if (data == undefined) {
                 if (jmlLoad < 2) {
                     setTimeout(() => {
