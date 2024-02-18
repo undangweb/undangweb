@@ -1126,6 +1126,7 @@ let musikid;
                             ? "0" + nd.getMinutes()
                             : nd.getMinutes()
                     }`;
+                document.getElementById("inputname").style.textTransform ='capitalize';
                 document.getElementById("inputname").value = datacoba.mempelai
                     .split(";")
                     .join(" & ");
@@ -1232,7 +1233,7 @@ let musikid;
             document.querySelector(
                 `#coments > div:nth-child(${cl}) .namakomen`
             ).innerHTML +=
-                '  <img src="../../img/centang.png" style="height:1em">';
+                '  <img src="../../img/centang.png" style="height:1em;text-transform: capitalize;">';
         } else {
             namavatar = document.getElementById("inputname").value.includes(" ")
                 ? document
