@@ -724,7 +724,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="gallery-item rounded">
           <div class="card rounded-bottom-0 border-0">
 
-          <img src="https://lh3.googleusercontent.com/d/19RgopyIbkocALx79tb92igBBxSyl2NMm"  alt="" class="position-absolute w-100">
+          <img src="https://lh3.googleusercontent.com/d/1TO3CGX_eQ70iaWjYvh9F8pWnRc1HFXrA"  alt="" class="position-absolute w-100">
               <div class="gallery-links">
               </div>
         
