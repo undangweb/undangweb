@@ -662,7 +662,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 FN: "ULASAN"
             });
 
-            if (ulasans.lenth < 1) {
+            if (ulasans.length < 1) {
                 ulasanArea.innerHTML = `<span class="m-auto" style="color:rgba(255,255,255,.6)">~ Belum ada ulasan ~</span>`;
                 return;
             }
@@ -671,7 +671,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             ulasans.forEach((e, i) => {
                 ulasanArea.innerHTML += `<div class="p-3 mb-2 shadow-sm">
-              <span class="d-flex justify-content-between"><h6 class="my-0"><i class="bi bi-people-fill" style="color:var(--color-primary);font-size:1.1rem"></i> <span class="nama"></span></h6><p class="my-0 tgl" style="font-size:.8rem;color:rgba(255,255,255,.6)"></p></i></span>
+              <span class="d-flex justify-content-between"><h6 class="my-0"><i class="bi bi-people-fill" style="color:var(--color-primary);font-size:1.1rem"></i> <span class="nama" style="text-transform: capitalize;"></span></h6><p class="my-0 tgl" style="font-size:.8rem;color:rgba(255,255,255,.6)"></p></i></span>
               <p class="fst-italic my-0 komen" style="white-space:pre-wrap"></p>
             </div>`;
                 ulasanArea.querySelectorAll(".nama")[i].textContent = e[0]
@@ -724,7 +724,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="gallery-item rounded">
           <div class="card rounded-bottom-0 border-0">
 
-          <img src="img/comingsoon.jpg"  alt="" class="position-absolute w-100">
+          <img src="https://lh3.googleusercontent.com/d/19RgopyIbkocALx79tb92igBBxSyl2NMm"  alt="" class="position-absolute w-100">
               <div class="gallery-links">
               </div>
         
@@ -900,6 +900,10 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             await loaddata1(1);
+
+            data[0][3].toLowerCase() == "open"
+                ? document.getElementById("isOpen").classList.remove("d-none")
+                : "";
             document.getElementById("nomorAdmin").textContent =
                 data[0][1].split(";")[0];
 
