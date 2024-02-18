@@ -1,5 +1,355 @@
 let youtubeload;
 let musikid;
+let data;
+let coba;
+
+function formatDate(date = new Date()) {
+    const year = date.toLocaleString("default", { year: "numeric" });
+    const month = date.toLocaleString("default", {
+        month: "2-digit"
+    });
+    const day = date.toLocaleString("default", { day: "2-digit" });
+
+    return [year, month, day].join("");
+}
+
+function tampildata() {
+    inisialmempelai(data.mempelai);
+    foto(data.foto);
+    tanggal(data.resepsi, "Resepsi");
+    tanggal(data.akad, "Akad");
+
+    const a = formatDate(new Date(data.resepsi.split(";")[0]));
+    let b =
+        parseInt(data.resepsi.split(";")[0].split(" ")[1].split(":")[0]) - 1;
+    if (b < 10) {
+        b = "0" + b;
+    }
+    let c = parseInt(data.resepsi.split(";")[0].split(" ")[1].split(":")[0]);
+    if (c < 10) {
+        c = "0" + c;
+    }
+    const d = encodeURI(
+        data.resepsi.split(";")[3] + " | " + data.resepsi.split(";")[4]
+    );
+
+    document.querySelector(".savedate").href =
+        "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" +
+        data.mempelai.split(";").join("%20%26%20") +
+        "%20Wedding&details=" +
+        d +
+        "&dates=" +
+        a +
+        "T" +
+        b +
+        data.resepsi.split(";")[0].split(" ")[1].split(":")[1] +
+        "00/" +
+        a +
+        "T" +
+        c +
+        data.resepsi.split(";")[0].split(" ")[1].split(":")[1] +
+        "00&location=" +
+        "https://www.google.com/maps/search/?api=1%26map_action=map%26query=" +
+        encodeURI(data.lokasi);
+
+    document.getElementById("keLokasi").href =
+        "https://www.google.com/maps/search/?api=1&map_action=map&query=" +
+        data.lokasi;
+    let mempelaix;
+    document.querySelectorAll(".nama-lengkap").forEach((e, i) => {
+        if (i % 2 == 0) {
+            mempelaix = data.mempelai1;
+        } else {
+            mempelaix = data.mempelai2;
+        }
+        e.textContent = mempelaix.split(";")[0];
+        let nya = "";
+        if (coba) {
+            nya = "nya";
+        }
+        if (
+            i < document.querySelectorAll(".orangtua").length &&
+            document.querySelectorAll(".orangtua").length > 0
+        ) {
+            document.querySelectorAll(".orangtua")[i].textContent =
+                "Bapak" +
+                nya +
+                " " +
+                mempelaix.split(";")[3] +
+                " & Ibu" +
+                nya +
+                " " +
+                mempelaix.split(";")[4];
+        }
+        if (
+            i < document.querySelectorAll(".anak-ke").length &&
+            document.querySelectorAll(".anak-ke").length > 0
+        ) {
+            document.querySelectorAll(".anak-ke")[i].textContent =
+                mempelaix.split(";")[1] +
+                " " +
+                mempelaix.split(";")[2] +
+                " dari";
+        }
+    });
+
+    if (
+        (!data.hadiah.split("%")[0].split("$")[0].split(";")[0] ||
+            data.hadiah.split("%")[0].split("$")[0].split(";")[0] == "") &&
+        (!data.hadiah.split("%")[1].split(";")[0] ||
+            data.hadiah.split("%").split(";")[0] == "")
+    ) {
+        document.querySelectorAll(".hadiah").forEach((e, i) => {
+            e.remove();
+        });
+        V = document.querySelectorAll(".satumomen_slide");
+        $ = document.querySelectorAll(".satumomen_menu_item");
+    } else {
+        if (
+            data.hadiah.split("%")[1].split(";")[0] &&
+            data.hadiah.split("%")[1].split(";")[0] != ""
+        ) {
+            document.querySelector(".alamatKado").textContent = data.hadiah
+                .split("%")[1]
+                .split(";")[0];
+            document.querySelector(".penerimakado").textContent =
+                "(" + data.hadiah.split("%")[1].split(";")[1] + ")";
+        } else {
+            document.querySelectorAll(".btn-gift")[1].style.display = "none";
+        }
+
+        const data8a = data.hadiah.split("%")[0].split("$");
+        data8a.forEach((e, i) => {
+            if (e.split(";")[0] && e.split(";")[0] != "") {
+                document
+                    .querySelectorAll(".btn-gift")[0]
+                    .classList.remove("d-none");
+                const data8aa = e.split(";");
+                document.querySelectorAll(".bankwallet")[i].src =
+                    "../../img/" + data8aa[0] + ".png";
+                document.querySelectorAll(".nomorrekening")[i].textContent =
+                    data8aa[2];
+                document.querySelectorAll(".namarekening")[i].textContent =
+                    data8aa[1] + " : " + data8aa[3];
+                if (i == 1 && data8aa[0] != "") {
+                    document
+                        .querySelectorAll(
+                            ".gift-container > div > div > div"
+                        )[1]
+                        .classList.replace("d-none", "d-flex");
+                    document
+                        .querySelectorAll(".bankwallet")[1]
+                        .classList.remove("d-none");
+                }
+            }
+        });
+    }
+
+    document.querySelector(".maps-iframe").src =
+        "https://www.google.com/maps/embed/v1/search?q=" +
+        `${data.lokasi == "" ? "indonesia" : data.lokasi}` +
+        "&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8";
+}
+
+function inisialmempelai(data4) {
+    document.querySelectorAll(".mempelai").forEach((e, i) => {
+        if (i % 2 == 0) {
+            e.textContent = data4.split(";")[0];
+        } else {
+            e.textContent = data4.split(";")[1];
+        }
+    });
+
+    document.querySelectorAll(".inisial").forEach((e, i) => {
+        if (i % 2 == 0) {
+            e.textContent = data4.split(";")[0][0];
+        } else {
+            e.textContent = data4.split(";")[1][0];
+        }
+    });
+}
+
+function foto(data9) {
+    document.querySelectorAll(".foto-mempelai").forEach((e, i) => {
+        if (i % 2 == 0) {
+            data9.split(";")[0] != ""
+                ? (e.src = data9.split(";")[0])
+                : (e.src = source.noimg);
+        } else {
+            data9.split(";")[1] != ""
+                ? (e.src = data9.split(";")[1])
+                : (e.src = source.noimg);
+        }
+    });
+
+    document.querySelectorAll(".potrait").forEach((e, i) => {
+        data9.split(";")[i + 2] != ""
+            ? (e.src = data9.split(";")[i + 2])
+            : (e.src = source.noimg);
+    });
+
+    document.querySelectorAll(".landscape").forEach((e, i) => {
+        data9.split(";")[i + 5] != ""
+            ? (e.src = data9.split(";")[i + 5])
+            : (e.src = source.noimg);
+    });
+}
+
+const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu"];
+months = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember"
+];
+
+function tanggal(e, f) {
+    const utc = [5, 6, 7];
+    const zona = ["WIT", "WITA", "WIB"];
+    e = e.split(";");
+    if (f == "Resepsi") {
+        let selisih = new Date(e[0]).getUTCHours() + utc[zona.indexOf(e[2])];
+        if (selisih < 10) {
+            selisih = "0" + selisih;
+        }
+
+        document.querySelector(".countdown-wrapper").dataset.datetime =
+            e[0].split(" ")[0] +
+            " " +
+            selisih +
+            ":" +
+            e[0].split(" ")[1].split(":")[1];
+        displayCountdown(document.querySelector(".countdown-wrapper"));
+        let y = "";
+        let z = "";
+        if (e[1].toLowerCase() == "selesai") {
+            y = e[2];
+        } else {
+            z = e[2];
+        }
+        document.querySelector(".jamResepsi").textContent =
+            e[0].split(" ")[1].split(":").join(".") +
+            " " +
+            y +
+            " - " +
+            e[1].split(":").join(".") +
+            " " +
+            z;
+    } else {
+        document.querySelector(".jamAkad").textContent =
+            e[0].split(" ")[1].split(":").join(".") + " " + e[2];
+    }
+
+    const date = new Date(e[0]);
+
+    document.querySelectorAll(".hari" + f).forEach(e => {
+        e.textContent = days[date.getDay()];
+    });
+
+    document.querySelectorAll(".tgl" + f).forEach(e => {
+        e.textContent = date.getDate();
+    });
+
+    document.querySelectorAll(".bln" + f).forEach(e => {
+        e.textContent = months[date.getMonth()];
+    });
+
+    document.querySelectorAll(".thn" + f).forEach(e => {
+        e.textContent = date.getFullYear();
+    });
+
+    document.querySelectorAll(".tempat" + f).forEach((a, i) => {
+        if (!e[3] || e[3] == "") {
+            a.style.display = "none";
+        } else {
+            a.textContent = e[3];
+        }
+        document.querySelectorAll(".lokasi" + f)[i].textContent = e[4];
+    });
+}
+
+function onYouTubeIframeAPIReady() {
+    let time;
+
+    var e = document.getElementById("youtube-audio"),
+        a = document.createElement("div");
+    a.setAttribute("id", "youtube-player"), e.appendChild(a);
+    var o = function (f) {
+        if (f) {
+            if (
+                !document
+                    .getElementById("btnMusic")
+                    .classList.contains("playing")
+            ) {
+                document.getElementById("btnMusic").classList.add("playing");
+            }
+        } else {
+            document.getElementById("btnMusic").classList.remove("playing");
+        }
+    };
+
+    var r = new YT.Player("youtube-player", {
+        height: "0",
+        width: "0",
+        videoId: musikid,
+        playerVars: { playsinline: 1 },
+
+        events: {
+            onReady: function (e) {
+                r.setPlaybackQuality("small"),
+                    o(r.getPlayerState() !== YT.PlayerState.CUED);
+                clearTimeout(youtubeload);
+                youtubeload = undefined;
+                tampildata();
+                document.getElementById("loader").classList.remove("d-flex");
+            },
+            onStateChange: function (e) {
+                if (e.data === YT.PlayerState.ENDED) {
+                    document.getElementById("btnMusic").click();
+                } else if (r.getPlayerState() === YT.PlayerState.BUFFERING) {
+                    //  o(!1);
+                    document.getElementById("btnMusic").style.transform =
+                        "scale(0)";
+                    time = setTimeout(() => {
+                        document.getElementById("btnMusic").style.transform =
+                            "none";
+                    }, 20000);
+                } else {
+                    //o(!0);
+                    if (
+                        document.querySelector(".btn-open-invitation").style
+                            .display == "none"
+                    ) {
+                        document.getElementById("btnMusic").style.transform =
+                            "none";
+
+                        clearTimeout(time);
+                        time = undefined;
+                    }
+                }
+            }
+        }
+    });
+    document.getElementById("btnMusic").onclick = function () {
+        if (
+            r.getPlayerState() === YT.PlayerState.PLAYING ||
+            r.getPlayerState() === YT.PlayerState.BUFFERING
+        ) {
+            r.pauseVideo(), o(!1);
+        } else {
+            r.playVideo(), o(!0);
+        }
+    };
+}
+
 (() => {
     if (!document.querySelector(".canvas").classList.contains(".rounded-0")) {
         document.querySelector(".canvas").classList.add(".rounded-0");
@@ -432,44 +782,9 @@ let musikid;
             : openFullScreen();
     };
 
-    function formatDate(date = new Date()) {
-        const year = date.toLocaleString("default", { year: "numeric" });
-        const month = date.toLocaleString("default", {
-            month: "2-digit"
-        });
-        const day = date.toLocaleString("default", { day: "2-digit" });
-
-        return [year, month, day].join("");
-    }
-
-    const days = [
-        "Minggu",
-        "Senin",
-        "Selasa",
-        "Rabu",
-        "Kamis",
-        "Jum'at",
-        "Sabtu"
-    ];
-    months = [
-        "Januari",
-        "Februari",
-        "Maret",
-        "April",
-        "Mei",
-        "Juni",
-        "Juli",
-        "Agustus",
-        "September",
-        "Oktober",
-        "November",
-        "Desember"
-    ];
-
     const dataprev = {
         mempelai: "Dandi;Dinda",
-        mempelai1:
-            "Dandi Setiawan;Putra;Pertama;Rudi Kurnia;Lilis Sulastri",
+        mempelai1: "Dandi Setiawan;Putra;Pertama;Rudi Kurnia;Lilis Sulastri",
         mempelai2: "Dinda Fitriani;Putri;Kedua;Indra Wijaya;Dewi Puspita",
         resepsi:
             " 09:30;Selesai;WIB;Royal Hotel Bogor;Jl. Ir. H. Juanda No.16, Paledang, Kota Bogor",
@@ -519,163 +834,6 @@ let musikid;
         dnow.getFullYear() +
         " 08:00;Selesai;WIB/WITA/WIT;*Tempat Acara;*Alamat Lokasi Acara";
 
-    function tampildata(data, coba) {
-        inisialmempelai(data.mempelai);
-        foto(data.foto);
-        tanggal(data.resepsi, "Resepsi");
-        tanggal(data.akad, "Akad");
-
-        if (
-            !data.musik ||
-            !data.musik.split(";")[1] ||
-            data.musik.split(";")[1] == ""
-        ) {
-            source.idmusic.sort(() => Math.random() - 0.5);
-            musikid = source.idmusic[0];
-            // document.getElementById("youtube-audio").dataset.video = idmusic[0];
-        } else {
-            //  document.getElementById("youtube-audio").dataset.video =
-            musikid = data.musik.split(";")[1];
-        }
-
-        youtubeAudio();
-
-        const a = formatDate(new Date(data.resepsi.split(";")[0]));
-        let b =
-            parseInt(data.resepsi.split(";")[0].split(" ")[1].split(":")[0]) -
-            1;
-        if (b < 10) {
-            b = "0" + b;
-        }
-        let c = parseInt(
-            data.resepsi.split(";")[0].split(" ")[1].split(":")[0]
-        );
-        if (c < 10) {
-            c = "0" + c;
-        }
-        const d = encodeURI(
-            data.resepsi.split(";")[3] + " | " + data.resepsi.split(";")[4]
-        );
-
-        document.querySelector(".savedate").href =
-            "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" +
-            data.mempelai.split(";").join("%20%26%20") +
-            "%20Wedding&details=" +
-            d +
-            "&dates=" +
-            a +
-            "T" +
-            b +
-            data.resepsi.split(";")[0].split(" ")[1].split(":")[1] +
-            "00/" +
-            a +
-            "T" +
-            c +
-            data.resepsi.split(";")[0].split(" ")[1].split(":")[1] +
-            "00&location=" +
-            "https://www.google.com/maps/search/?api=1%26map_action=map%26query=" +
-            encodeURI(data.lokasi);
-
-        document.getElementById("keLokasi").href =
-            "https://www.google.com/maps/search/?api=1&map_action=map&query=" +
-            data.lokasi;
-        let mempelaix;
-        document.querySelectorAll(".nama-lengkap").forEach((e, i) => {
-            if (i % 2 == 0) {
-                mempelaix = data.mempelai1;
-            } else {
-                mempelaix = data.mempelai2;
-            }
-            e.textContent = mempelaix.split(";")[0];
-            let nya = "";
-            if (coba) {
-                nya = "nya";
-            }
-            if (
-                i < document.querySelectorAll(".orangtua").length &&
-                document.querySelectorAll(".orangtua").length > 0
-            ) {
-                document.querySelectorAll(".orangtua")[i].textContent =
-                    "Bapak" +
-                    nya +
-                    " " +
-                    mempelaix.split(";")[3] +
-                    " & Ibu" +
-                    nya +
-                    " " +
-                    mempelaix.split(";")[4];
-            }
-            if (
-                i < document.querySelectorAll(".anak-ke").length &&
-                document.querySelectorAll(".anak-ke").length > 0
-            ) {
-                document.querySelectorAll(".anak-ke")[i].textContent =
-                    mempelaix.split(";")[1] +
-                    " " +
-                    mempelaix.split(";")[2] +
-                    " dari";
-            }
-        });
-
-        if (
-            (!data.hadiah.split("%")[0].split("$")[0].split(";")[0] ||
-                data.hadiah.split("%")[0].split("$")[0].split(";")[0] == "") &&
-            (!data.hadiah.split("%")[1].split(";")[0] ||
-                data.hadiah.split("%").split(";")[0] == "")
-        ) {
-            document.querySelectorAll(".hadiah").forEach((e, i) => {
-                e.remove();
-            });
-            V = document.querySelectorAll(".satumomen_slide");
-            $ = document.querySelectorAll(".satumomen_menu_item");
-        } else {
-            if (
-                data.hadiah.split("%")[1].split(";")[0] &&
-                data.hadiah.split("%")[1].split(";")[0] != ""
-            ) {
-                document.querySelector(".alamatKado").textContent = data.hadiah
-                    .split("%")[1]
-                    .split(";")[0];
-                document.querySelector(".penerimakado").textContent =
-                    "(" + data.hadiah.split("%")[1].split(";")[1] + ")";
-            } else {
-                document.querySelectorAll(".btn-gift")[1].style.display =
-                    "none";
-            }
-
-            const data8a = data.hadiah.split("%")[0].split("$");
-            data8a.forEach((e, i) => {
-                if (e.split(";")[0] && e.split(";")[0] != "") {
-                    document
-                        .querySelectorAll(".btn-gift")[0]
-                        .classList.remove("d-none");
-                    const data8aa = e.split(";");
-                    document.querySelectorAll(".bankwallet")[i].src =
-                        "../../img/" + data8aa[0] + ".png";
-                    document.querySelectorAll(".nomorrekening")[i].textContent =
-                        data8aa[2];
-                    document.querySelectorAll(".namarekening")[i].textContent =
-                        data8aa[1] + " : " + data8aa[3];
-                    if (i == 1 && data8aa[0] != "") {
-                        document
-                            .querySelectorAll(
-                                ".gift-container > div > div > div"
-                            )[1]
-                            .classList.replace("d-none", "d-flex");
-                        document
-                            .querySelectorAll(".bankwallet")[1]
-                            .classList.remove("d-none");
-                    }
-                }
-            });
-        }
-
-        document.querySelector(".maps-iframe").src =
-            "https://www.google.com/maps/embed/v1/search?q=" +
-            `${data.lokasi == "" ? "indonesia" : data.lokasi}` +
-            "&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8";
-    }
-
     function Fetch(obj, type) {
         return fetch(source.urldb, {
             method: "POST",
@@ -697,7 +855,7 @@ let musikid;
     }
 
     const username = location.href.split("#")[2];
-    let data;
+
     let jmlLoad = 0;
 
     function setdata() {
@@ -729,7 +887,8 @@ let musikid;
             musik: data[11],
             ulasan: data[12]
         };
-        tampildata(data);
+        //  tampildata();
+        youtubeAudio();
     }
 
     async function load1() {
@@ -817,56 +976,31 @@ let musikid;
         }%*Alamat rumah ${datacoba.mempelai.split(";")[1]};${
             datacoba.mempelai.split(";")[1]
         }`;
-        tampildata(datacoba, true);
+        data = datacoba;
+        coba = true;
+        // tampildata(datacoba, true);
+        youtubeAudio();
     } else {
-        tampildata(dataprev);
-    }
-
-    function inisialmempelai(data4) {
-        document.querySelectorAll(".mempelai").forEach((e, i) => {
-            if (i % 2 == 0) {
-                e.textContent = data4.split(";")[0];
-            } else {
-                e.textContent = data4.split(";")[1];
-            }
-        });
-
-        document.querySelectorAll(".inisial").forEach((e, i) => {
-            if (i % 2 == 0) {
-                e.textContent = data4.split(";")[0][0];
-            } else {
-                e.textContent = data4.split(";")[1][0];
-            }
-        });
-    }
-
-    function foto(data9) {
-        document.querySelectorAll(".foto-mempelai").forEach((e, i) => {
-            if (i % 2 == 0) {
-                data9.split(";")[0] != ""
-                    ? (e.src = data9.split(";")[0])
-                    : (e.src = source.noimg);
-            } else {
-                data9.split(";")[1] != ""
-                    ? (e.src = data9.split(";")[1])
-                    : (e.src = source.noimg);
-            }
-        });
-
-        document.querySelectorAll(".potrait").forEach((e, i) => {
-            data9.split(";")[i + 2] != ""
-                ? (e.src = data9.split(";")[i + 2])
-                : (e.src = source.noimg);
-        });
-
-        document.querySelectorAll(".landscape").forEach((e, i) => {
-            data9.split(";")[i + 5] != ""
-                ? (e.src = data9.split(";")[i + 5])
-                : (e.src = source.noimg);
-        });
+        data = dataprev;
+        // tampildata(dataprev);
+        youtubeAudio();
     }
 
     function youtubeAudio() {
+        if (
+            !data.musik ||
+            !data.musik.split(";")[1] ||
+            data.musik.split(";")[1] == ""
+        ) {
+            source.idmusic.sort(() => Math.random() - 0.5);
+            musikid = source.idmusic[0];
+            // document.getElementById("youtube-audio").dataset.video = idmusic[0];
+        } else {
+            //  document.getElementById("youtube-audio").dataset.video =
+            musikid = data.musik.split(";")[1];
+        }
+
+        //  youtubeAudio();
         const div = document.createElement("div");
         div.id = "youtube-audio";
         div.classList.add("d-none");
@@ -879,72 +1013,6 @@ let musikid;
             alert("Masalah koneksi!\nMemuat ulang...");
             location.reload();
         }, 90000);
-    }
-
-    function tanggal(e, f) {
-        const utc = [5, 6, 7];
-        const zona = ["WIT", "WITA", "WIB"];
-        e = e.split(";");
-        if (f == "Resepsi") {
-            let selisih =
-                new Date(e[0]).getUTCHours() + utc[zona.indexOf(e[2])];
-            if (selisih < 10) {
-                selisih = "0" + selisih;
-            }
-
-            document.querySelector(".countdown-wrapper").dataset.datetime =
-                e[0].split(" ")[0] +
-                " " +
-                selisih +
-                ":" +
-                e[0].split(" ")[1].split(":")[1];
-            displayCountdown(document.querySelector(".countdown-wrapper"));
-            let y = "";
-            let z = "";
-            if (e[1].toLowerCase() == "selesai") {
-                y = e[2];
-            } else {
-                z = e[2];
-            }
-            document.querySelector(".jamResepsi").textContent =
-                e[0].split(" ")[1].split(":").join(".") +
-                " " +
-                y +
-                " - " +
-                e[1].split(":").join(".") +
-                " " +
-                z;
-        } else {
-            document.querySelector(".jamAkad").textContent =
-                e[0].split(" ")[1].split(":").join(".") + " " + e[2];
-        }
-
-        const date = new Date(e[0]);
-
-        document.querySelectorAll(".hari" + f).forEach(e => {
-            e.textContent = days[date.getDay()];
-        });
-
-        document.querySelectorAll(".tgl" + f).forEach(e => {
-            e.textContent = date.getDate();
-        });
-
-        document.querySelectorAll(".bln" + f).forEach(e => {
-            e.textContent = months[date.getMonth()];
-        });
-
-        document.querySelectorAll(".thn" + f).forEach(e => {
-            e.textContent = date.getFullYear();
-        });
-
-        document.querySelectorAll(".tempat" + f).forEach((a, i) => {
-            if (!e[3] || e[3] == "") {
-                a.style.display = "none";
-            } else {
-                a.textContent = e[3];
-            }
-            document.querySelectorAll(".lokasi" + f)[i].textContent = e[4];
-        });
     }
 
     let inputnama = "";
@@ -1339,75 +1407,4 @@ let musikid;
         }
     };
 })();
-function onYouTubeIframeAPIReady() {
-    let time;
 
-    var e = document.getElementById("youtube-audio"),
-        a = document.createElement("div");
-    a.setAttribute("id", "youtube-player"), e.appendChild(a);
-    var o = function (f) {
-        if (f) {
-            if (
-                !document
-                    .getElementById("btnMusic")
-                    .classList.contains("playing")
-            ) {
-                document.getElementById("btnMusic").classList.add("playing");
-            }
-        } else {
-            document.getElementById("btnMusic").classList.remove("playing");
-        }
-    };
-
-    var r = new YT.Player("youtube-player", {
-        height: "0",
-        width: "0",
-        videoId: musikid,
-        playerVars: { playsinline: 1 },
-
-        events: {
-            onReady: function (e) {
-                r.setPlaybackQuality("small"),
-                    o(r.getPlayerState() !== YT.PlayerState.CUED);
-                clearTimeout(youtubeload);
-                youtubeload = undefined;
-                document.getElementById("loader").classList.remove("d-flex");
-            },
-            onStateChange: function (e) {
-                if (e.data === YT.PlayerState.ENDED) {
-                    document.getElementById("btnMusic").click();
-                } else if (r.getPlayerState() === YT.PlayerState.BUFFERING) {
-                    //  o(!1);
-                    document.getElementById("btnMusic").style.transform =
-                        "scale(0)";
-                    time = setTimeout(() => {
-                        document.getElementById("btnMusic").style.transform =
-                            "none";
-                    }, 20000);
-                } else {
-                    //o(!0);
-                    if (
-                        document.querySelector(".btn-open-invitation").style
-                            .display == "none"
-                    ) {
-                        document.getElementById("btnMusic").style.transform =
-                            "none";
-
-                        clearTimeout(time);
-                        time = undefined;
-                    }
-                }
-            }
-        }
-    });
-    document.getElementById("btnMusic").onclick = function () {
-        if (
-            r.getPlayerState() === YT.PlayerState.PLAYING ||
-            r.getPlayerState() === YT.PlayerState.BUFFERING
-        ) {
-            r.pauseVideo(), o(!1);
-        } else {
-            r.playVideo(), o(!0);
-        }
-    };
-}
