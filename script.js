@@ -458,11 +458,11 @@ document.addEventListener("DOMContentLoaded", () => {
         a = document.getElementById(a);
         b = document.getElementById(b);
         if (c == 0) {
-            a.style.transform = "translateX(-100%)";
+            a.style.transform = "translateX(-102%)";
             b.style.transform = "translateY(-102%)";
         } else if (a.style.transform == "none") {
             if (c == "ya") {
-                a.style.transform = "translateX(-100%)";
+                a.style.transform = "translateX(-102%)";
             } else {
                 a.style.transform = "translateY(-102%)";
             }
