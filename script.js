@@ -356,7 +356,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else if (x.getTime() < c) {
                     inputtgl.value = "";
                     alert(
-                        "Maksimal 40 hari sebelum hari H !\nTanggal resepsi yang anda masukan diatas 40 hari dari hari sekarang.\nSilahkan coba lagi di lain hari."
+                        "Maksimal 40 hari sebelum hari H !\nTanggal acara yang anda masukan diatas 40 hari dari hari sekarang.\nSilahkan coba lagi di lain hari."
                     );
                 }
                 datepicker.update({
@@ -375,11 +375,21 @@ document.addEventListener("DOMContentLoaded", () => {
             e.classList.remove("d-none");
         });
         document.querySelector(".ujicobabtn").classList.remove("d-none");
+        if (
+            !document
+                .querySelector("#hargaArea>div:first-child")
+                .classList.contains("d-none")
+        ) {
+            document.querySelectorAll("#hargaArea > div").forEach(el => {
+                el.classList.toggle("d-none");
+            });
+        }
     };
 
     /**
      * Init swiper slider with 3 slides at once in desktop view
      */
+    let data;
 
     const hargaAhir = document.getElementById("hargaAhir");
     const trDisc = document.getElementById("trDisc");
@@ -407,7 +417,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         .split(" #")
                         .join("#")
                         .toLowerCase() +
-                    "/vt/" +
+                    "/" +
+                    data[0][3] +
+                    "/" +
                     new Date(tgl[1] + "/" + tgl[0] + "/" + tgl[2]).getTime();
                 if (trDisc.classList.contains("d-none")) {
                     trDisc.classList.remove("d-none");
@@ -473,8 +485,6 @@ document.addEventListener("DOMContentLoaded", () => {
     /**
      * Animation on scroll function and init
      */
-
-    let data;
 
     document.querySelector(".modal-footer .imgs").onclick = () => {
         imgsView.click();
@@ -901,7 +911,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             await loaddata1(1);
 
-            data[0][3].toLowerCase() == "open"
+            data[0][4].toLowerCase() == "open"
                 ? document.getElementById("isOpen").classList.remove("d-none")
                 : "";
             document.getElementById("nomorAdmin").textContent =

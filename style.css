@@ -399,7 +399,7 @@ h6 {
   height: calc(var(--h)*.9);
 }
 
-  .modal-body .row .content .modal-footer{
+  .modal-body .row .content .modal-footer:not(#formcoba .modal-footer){
     display: none;
   }
   .imgs,.modal-footer .pratinjau{

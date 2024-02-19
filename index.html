@@ -55,7 +55,7 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
         />
 
         <!-- Template Main CSS File -->
-        <link href="style.css" rel="stylesheet" />
+        <link href="style.css?v=1" rel="stylesheet" />
 
         <style>
             body,
@@ -77,7 +77,8 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
             #gallery .row .gallery-item,
             #ulasanArea > div,
             .modal .cardz::after,
-            .kodebayar {
+            .kodebayar,
+            #inputtgl {
                 background-color: #1b1f28;
             }
 
@@ -412,25 +413,25 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                                     </button>
                                 </nav>
                             </div>
-                            <div class="col-lg-6 px-0 overflow-hidden content">
+                            <div
+                                class="col-lg-6 px-0 position-relative overflow-hidden content"
+                            >
                                 <div
                                     class="position-absolute top-0 bottom-0 start-0 end-0 d-flex justify-content-center align-items-center"
                                     id="modalcoba"
                                     style="
-                                        background-color: rgba(
-                                            255,
-                                            255,
-                                            255,
-                                            0.2
-                                        );
+                                        background-color: rgba(0, 0, 0, 0);
                                         opacity: 0;
                                         z-index: -1;
                                         transition: 0.5s ease-in-out;
                                     "
                                 >
                                     <div
-                                        class="modal-dialog"
-                                        style="width: 75%"
+                                        class="modal-dialog border rounded"
+                                        style="
+                                            width: 75%;
+                                            transform: translateY(-30px);
+                                        "
                                     >
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -441,7 +442,7 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                                                     Masukan
                                                 </h1>
                                             </div>
-                                            <form name="formcoba">
+                                            <form name="formcoba" id="formcoba">
                                                 <div class="modal-body pt-0">
                                                     <div class="">
                                                         <label
@@ -606,8 +607,10 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                                                         ><label
                                                             for="inputtgl"
                                                             id="tglbtn"
-                                                            >Tanggal resepsi
-                                                            :</label
+                                                            ><b
+                                                                >Tanggal Acara
+                                                                :</b
+                                                            ></label
                                                         ><input
                                                             type="text"
                                                             name="foo"
@@ -618,12 +621,15 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                                                                 border-color: var(
                                                                     --color-primary
                                                                 );
+                                                                color: var(
+                                                                    --color-primary
+                                                                );
                                                             "
                                                             placeholder="12/12/2012"
                                                             autocomplete="off"
                                                             id="inputtgl"
                                                     /></span>
-                                                    <p class="text-center">
+                                                    <p class="text-center mb-2">
                                                         Sudah punya voucher ?
                                                     </p>
                                                     <span
@@ -725,7 +731,7 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                                                         </div>
                                                     </div>
                                                     <p
-                                                        class="text-end mt-2 mb-0"
+                                                        class="text-end mt-3 mb-0"
                                                     >
                                                         <button
                                                             class="btn btn-warning ujicobabtn"
@@ -1138,10 +1144,9 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                                 Undangan Digital Berbasis Website
                             </h2>
                             <p class="mb-0">
-                                Temukan desain website undangan nikah yang
-                                sempurna untuk momen istimewa Anda, dan bagikan
-                                cerita cinta Anda dengan gaya yang unik dan
-                                mengesankan.
+                                Temukan desain website undangan yang sempurna
+                                untuk momen istimewa Anda, dan bagikan cerita
+                                dengan gaya yang unik dan mengesankan.
                             </p>
                         </div>
                         <span
@@ -1222,12 +1227,11 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                                 <i class="bi bi-images"></i>
                                 <h4 class="stretched-link">Galeri Foto</h4>
                                 <p>
-                                    Setiap momen bersama adalah keajaiban yang
-                                    tak terlupakan. Menuju babak baru kehidupan
-                                    dengan penuh harapan, penuh cinta, penuh
-                                    bersyukur. Saling melengkapi, saling
-                                    mencintai. Kisah cinta dalam setiap sentuhan
-                                    dan senyuman.
+                                    Dengan fitur galeri foto, Anda dapat dengan
+                                    mudah menampilkan semua momen berharga yang
+                                    dapat diabadikan dan dibagikan dalam bentuk
+                                    galeri yang elegan untuk membuat tamu
+                                    undangan terpikat.
                                 </p>
                             </div>
                         </div>
@@ -1318,8 +1322,8 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                                 <p>
                                     Dengan fitur ini, tamu undangan dapat
                                     mengekspresikan dukungan dan kebahagiaan
-                                    mereka kepada pasangan yang mengundang. Tamu
-                                    dapat memberikan dukungan emosional, dan
+                                    mereka kepada yang mengundang. Tamu dapat
+                                    memberikan dukungan emosional, dan
                                     pembentukan kenangan yang berharga.
                                 </p>
                             </div>
