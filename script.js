@@ -731,10 +731,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     document.querySelector(
                         "#gallery .row"
                     ).innerHTML += `<div class="d-flex flex-column align-items-center col-xl-3 col-lg-4 col-md-6 px-1">
-            <div class="gallery-item rounded">
-          <div class="card rounded-bottom-0 border-0">
+            <div class="gallery-item">
+          <div class="card rounded-0 border-0">
 
-          <img src="https://lh3.googleusercontent.com/d/1TO3CGX_eQ70iaWjYvh9F8pWnRc1HFXrA"  alt="" class="position-absolute w-100">
+          <img src="https://lh3.googleusercontent.com/d/1TO3CGX_eQ70iaWjYvh9F8pWnRc1HFXrA"  alt="" class="position-absolute" style="width:100%">
               <div class="gallery-links">
               </div>
         
@@ -746,8 +746,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     document.querySelector(
                         "#gallery .row"
                     ).innerHTML += `<div class="d-flex flex-column align-items-center col-xl-3 col-lg-4 col-md-6 px-1">
-            <div class="gallery-item rounded"  onclick="modalShow(${i})">
-          <div class="card rounded-bottom-0 border-0">
+            <div class="gallery-item"  onclick="modalShow(${i})">
+          <div class="card rounded-0 border-0">
 
           <img src="${
               data[i][2].split(";")[0]
