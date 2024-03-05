@@ -55,16 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.classList.toggle("mobile-nav-active");
     }
 
-    let state = false;
-    function pushState() {
-        if (!state) {
-            window.history.pushState(0, null);
-            state = true;
-        }
-    }
-
     mobileNavShow.onclick = () => {
-        pushState();
         mobileNavToogle();
     };
     mobileNavHide.onclick = mobileNavToogle;
