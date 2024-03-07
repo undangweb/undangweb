@@ -330,8 +330,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.getElementById("inputimg").onchange = async function () {
+        document.querySelectorAll(".tampilfoto")[indexpilihfoto].src = "";
+        document
+            .querySelectorAll(".img-loader")
+            [indexpilihfoto].classList.toggle("d-none");
+
         const a = await resizeIMG(this.files[0]);
         document.querySelectorAll(".tampilfoto")[indexpilihfoto].src = a;
+        document
+            .querySelectorAll(".img-loader")
+            [indexpilihfoto].classList.toggle("d-none");
     };
 
     function resizeIMG(file) {
@@ -343,7 +351,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("imgreview").src = res;
                 document.getElementById("imgreview").onload = e => {
                     const canvas = document.createElement("canvas");
-                    const maxWidth = 700;
+                    const maxWidth = 1100;
                     const scaleSize = maxWidth / e.target.width;
                     canvas.width = maxWidth;
                     canvas.height = e.target.height * scaleSize;
