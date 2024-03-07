@@ -15,6 +15,45 @@ function formatDate(date = new Date()) {
 
 function tampildata() {
     inisialmempelai(data.mempelai);
+
+    let mempelaix;
+    document.querySelectorAll(".nama-lengkap").forEach((e, i) => {
+        if (i % 2 == 0) {
+            mempelaix = data.mempelai1;
+        } else {
+            mempelaix = data.mempelai2;
+        }
+        e.textContent = mempelaix.split(";")[0];
+        let nya = "";
+        if (coba) {
+            nya = "nya";
+        }
+        if (
+            i < document.querySelectorAll(".orangtua").length &&
+            document.querySelectorAll(".orangtua").length > 0
+        ) {
+            document.querySelectorAll(".orangtua")[i].textContent =
+                "Bapak" +
+                nya +
+                " " +
+                mempelaix.split(";")[3] +
+                " & Ibu" +
+                nya +
+                " " +
+                mempelaix.split(";")[4];
+        }
+        if (
+            i < document.querySelectorAll(".anak-ke").length &&
+            document.querySelectorAll(".anak-ke").length > 0
+        ) {
+            document.querySelectorAll(".anak-ke")[i].textContent =
+                mempelaix.split(";")[1] +
+                " " +
+                mempelaix.split(";")[2] +
+                " dari";
+        }
+    });
+
     foto(data.foto);
     tanggal(data.resepsi, "Resepsi");
     tanggal(data.akad, "Akad");
@@ -55,43 +94,6 @@ function tampildata() {
     document.getElementById("keLokasi").href =
         "https://www.google.com/maps/search/?api=1&map_action=map&query=" +
         data.lokasi;
-    let mempelaix;
-    document.querySelectorAll(".nama-lengkap").forEach((e, i) => {
-        if (i % 2 == 0) {
-            mempelaix = data.mempelai1;
-        } else {
-            mempelaix = data.mempelai2;
-        }
-        e.textContent = mempelaix.split(";")[0];
-        let nya = "";
-        if (coba) {
-            nya = "nya";
-        }
-        if (
-            i < document.querySelectorAll(".orangtua").length &&
-            document.querySelectorAll(".orangtua").length > 0
-        ) {
-            document.querySelectorAll(".orangtua")[i].textContent =
-                "Bapak" +
-                nya +
-                " " +
-                mempelaix.split(";")[3] +
-                " & Ibu" +
-                nya +
-                " " +
-                mempelaix.split(";")[4];
-        }
-        if (
-            i < document.querySelectorAll(".anak-ke").length &&
-            document.querySelectorAll(".anak-ke").length > 0
-        ) {
-            document.querySelectorAll(".anak-ke")[i].textContent =
-                mempelaix.split(";")[1] +
-                " " +
-                mempelaix.split(";")[2] +
-                " dari";
-        }
-    });
 
     if (
         (!data.hadiah.split("%")[0].split("$")[0].split(";")[0] ||
@@ -109,7 +111,7 @@ function tampildata() {
             data.hadiah.split("%")[1].split(";")[0] &&
             data.hadiah.split("%")[1].split(";")[0] != ""
         ) {
-            document.querySelector(".alamatKado").textContent = data.hadiah
+            document.querySelector(".alamatkado").textContent = data.hadiah
                 .split("%")[1]
                 .split(";")[0];
             document.querySelector(".penerimakado").textContent =
@@ -130,7 +132,7 @@ function tampildata() {
                 document.querySelectorAll(".nomorrekening")[i].textContent =
                     data8aa[2];
                 document.querySelectorAll(".namarekening")[i].textContent =
-                    data8aa[1] + " : " + data8aa[3];
+                    data8aa[1].toUpperCase() + " : " + data8aa[3];
                 if (i == 1 && data8aa[0] != "") {
                     document
                         .querySelectorAll(
@@ -145,14 +147,14 @@ function tampildata() {
         });
     }
 
-    document.querySelector(".maps-iframe").src =
+    document.querySelector("#canvas-for-googlemap .maps-iframe").src =
         "https://www.google.com/maps/embed/v1/search?q=" +
         `${data.lokasi == "" ? "indonesia" : data.lokasi}` +
         "&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8";
 }
 
 function inisialmempelai(data4) {
-    document.querySelectorAll(".mempelai").forEach((e, i) => {
+    document.querySelectorAll(".nama").forEach((e, i) => {
         if (i % 2 == 0) {
             e.textContent = data4.split(";")[0];
         } else {
@@ -192,6 +194,33 @@ function foto(data9) {
         data9.split(";")[i + 5] != ""
             ? (e.src = data9.split(";")[i + 5])
             : (e.src = source.noimg);
+    });
+
+    document.querySelectorAll(".potraitX").forEach((e, i) => {
+        data9.split(";")[i + 2] != ""
+            ? (e.src = data9.split(";")[i + 2])
+            : (e.src = source.noimg);
+    });
+
+    document.querySelectorAll(".landscapeX").forEach((e, i) => {
+        data9.split(";")[i + 5] != ""
+            ? (e.src = data9.split(";")[i + 5])
+            : (e.src = source.noimg);
+    });
+
+    document.querySelectorAll(".background-image").forEach((e, i) => {
+        if (e.classList.contains("grey")) {
+            data9.split(";")[i + 2] != ""
+                ? (e.src = data9.split(";")[i + 2])
+                : (e.src = "");
+        } else {
+            data9.split(";")[i + 2] != "" &&
+            (!location.href.includes("?") ||
+                !location.href.split("?")[1].includes("&"))
+                ? (e.style.backgroundImage = `url(${data9.split(";")[i + 2]})`)
+                : (e.style.backgroundImage =
+                      "url(https://ui-avatars.com/api/?background=A9A9A9&name=)");
+        }
     });
 }
 
@@ -351,8 +380,9 @@ function onYouTubeIframeAPIReady() {
 }
 
 (() => {
-    if (!document.querySelector(".canvas").classList.contains(".rounded-0")) {
-        document.querySelector(".canvas").classList.add(".rounded-0");
+    if (!document.querySelector(".canvas").classList.contains("rounded-0")) {
+        document.querySelector(".canvas").classList.add("rounded-0");
+        document.getElementById("loader").classList.add("d-flex");
     }
     var e,
         n,
@@ -610,6 +640,9 @@ function onYouTubeIframeAPIReady() {
             n.remove(),
             (e.target.innerHTML =
                 "id" == c ? "Berhasil Disalin" : "Copied to Clipboard");
+        setTimeout(() => {
+            e.target.textContent = "Salin Rekening";
+        }, 3000);
     };
     var J = function () {
         var e = document.getElementById("workspace-container"),
@@ -887,6 +920,7 @@ function onYouTubeIframeAPIReady() {
             musik: data[11],
             ulasan: data[12]
         };
+
         //  tampildata();
         youtubeAudio();
     }
@@ -946,7 +980,8 @@ function onYouTubeIframeAPIReady() {
         load1();
     } else if (
         location.href.split("?")[1] &&
-        location.href.split("?")[1] != ""
+        location.href.split("?")[1].includes("&") &&
+        location.href.split("?")[1] != "&"
     ) {
         datacoba.mempelai = decodeURI(
             location.href.split("?")[1].split("&").join(";")
@@ -1017,10 +1052,10 @@ function onYouTubeIframeAPIReady() {
 
     let inputnama = "";
     document.getElementById("inputname").onkeyup = e => {
-        if (e.value.includes(";")) {
-            e.value = inputnama;
+        if (e.target.value.includes(";")) {
+            e.target.value = inputnama;
         } else {
-            inputnama = e.value;
+            inputnama = e.target.value;
         }
     };
     function buatkomen() {
@@ -1034,7 +1069,7 @@ function onYouTubeIframeAPIReady() {
                     style="height: 30px; width: 30px"
                   />
                   <div class="ml-2 text-left">
-                    <p class="mb-0 font-weight-bold namakomen"></p>
+                    <p class="mb-0 font-weight-bold namakomen" style="text-transform:capitalize"></p>
                     <p class="mb-0 isikomen" style="white-space:pre-wrap"></p>
                     <small class="tglkomen"></small>
                   </div>
@@ -1160,7 +1195,8 @@ function onYouTubeIframeAPIReady() {
                 }`;
             if (
                 location.href.split("?")[1] &&
-                location.href.split("?")[1].includes("&")
+                location.href.split("?")[1].includes("&") &&
+                location.href.split("?")[1] != "&"
             ) {
                 buatkomen();
                 let namax = datacoba.mempelai.split(";").join("+");
@@ -1271,7 +1307,7 @@ function onYouTubeIframeAPIReady() {
             if (komen[1][0] == "#N/A") {
                 document.getElementById(
                     "coments"
-                ).innerHTML = `<div class="w-100 h-100 d-flex justify-content-center align-items-center">~ Belum ada ucapan ~</div>`;
+                ).innerHTML = `<div class="w-100 h-100 d-flex justify-content-center align-items-center kosong">~ Belum ada ucapan ~</div>`;
             } else {
                 await loadkomen();
             }
@@ -1291,6 +1327,13 @@ function onYouTubeIframeAPIReady() {
     });
 
     function kirimkomen(nd) {
+        if (
+            document
+                .querySelector("#coments > div")
+                .classList.contains("kosong")
+        ) {
+            document.getElementById("coments").innerHTML = "";
+        }
         buatkomen();
         const cl = document.querySelectorAll("#coments > div").length;
         let namavatar;
@@ -1300,7 +1343,8 @@ function onYouTubeIframeAPIReady() {
         if (pengantin) {
             if (
                 location.href.split("?")[1] &&
-                location.href.split("?")[1].includes("&")
+                location.href.split("?")[1].includes("&") &&
+                location.href.split("?")[1] != "&"
             ) {
                 namavatar = datacoba.mempelai.split(";").join("+");
             } else {
@@ -1401,10 +1445,10 @@ function onYouTubeIframeAPIReady() {
             document.getElementById("submitkomen2").classList.add("d-none");
             document.getElementById("submitkomen").classList.remove("d-none");
         } catch (err) {
+            console.log(err);
             alert("Periksa koneksi anda!\nSilahkan coba lagi");
             document.getElementById("submitkomen2").classList.add("d-none");
             document.getElementById("submitkomen").classList.remove("d-none");
         }
     };
 })();
-
