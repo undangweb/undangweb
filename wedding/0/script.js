@@ -1149,12 +1149,13 @@ function onYouTubeIframeAPIReady() {
 
     function setcookie(e) {
         const date1 = new Date();
-        const date2 = new Date(data.resepsi.split(" ")[0]);
-        const exday = Math.round(
+        const tgl = data.resepsi.split(" ")[0].split("/");
+        const date2 = new Date(tgl[1] + "/" + tgl[0] + "/" + tgl[2]);
+        let exday = Math.round(
             (date2.getTime() - date1.getTime()) / (1000 * 3600 * 24)
         );
-        date1.setTime(date1.getTime() + (exday + 7) * 24 * 60 * 60 * 1000);
 
+        date1.setTime(date1.getTime() + (exday + 7) * 24 * 60 * 60 * 1000);
         document.cookie =
             location.href.split("#")[1] +
             "=" +
@@ -1162,6 +1163,7 @@ function onYouTubeIframeAPIReady() {
             ";expires=" +
             date1.toGMTString() +
             ";path=/";
+
         return document.cookie.split("=")[1];
     }
     let pengantin;
@@ -1440,6 +1442,9 @@ function onYouTubeIframeAPIReady() {
             if (a == "ok") {
                 kirimkomen(nd);
             } else {
+                console.log(ax);
+                console.log(a);
+                alert(a);
                 alert("Periksa koneksi anda!\nSilahkan coba lagi");
             }
             document.getElementById("submitkomen2").classList.add("d-none");
