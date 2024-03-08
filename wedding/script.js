@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
      * Toggle mobile nav dropdowns
      */
     const navDropdowns = document.querySelectorAll(".dropdown > a");
-    let dropdownActive;
+    let dropdownActive = 0;
 
     function toggleDropdown(e) {
         e.classList.toggle("active");
@@ -136,8 +136,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
-
-    navDropdowns[0].click();
 
     const navDropdownx = document.querySelectorAll(".dropdownx > a");
     navDropdownx.forEach((el, i) => {
