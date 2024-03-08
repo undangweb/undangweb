@@ -54,6 +54,11 @@ function tampildata() {
         }
     });
 
+    /*document.querySelector(".maps-iframe").src =
+        "https://www.google.com/maps/embed/v1/search?q=" +
+        `${data.lokasi == "" ? "indonesia" : data.lokasi}` +
+        "&zoom=17&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8";*/
+
     foto(data.foto);
     tanggal(data.resepsi, "Resepsi");
     tanggal(data.akad, "Akad");
@@ -147,10 +152,10 @@ function tampildata() {
         });
     }
 
-    document.querySelector("#canvas-for-googlemap .maps-iframe").src =
+    document.querySelector(".maps-iframe").src =
         "https://www.google.com/maps/embed/v1/search?q=" +
         `${data.lokasi == "" ? "indonesia" : data.lokasi}` +
-        "&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8";
+        "&zoom=17&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8";
 }
 
 function inisialmempelai(data4) {
