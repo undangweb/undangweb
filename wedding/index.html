@@ -1,19 +1,24 @@
 <!doctype html>
-<html lang="en-US">
+<html lang="en">
     <head>
         <meta charset="utf-8" />
         <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-        <title>UndangWeb Edit</title>
-        <meta content="" name="description" />
-        <meta content="" name="keywords" />
+        <title>UndangWeb</title>
+        <meta
+            content="Penyedia Undangan Digital Berbasis Website"
+            name="description"
+        />
+        <meta
+            content="undangan website, undangan online, undangan digital"
+            name="keywords"
+        />
         <meta name="theme-color" content="#1b1f28" />
         <!-- Favicons -->
-        <link href="../img/icon.png" rel="icon" />
-        <link href="../img/icon.png" rel="apple-touch-icon" />
+        <link href="img/icon.png" rel="icon" />
+        <link href="img/icon.png" rel="apple-touch-icon" />
 
         <!-- Google Fonts -->
-
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
@@ -26,38 +31,62 @@
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
             rel="stylesheet"
         />
-        <link href="../datepicker-bs5.min.css" rel="stylesheet" />
+        <link href="datepicker-bs5.min.css" rel="stylesheet" />
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
             rel="stylesheet"
         />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+        />
 
+        <link
+            href="
+https://cdn.jsdelivr.net/npm/glightbox@3.2.0/dist/css/glightbox.min.css
+"
+            rel="stylesheet"
+        />
         <link
             href="
 https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
 "
             rel="stylesheet"
         />
+
         <!-- Template Main CSS File -->
-        <link href="../style.css" rel="stylesheet" />
+        <link href="style.css?v=10" rel="stylesheet" />
 
         <style>
             body,
             .hero,
             .modal-body,
             .modal-footer,
-            .dropdown ul,
-            .dropdownx ul,
-            #inputlink {
+            #navbar2 input:checked + label,
+            #bayarArea {
                 background-color: #242a38; /* #1b1f28 */
             }
             #preloader::before,
             #preloader::after,
             .header,
             .navbar ul,
-            .dropdown,
-            .dropdownx {
+            .services .service-item,
+            .testimonials .testimonial-item,
+            .modal-header,
+            #navbar2 label,
+            #gallery .row .gallery-item,
+            #ulasanArea > div,
+            .modal .cardz::after,
+            .kodebayar,
+            #inputtgl {
                 background-color: #1b1f28;
+            }
+
+            #navbar2 label {
+                color: rgba(255, 255, 255, 0.6);
+            }
+            #navbar2 input:checked + label {
+                color: var(--color-default);
             }
 
             .navbar {
@@ -84,36 +113,976 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                 border-radius: 50%;
                 background-color: var(--color-primary);
             }
-            .containerEdit li a {
+
+            .gallery-single .swiper-button-prev,
+            .gallery-single .swiper-button-next {
+                width: 38px;
+                height: 38px;
+            }
+
+            .gallery-single .swiper-button-prev:after,
+            .gallery-single .swiper-button-next:after {
+                width: 34px;
+                height: 34px;
+                font-size: 18px;
+            }
+
+            .modal .close-modal {
+                font-size: 2.2rem;
+            }
+            .modal.d-block {
+                transition: 0.8s;
+            }
+            .modal .scale0 {
+                opacity: 0.01;
+                transform: scale(0.01);
+            }
+
+            .modal .bi-aspect-ratio {
+                z-index: 10;
+                right: 3%;
+                color: #ddd;
+                font-size: 1.6rem;
+            }
+            .modal .bi-aspect-ratio:hover {
+                color: var(--color-default);
+            }
+            .modal .bawah {
+                bottom: 10px;
+            }
+
+            .modal-body .row > div:last-child {
+                display: flex;
+                flex-direction: column;
+            }
+
+            #carouselExampleIndicators .carousel-item {
+                height: 100%;
+                overflow: auto;
+            }
+
+            #gallery .gallery-links {
+                z-index: 0;
+            }
+
+            #gallery .gallery-links:hover i {
                 color: var(--color-default);
             }
 
-            #inputlink::placeholder {
-                color: var(--color-default);
-                opacity: 0.5;
+            .pagination .page-item .page-link {
+                position: relative;
+            }
+            .pagination .page-item .page-link:after {
+                content: "";
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
             }
 
-            .admin {
-                position: fixed;
-                bottom: 20px;
-                left: 15px;
-                z-index: 2;
+            .pagination .page-item.active .page-link {
+                background-color: var(--color-primary);
+                border-color: var(--color-primary);
+                color: var(--color-default);
+            }
+
+            .pagination .page-item span,
+            .pagination .page-item .page-link {
+                color: var(--color-primary);
+            }
+
+            #gallery .row .card {
+                position: relative;
+                background-color: var(--color-default);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+                overflow: hidden;
+            }
+
+            #gallery .row .card svg {
+                width: 48px;
+                fill: #333;
+                transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            }
+
+            .form-control,
+            .form-control:focus {
+                background-color: rgba(0, 0, 0, 0);
+                color: var(--color-default);
+            }
+            .form-control::placeholder {
+                color: rgba(255, 255, 255, 0.6);
+            }
+
+            @keyframes bang {
+                from {
+                    transform: translate3d(0, 0, 0);
+                    opacity: 1;
+                }
+            }
+            .hoverme {
+                text-align: center;
+                position: relative;
+            }
+            .hoverme span {
+                color: #333;
+                font-size: 0.9em;
+            }
+            .hoverme i {
+                position: absolute;
+                display: block;
+                left: 50%;
+                top: 0;
+                width: 3px;
+                height: 8px;
+                background: red;
+                opacity: 0;
+            }
+
+            .modal .cardz {
+                position: relative;
+                padding: 15px;
+                place-content: center;
+                place-items: center;
+                overflow: hidden;
+                border-radius: 20px;
+                z-index: 1;
+            }
+
+            .modal .card h2 {
+                z-index: 1;
+                color: white;
+                font-size: 2em;
+            }
+
+            .modal .cardz::before {
+                content: "";
+                position: absolute;
+                top: 30%;
+                bottom: 30%;
+                left: -15%;
+                right: -15%;
+                z-index: -2;
+                background-image: linear-gradient(
+                    90deg,
+                    rgb(0, 183, 255),
+                    var(--color-primary)
+                );
+                animation: rotBGimg 3s linear infinite;
+                transition: all 0.2s linear;
+                margin-bottom: 0;
+            }
+
+            @keyframes rotBGimg {
+                from {
+                    transform: rotate(0deg);
+                }
+
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            .modal .cardz::after {
+                content: "";
+                position: absolute;
+                inset: 5px;
+                border-radius: 15px;
+                z-index: -1;
+            }
+
+            #radionoya input:checked + label:nth-child(2) {
+                background-color: #198754;
+                color: var(--color-default);
+            }
+            #radionoya input:checked + label:nth-child(4) {
+                background-color: #dc3545;
+                color: var(--color-default);
+            }
+
+            #pricing .row div p {
+                color: rgba(255, 255, 255, 0.7);
+            }
+
+            .testimonials .testimonial-item {
+                margin-top: 0;
+                min-height: 370px;
             }
         </style>
     </head>
 
     <body>
+        <a target="_blank" class="d-none" id="linkAdmin"></a>
+        <a target="_blank" class="d-none" id="linkPratinjau"></a>
+
+        <!-- Button trigger modal -->
+        <button
+            type="button"
+            id="modalbtn"
+            class="btn btn-primary d-none"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+        >
+            Launch demo modal
+        </button>
+
+        <!-- Modal -->
+        <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            aria-labelledby="..."
+            aria-hidden="true"
+            data-bs-backdrop="static"
+        >
+            <div
+                class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable"
+            >
+                <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                        <h1
+                            class="modal-title fs-5"
+                            id="exampleModalLabel"
+                        ></h1>
+                        <i
+                            class="close-modal bi bi-x d-flex justify-content-center align-items-center"
+                            style="width: 2rem; height: 2rem"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                            id="closemodal"
+                        ></i>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row gy-4 justify-content-evenly">
+                            <div class="col-lg-5 px-0">
+                                <section
+                                    class="gallery-single w-100 h-100"
+                                    id="gallery-single"
+                                >
+                                    <div
+                                        class="position-relative d-flex align-items-center h-100"
+                                    >
+                                        <div
+                                            class="slides-1 rounded portfolio-details-slider swiper"
+                                            style="
+                                                max-width: 100%;
+                                                width: calc(var(--w) * 1.1);
+                                                height: calc(var(--h) * 1.1);
+                                            "
+                                        >
+                                            <div
+                                                class="swiper-wrapper h-100 align-items-center"
+                                            ></div>
+                                            <span
+                                                class="bawah d-flex align-items-center position-absolute w-100"
+                                            >
+                                                <div
+                                                    class="position-static swiper-pagination"
+                                                ></div>
+                                                <i
+                                                    class="position-absolute bi bi-aspect-ratio"
+                                                ></i
+                                            ></span>
+                                        </div>
+                                        <div
+                                            class="swiper-button-prev d-block"
+                                        ></div>
+                                        <div
+                                            class="swiper-button-next d-block"
+                                        ></div>
+                                    </div>
+                                </section>
+                                <nav
+                                    class="mb-2 mt-1 w-100 d-flex justify-content-evenly"
+                                >
+                                    <button
+                                        type="button"
+                                        class="pratinjau btn btn-primary mx-0 shadow"
+                                    >
+                                        <i class="bi bi-eye"></i> Pratinjau
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-success adminbtn mx-0 shadow"
+                                    >
+                                        <i class="bi bi-whatsapp"></i> Admin
+                                    </button>
+                                </nav>
+                            </div>
+                            <div
+                                class="col-lg-6 px-0 position-relative overflow-hidden content"
+                            >
+                                <div
+                                    class="position-absolute top-0 bottom-0 start-0 end-0 d-flex justify-content-center align-items-center"
+                                    id="modalcoba"
+                                    style="
+                                        background-color: rgba(0, 0, 0, 0);
+                                        opacity: 0;
+                                        z-index: -1;
+                                        transition: 0.5s ease-in-out;
+                                    "
+                                >
+                                    <div
+                                        class="modal-dialog border rounded"
+                                        style="
+                                            width: 75%;
+                                            transform: translateY(-30px);
+                                        "
+                                    >
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1
+                                                    class="modal-title fs-5"
+                                                    id="exampleModalLabel"
+                                                >
+                                                    Silahkan Masukan
+                                                </h1>
+                                            </div>
+                                            <form name="formcoba" id="formcoba">
+                                                <div class="modal-body pt-0">
+                                                    <div class="">
+                                                        <label
+                                                            for="recipient-name"
+                                                            class="col-form-label"
+                                                            >Nama
+                                                            Mempelai1:</label
+                                                        >
+                                                        <input
+                                                            type="text"
+                                                            class="form-control cobanama"
+                                                            required
+                                                        />
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label
+                                                            for="message-text"
+                                                            class="col-form-label"
+                                                            >Nama
+                                                            Mempelai2:</label
+                                                        >
+                                                        <input
+                                                            type="text"
+                                                            class="form-control cobanama"
+                                                            required
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-secondary"
+                                                        onclick="document.getElementById('modalcoba').style.opacity = 0;document.getElementById('modalcoba').style.zIndex = -1"
+                                                    >
+                                                        Batal
+                                                    </button>
+                                                    <button
+                                                        type="submit"
+                                                        class="btn btn-primary"
+                                                        id="cobabtn"
+                                                    >
+                                                        Oke
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div
+                                    id="carouselExampleIndicators"
+                                    class="carousel px-2 slide h-100 overflow-hidden"
+                                    data-bs-touch="false"
+                                >
+                                    <div class="carousel-inner h-100">
+                                        <div class="carousel-item active">
+                                            <div
+                                                class="section-header mt-1 mb-3 py-0"
+                                            >
+                                                <h2>Fitur</h2>
+                                                <p class="text-center">
+                                                    Ada fitur apa saja ?
+                                                </p>
+                                            </div>
+                                            <ul id="fiturArea"></ul>
+                                        </div>
+                                        <div
+                                            class="carousel-item position-relative overflow-x-hidden"
+                                        >
+                                            <div id="hargaArea">
+                                                <div class="d-none">
+                                                    <div
+                                                        class="section-header mt-1 mb-1 py-0"
+                                                    >
+                                                        <h2>Harga</h2>
+                                                        <p
+                                                            class="text-center fw-bold"
+                                                            style="
+                                                                font-size: 36px;
+                                                            "
+                                                            id="hargaDisc"
+                                                        ></p>
+                                                    </div>
+                                                    <p
+                                                        class="text-center text-danger"
+                                                        style="font-size: 16px"
+                                                    >
+                                                        <span
+                                                            class="text-decoration-line-through harga1"
+                                                            style="
+                                                                color: rgba(
+                                                                    255,
+                                                                    255,
+                                                                    255,
+                                                                    0.6
+                                                                );
+                                                            "
+                                                        ></span>
+                                                        <span
+                                                            id="persenDisc"
+                                                        ></span>
+                                                    </p>
+                                                    <hr />
+                                                    <div
+                                                        class="d-flex flex-column align-items-center"
+                                                    >
+                                                        <div
+                                                            class="hoverme"
+                                                            id="confetti"
+                                                        >
+                                                            <span></span>
+                                                        </div>
+                                                        <h4 class="text-center">
+                                                            Selamat, anda
+                                                            berhasil menghemat
+                                                            sebesar
+                                                            <span
+                                                                class="text-warning disc"
+                                                            ></span>
+                                                        </h4>
+                                                        <a
+                                                            class="cta-btn bayarbtn text-center fw-bold mt-3"
+                                                            >Bayar Langsung</a
+                                                        >
+                                                    </div>
+                                                </div>
+
+                                                <div>
+                                                    <div
+                                                        class="section-header mt-1 mb-1 py-0"
+                                                    >
+                                                        <h2>Harga</h2>
+                                                        <p
+                                                            class="text-center harga1"
+                                                            style="
+                                                                font-size: 34px;
+                                                            "
+                                                        ></p>
+                                                    </div>
+                                                    <p
+                                                        class="text-center mb-0"
+                                                        style="
+                                                            font-size: 14px;
+                                                            color: rgba(
+                                                                255,
+                                                                255,
+                                                                255,
+                                                                0.6
+                                                            );
+                                                        "
+                                                    >
+                                                        *Diskon hingga
+                                                        <span
+                                                            class="disc"
+                                                        ></span>
+                                                        jika memiliki voucher
+                                                    </p>
+                                                    <hr class="my-2" />
+
+                                                    <span
+                                                        class="d-flex align-items-center justify-content-center mb-2"
+                                                        ><label
+                                                            for="inputtgl"
+                                                            id="tglbtn"
+                                                            ><b
+                                                                >Tanggal Acara
+                                                                :</b
+                                                            ></label
+                                                        ><input
+                                                            type="text"
+                                                            name="foo"
+                                                            readonly
+                                                            class="form-control rounded-bottom-0 border-top-0 border-start-0 border-end-0 my-0 mx-2"
+                                                            style="
+                                                                width: 110px;
+                                                                border-color: var(
+                                                                    --color-primary
+                                                                );
+                                                                color: var(
+                                                                    --color-primary
+                                                                );
+                                                            "
+                                                            placeholder="12/12/2012"
+                                                            autocomplete="off"
+                                                            id="inputtgl"
+                                                    /></span>
+                                                    <p class="text-center mb-2">
+                                                        Sudah punya voucher ?
+                                                    </p>
+                                                    <span
+                                                        class="d-flex justify-content-center mb-3"
+                                                        id="radionoya"
+                                                    >
+                                                        <input
+                                                            type="radio"
+                                                            name="noya"
+                                                            id="xya"
+                                                            class="d-none"
+                                                        />
+                                                        <label
+                                                            class="btn btn-outline-success mx-2"
+                                                            type="button"
+                                                            id="yaVoucher"
+                                                            for="xya"
+                                                        >
+                                                            Ya
+                                                        </label>
+                                                        <input
+                                                            type="radio"
+                                                            name="noya"
+                                                            id="xno"
+                                                            class="d-none"
+                                                        />
+                                                        <label
+                                                            class="btn btn-outline-danger mx-2"
+                                                            type="button"
+                                                            id="noVoucher"
+                                                            for="xno"
+                                                        >
+                                                            Tidak
+                                                        </label></span
+                                                    >
+                                                    <div
+                                                        class="overflow-hidden position-relative w-100"
+                                                    >
+                                                        <div
+                                                            class="position-absolute text-center start-0 end-0"
+                                                            style="
+                                                                transform: translateY(
+                                                                    -102%
+                                                                );
+                                                                transition: 0.3s
+                                                                    ease-in-out;
+                                                            "
+                                                            id="noVoucherX"
+                                                        >
+                                                            <a
+                                                                class="cta-btn bayarbtn fw-bold mb-3"
+                                                                >Bayar
+                                                                Langsung</a
+                                                            >
+                                                        </div>
+                                                        <div
+                                                            style="
+                                                                transform: translateX(
+                                                                    -102%
+                                                                );
+                                                                transition: 0.3s
+                                                                    ease-in-out;
+                                                            "
+                                                            id="yaVoucherX"
+                                                        >
+                                                            <form
+                                                                name="cekVoucher"
+                                                                class="d-flex flex-column align-items-center"
+                                                            >
+                                                                <span
+                                                                    class="position-relative mb-2"
+                                                                >
+                                                                    <i
+                                                                        class="bi bi-clipboard position-absolute mx-2 top-0 h-100 start-100 d-flex align-items-center"
+                                                                        data-id="inputVoucher"
+                                                                        style="
+                                                                            line-height: 0;
+                                                                            font-size: 1.5rem;
+                                                                        "
+                                                                    ></i>
+                                                                    <input
+                                                                        type="text"
+                                                                        placeholder="Masukan kode voucher..."
+                                                                        class="form-control mt-0"
+                                                                        style="
+                                                                            width: 215px;
+                                                                        "
+                                                                        autocomplete="off"
+                                                                        id="inputVoucher"
+                                                                        required
+                                                                /></span>
+                                                                <button
+                                                                    class="btn btn-secondary"
+                                                                    id="voucherbtn"
+                                                                >
+                                                                    Konfirmasi
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <p
+                                                        class="text-end mt-3 mb-0"
+                                                    >
+                                                        <button
+                                                            class="btn btn-warning ujicobabtn"
+                                                        >
+                                                            Uji coba GRATIS
+                                                        </button>
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div
+                                                class="position-absolute top-0 bottom-0 w-100 text-center"
+                                                style="
+                                                    transform: translateX(100%);
+                                                    transition: 0.5s ease-in-out;
+                                                "
+                                                id="bayarArea"
+                                            >
+                                                <i
+                                                    class="bi bi-x position-absolute top-0 end-0"
+                                                    style="
+                                                        transform: scale(2);
+                                                        line-height: 0;
+                                                    "
+                                                    id="closeBayar"
+                                                ></i>
+                                                <div
+                                                    class="section-header text-start mt-1 mb-3 py-0"
+                                                >
+                                                    <h2>Pembayaran</h2>
+                                                </div>
+
+                                                <div
+                                                    class="d-flex justify-content-center rounded overflow-hidden mx-auto mb-2"
+                                                    style="width: 85%"
+                                                >
+                                                    <div
+                                                        class="p-3"
+                                                        style="
+                                                            background-color: var(
+                                                                --color-default
+                                                            );
+                                                        "
+                                                    >
+                                                        <img
+                                                            src="img/gopay.svg"
+                                                            style="width: 100%"
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        class="p-3"
+                                                        style="
+                                                            background-color: #1b1f28;
+                                                        "
+                                                    >
+                                                        <img
+                                                            src="img/dana.svg"
+                                                            style="width: 100%"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <p
+                                                    class="mb-1"
+                                                    style="
+                                                        color: rgba(
+                                                            255,
+                                                            255,
+                                                            255,
+                                                            0.6
+                                                        );
+                                                    "
+                                                >
+                                                    *Sebelum transfer, chat
+                                                    admin lebih dulu !
+                                                </p>
+                                                <div
+                                                    class="cardz d-block mx-auto"
+                                                    style="width: 255px"
+                                                >
+                                                    <div
+                                                        style="
+                                                            min-height: 140px;
+                                                        "
+                                                        class="w-100 d-none"
+                                                        id="cardzLoading"
+                                                    >
+                                                        <div
+                                                            class="spinner-border m-auto"
+                                                            style="
+                                                                width: 2rem;
+                                                                height: 2rem;
+                                                                color: var(
+                                                                    --color-primary
+                                                                );
+                                                                background-color: rgba(
+                                                                    0,
+                                                                    0,
+                                                                    0,
+                                                                    0
+                                                                );
+                                                            "
+                                                            role="status"
+                                                        ></div>
+                                                    </div>
+                                                    <div
+                                                        id="infobayar"
+                                                        style="
+                                                            min-height: 140px;
+                                                        "
+                                                    >
+                                                        <p class="mb-0">
+                                                            Silahkan transfer
+                                                            via<br /><b
+                                                                >GOPAY</b
+                                                            >
+                                                            /
+                                                            <b>DANA</b>
+                                                        </p>
+                                                        <hr class="my-1" />
+                                                        <table
+                                                            class="text-start"
+                                                        >
+                                                            <tr>
+                                                                <td>Nominal</td>
+                                                                <td
+                                                                    class="px-2"
+                                                                >
+                                                                    :
+                                                                </td>
+                                                                <td
+                                                                    class="fw-bold"
+                                                                    id="hargaAhir"
+                                                                ></td>
+                                                            </tr>
+                                                            <tr
+                                                                id="trDisc"
+                                                                class="d-none"
+                                                            >
+                                                                <td></td>
+                                                                <td
+                                                                    class="px-2"
+                                                                ></td>
+                                                                <td>
+                                                                    <span
+                                                                        class="text-decoration-line-through"
+                                                                        style="
+                                                                            color: rgba(
+                                                                                255,
+                                                                                255,
+                                                                                255,
+                                                                                0.6
+                                                                            );
+                                                                        "
+                                                                        id="discAhir"
+                                                                        >Rp.
+                                                                        125.000</span
+                                                                    >
+                                                                    <span
+                                                                        class="text-danger"
+                                                                        id="persenAhir"
+                                                                        >36%</span
+                                                                    >
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Nomor</td>
+                                                                <td
+                                                                    class="px-2"
+                                                                >
+                                                                    :
+                                                                </td>
+                                                                <td>
+                                                                    <span
+                                                                        id="nomorAdmin"
+                                                                    ></span>
+                                                                    <i
+                                                                        class="bi bi-copy"
+                                                                        id="copyNomor"
+                                                                        data-bs-toggle="tooltip"
+                                                                        data-bs-placement="top"
+                                                                        data-bs-title="Berhasil disalin"
+                                                                        data-bs-trigger="click"
+                                                                        style="
+                                                                            font-size: 1.2rem;
+                                                                        "
+                                                                    ></i>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td
+                                                                    id="namaAdmin"
+                                                                ></td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div id="bayarbawah">
+                                                    <p
+                                                        class="my-1"
+                                                        style="
+                                                            color: rgba(
+                                                                255,
+                                                                255,
+                                                                255,
+                                                                0.6
+                                                            );
+                                                        "
+                                                    >
+                                                        *Jika sudah transfer,
+                                                        salin & kirim ke
+                                                        admin<br />
+                                                        kode pembayaran berikut:
+                                                    </p>
+                                                    <span
+                                                        class="kodebayar p-2 rounded"
+                                                    >
+                                                        <span
+                                                            id="kodebayar"
+                                                        ></span
+                                                        ><i
+                                                            class="bi bi-copy ms-2"
+                                                            id="copykode"
+                                                            data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            data-bs-title="Berhasil disalin"
+                                                            data-bs-trigger="click"
+                                                            style="
+                                                                font-size: 1.2rem;
+                                                            "
+                                                        ></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div
+                                            class="carousel-item position-relative"
+                                        >
+                                            <div
+                                                class="d-flex flex-column position-absolute top-0 bottom-0 w-100"
+                                            >
+                                                <div
+                                                    class="section-header mt-1 mb-3 py-0"
+                                                >
+                                                    <h2>Ulasan</h2>
+                                                </div>
+                                                <div
+                                                    class="flex-fill d-flex flex-column"
+                                                    id="ulasanArea"
+                                                ></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <nav
+                                    id="navbar2"
+                                    class="mb-2 mt-1 px-2 w-100 d-flex"
+                                >
+                                    <input
+                                        class="form-check-input d-none"
+                                        type="radio"
+                                        name="radio"
+                                        id="radio1"
+                                        checked
+                                    />
+                                    <label
+                                        class="form-check-label p-2 text-center rounded-4 rounded-top-0 shadow col-4 mx-1 flex-fill"
+                                        for="radio1"
+                                        data-bs-target="#carouselExampleIndicators"
+                                        data-bs-slide-to="0"
+                                        >Fitur</label
+                                    >
+
+                                    <input
+                                        class="form-check-input d-none"
+                                        type="radio"
+                                        name="radio"
+                                        id="radio2"
+                                    />
+                                    <label
+                                        class="form-check-label p-2 text-center rounded-4 rounded-top-0 shadow col-4 mx-1 flex-fill"
+                                        for="radio2"
+                                        data-bs-target="#carouselExampleIndicators"
+                                        data-bs-slide-to="1"
+                                        >Harga</label
+                                    >
+
+                                    <input
+                                        class="form-check-input d-none"
+                                        type="radio"
+                                        name="radio"
+                                        id="radio3"
+                                    />
+                                    <label
+                                        class="form-check-label p-2 text-center rounded-4 rounded-top-0 shadow col-4 mx-1 flex-fill ulasanbtn"
+                                        for="radio3"
+                                        data-bs-target="#carouselExampleIndicators"
+                                        data-bs-slide-to="2"
+                                        >Ulasan</label
+                                    >
+                                </nav>
+
+                                <span
+                                    class="modal-footer rounded-0 px-0 mb-1 border-0 justify-content-center"
+                                >
+                                    <span class="col-5 mx-0 text-center">
+                                        <button
+                                            type="button"
+                                            class="pratinjau btn btn-primary mx-0 shadow"
+                                        >
+                                            <i class="bi bi-eye"></i> Pratinjau
+                                        </button>
+                                    </span>
+                                    <span
+                                        class="imgs shadow bi bi-images col-3 mx-0 text-center"
+                                        style="
+                                            line-height: 0;
+                                            font-size: 2.4rem;
+                                        "
+                                    >
+                                    </span>
+                                    <span class="col-4 mx-0 text-center">
+                                        <button
+                                            type="button"
+                                            class="btn btn-success adminbtn mx-0 shadow"
+                                        >
+                                            <i class="bi bi-whatsapp"></i>
+                                            Admin
+                                        </button>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- modal end -->
+
         <!-- ======= Header ======= -->
         <header
             id="header"
             class="header py-4 d-flex align-items-center fixed-top"
-            style="z-index: 2"
         >
             <div
                 class="container-fluid d-flex align-items-center justify-content-between"
             >
                 <a
-                    href="../"
+                    href="/"
                     class="logo d-flex align-items-center me-auto me-lg-0"
                 >
                     <!-- Uncomment the line below if you also wish to use an image logo -->
@@ -126,21 +1095,31 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                 </a>
 
                 <nav id="navbar" class="navbar">
-                    <ul id="navpage" class="x1">
-                        <li><a class="x1 active">Data Mempelai #</a></li>
-                        <li><a class="x2">Data Acara #</a></li>
-                        <li><a class="x3">Galeri Foto #</a></li>
-                        <li><a class="x4">Musik Latar #</a></li>
-                        <li><a class="x5">Terima Hadiah #</a></li>
+                    <ul id="navpage" class="home">
+                        <li><a href="#home" class="home active">Desain</a></li>
+                        <li><a class="services">Layanan</a></li>
+                        <li><a href="#about" class="about">Tentang</a></li>
                     </ul>
                 </nav>
                 <!-- .navbar -->
 
                 <div class="header-social-links">
-                    <button class="btn btn-primary" id="pratinjau">
-                        Pratinjau
-                    </button>
-                    <a href="" target="_blank" class="d-none" id="bukalink"></a>
+                    <!-- <a href="#" class="facebook"
+                        ><i class="bi bi-facebook"></i
+                    ></a>
+                    <a href="#" class="instagram"
+                        ><i class="bi bi-instagram"></i
+                    ></a>
+                    <a href="#" class="linkedin"
+                        ><i class="bi bi-linkedin"></i
+                    ></a>-->
+                    <img
+                        style="width: 63px"
+                        src="https://lh3.googleusercontent.com/d/14mTjLwGYg8PHteLyDvRMa1Hy6FIi9hi7"
+                        alt=""
+                        class="d-none"
+                        id="isOpen"
+                    />
                 </div>
                 <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
                 <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
@@ -149,12 +1128,7 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
         <!-- End Header -->
 
         <!-- ======= main ======= -->
-        <main
-            id="home"
-            class="mainedit d-flex flex-column"
-            data-aos="fade"
-            data-aos-delay="1500"
-        >
+        <main id="home" data-aos="fade" data-aos-delay="1500">
             <!-- ======= Hero Section ======= -->
             <section
                 id="hero"
@@ -165,1158 +1139,475 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                 <div class="container">
                     <div class="row position-relative justify-content-center">
                         <div class="col-lg-6 text-center">
-                            <h2 style="font-size: 1.8rem">
-                                <span id="desain"></span>
+                            <h2>
+                                Hai <span>UndangWeb</span> adalah<br />Penyedia
+                                Undangan Digital Berbasis Website
                             </h2>
+                            <p class="mb-0">
+                                Temukan desain website undangan yang sempurna
+                                untuk momen istimewa Anda, dan bagikan cerita
+                                dengan gaya yang unik dan mengesankan.
+                            </p>
                         </div>
+                        <span
+                            id="gal"
+                            class="position-absolute bottom-0 mb-5"
+                            style="opacity: 0; transform: scale(0); z-index: -1"
+                        ></span>
                     </div>
                 </div>
             </section>
             <!-- End Hero Section -->
-
-            <div class="containerEdit" style="min-height: 30vh">
-                <ul type="none" class="px-0">
-                    <div class="col-lg-4 px-2">
-                        <li class="dropdown text-white mx-0 p-1 pt-0">
-                            <a id="x1" class="py-2 px-4 d-block" href="#"
-                                ><h5
-                                    class="my-0 d-flex justify-content-between"
-                                >
-                                    Data Mempelai #
-                                    <i
-                                        class="bi bi-chevron-down dropdown-indicator"
-                                    ></i></h5
-                            ></a>
-                            <ul type="none" class="m-0 px-2">
-                                <form name="formmempelai">
-                                    <div class="mb-3">
-                                        <label for="nama1" class="form-label"
-                                            >Nama panggilan mempelai 1</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="nama1"
-                                            maxlength="30"
-                                        />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label
-                                            for="namalengkap1"
-                                            class="form-label"
-                                            >Nama lengkap mempelai 1</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="namalengkap1"
-                                        />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="gender1" class="form-label"
-                                            >Jenis Kelamin (Mempelai1)</label
-                                        >
-                                        <select
-                                            class="form-select gender"
-                                            id="gender1"
-                                            aria-label="Default select example"
-                                        >
-                                            <option value="">
-                                                ~ Pilih Jenis Kelamin ~
-                                            </option>
-                                            <option value="Putra">Pria</option>
-                                            <option value="Putri">
-                                                Wanita
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label
-                                            for="keberapa1"
-                                            class="form-label"
-                                            >Mempelai 1 itu
-                                            <span class="genderx">putra/i</span>
-                                            ke berapa?</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="keberapa1"
-                                            placeholder="pertama, kedua, ketiga..."
-                                        />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="bapak1" class="form-label"
-                                            >Nama bapak mempelai 1</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="bapak1"
-                                        />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="ibu1" class="form-label"
-                                            >Nama ibu mempelai 1</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="ibu1"
-                                        />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="nama2" class="form-label"
-                                            >Nama panggilan mempelai 2</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="nama2"
-                                            maxlength="30"
-                                        />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label
-                                            for="namalengkap2"
-                                            class="form-label"
-                                            >Nama lengkap mempelai 2</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="namalengkap2"
-                                        />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="gender2" class="form-label"
-                                            >Jenis Kelamin (Mempelai2)</label
-                                        >
-                                        <select
-                                            class="form-select gender"
-                                            id="gender2"
-                                            aria-label="Default select example"
-                                        >
-                                            <option value="">
-                                                ~ Pilih Jenis Kelamin ~
-                                            </option>
-                                            <option value="Putra">Pria</option>
-                                            <option value="Putri">
-                                                Wanita
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label
-                                            for="keberapa2"
-                                            class="form-label"
-                                            >Mempelai 2 itu
-                                            <span class="genderx">putra/i</span>
-                                            ke berapa?</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="keberapa2"
-                                            placeholder="pertama, kedua, ketiga..."
-                                        />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="bapak2" class="form-label"
-                                            >Nama bapak mempelai 2</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="bapak2"
-                                        />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="ibu2" class="form-label"
-                                            >Nama ibu mempelai 2</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="ibu2"
-                                        />
-                                    </div>
-                                    <p class="text-end">
-                                        <button
-                                            type="submit"
-                                            class="btn btn-success"
-                                        >
-                                            Simpan
-                                        </button>
-                                    </p>
-                                </form>
-                            </ul>
-                        </li>
+            <!-- ======= Gallery Section ======= -->
+            <section id="gallery" class="services">
+                <div class="container">
+                    <div class="section-header mt-1 mb-3 py-0">
+                        <h2>Desain</h2>
                     </div>
 
-                    <div class="col-lg-4 px-2">
-                        <li class="dropdown text-white mx-0 p-1 pt-0">
-                            <a id="x2" class="py-2 px-4 d-block w-100" href="#"
-                                ><h5
-                                    class="my-0 d-flex justify-content-between"
-                                >
-                                    Data Acara #
-                                    <i
-                                        class="bi bi-chevron-down dropdown-indicator"
-                                    ></i></h5
-                            ></a>
-                            <ul type="none" class="m-0 px-2">
-                                <form name="formacara">
-                                    <div class="mb-3">
-                                        <label
-                                            for="tanggalakad"
-                                            class="form-label"
-                                            >Tanggal Akad</label
-                                        >
-                                        <input
-                                            type="text"
-                                            name="foo"
-                                            readonly
-                                            class="form-control"
-                                            id="tanggalakad"
-                                        />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="zonaakad"
-                                            >Zona Waktu Akad</label
-                                        >
-                                        <select
-                                            required
-                                            class="form-select"
-                                            id="zonaakad"
-                                            aria-label="Default select example"
-                                        >
-                                            <option value="">
-                                                ~ WIB/WITA/WIT ~
-                                            </option>
-                                            <option value="WIB">WIB</option>
-                                            <option value="WITA">WITA</option>
-                                            <option value="WIT">WIT</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="jamakad" class="form-label"
-                                            >Waktu Akad (Jam)</label
-                                        >
-                                        <input
-                                            type="time"
-                                            class="form-control"
-                                            id="jamakad"
-                                        />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label
-                                            for="tempatakad"
-                                            class="form-label"
-                                            >Tempat Akad</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="tempatakad"
-                                        />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label
-                                            for="lokasiakad"
-                                            class="form-label"
-                                            >Lokasi Akad</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="lokasiakad"
-                                        />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label
-                                            for="tanggalresepsi"
-                                            class="form-label"
-                                            >Tanggal Resepsi</label
-                                        >
-                                        <input
-                                            type="text"
-                                            readonly
-                                            class="form-control"
-                                            id="tanggalresepsi"
-                                        />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="zonaresepsi"
-                                            >Zona Waktu Resepsi</label
-                                        >
-                                        <select
-                                            required
-                                            class="form-select"
-                                            id="zonaresepsi"
-                                            aria-label="Default select example"
-                                        >
-                                            <option value="">
-                                                ~ WIB/WITA/WIT ~
-                                            </option>
-                                            <option value="WIB">WIB</option>
-                                            <option value="WITA">WITA</option>
-                                            <option value="WIT">WIT</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label
-                                            for="mulairesepsi"
-                                            class="form-label"
-                                            >Mulai Resepsi (Jam)</label
-                                        >
-                                        <input
-                                            type="time"
-                                            class="form-control"
-                                            id="mulairesepsi"
-                                        />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label
-                                            for="akhirresepsi"
-                                            class="form-label"
-                                            >Akhir Resepsi (Jam)</label
-                                        >
-                                        <input
-                                            type="time"
-                                            class="form-control"
-                                            id="akhirresepsi"
-                                            placeholder="Selesai"
-                                        />
-                                        <span
-                                            style="
-                                                color: rgba(255, 255, 255, 0.5);
-                                            "
-                                            >*jika dikosongkan = "Selesai"</span
-                                        >
-                                    </div>
-                                    <div class="mb-3">
-                                        <label
-                                            for="tempatresepsi"
-                                            class="form-label"
-                                            >Tempat Resepsi</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="tempatresepsi"
-                                        />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label
-                                            for="lokasiresepsi"
-                                            class="form-label"
-                                            >Lokasi / Alamat Resepsi</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="lokasiresepsi"
-                                        />
-                                    </div>
-                                    <div
-                                        class="text-center mb-3 rounded p-2"
-                                        style="
-                                            border-style: solid;
-                                            border-color: var(--color-primary);
-                                        "
-                                    >
-                                        <label
-                                            for="mapsresepsi"
-                                            class="form-label"
-                                            >Maps / Peta Lokasi Resepsi</label
-                                        >
-                                        <span class="d-flex mb-3"
-                                            ><input
-                                                type="text"
-                                                class="form-control rounded-end-0"
-                                                id="mapsresepsi"
-                                                placeholder="Nama tempat, nama jalan, daerah"
-                                            /><button
-                                                class="btn btn-success rounded-start-0 mapsbtn"
-                                            >
-                                                Cari
-                                            </button></span
-                                        >
-                                        <iframe
-                                            class="iframemaps"
-                                            style="
-                                                max-width: 100%;
-                                                width: 370px;
-                                                height: 220px;
-                                            "
-                                            src=""
-                                            frameborder="0"
-                                        ></iframe>
-                                    </div>
-                                    <p class="text-end">
-                                        <button
-                                            type="submit"
-                                            class="btn btn-success"
-                                        >
-                                            Simpan
-                                        </button>
-                                    </p>
-                                </form>
-                            </ul>
-                        </li>
-                    </div>
-
-                    <div class="col-lg-4 px-2">
-                        <li class="dropdown text-white mx-0 p-1 pt-0">
-                            <a id="x3" class="py-2 px-4 d-block" href="#"
-                                ><h5
-                                    class="my-0 d-flex justify-content-between"
-                                >
-                                    Galeri Foto #
-                                    <i
-                                        class="bi bi-chevron-down dropdown-indicator"
-                                    ></i></h5
-                            ></a>
-                            <ul type="none" class="m-0 px-2">
-                                <form name="formfoto">
-                                    <div class="d-flex justify-content-around">
-                                        <span class="text-center">
-                                            <h6>Foto Mempelai 1</h6>
-                                            <div
-                                                class="mx-auto overflow-hidden d-flex justify-content-center align-items-center border position-relative"
-                                                style="
-                                                    width: 100px;
-                                                    height: 100px;
-                                                "
-                                            >
-                                                <i
-                                                    class="d-inline-block m-auto bi bi-image"
-                                                ></i
-                                                ><img
-                                                    class="position-absolute tampilfoto"
-                                                    src=""
-                                                />
-                                                <div
-                                                    class="spinner-border position-absolute text-info d-none img-loader"
-                                                    role="status"
-                                                >
-                                                    <span
-                                                        class="visually-hidden"
-                                                        >Loading...</span
-                                                    >
-                                                </div>
-                                            </div>
-
-                                            <button
-                                                class="btn btn-secondary mt-2 pilihfoto"
-                                            >
-                                                Pilih Foto
-                                            </button>
-                                        </span>
-                                        <span class="text-center">
-                                            <h6>Foto Mempelai 2</h6>
-                                            <div
-                                                class="mx-auto overflow-hidden d-flex justify-content-center align-items-center border position-relative"
-                                                style="
-                                                    width: 100px;
-                                                    height: 100px;
-                                                "
-                                            >
-                                                <i
-                                                    class="d-inline-block m-auto bi bi-image"
-                                                ></i
-                                                ><img
-                                                    class="position-absolute tampilfoto"
-                                                    src=""
-                                                />
-                                                <div
-                                                    class="spinner-border position-absolute text-info d-none img-loader"
-                                                    role="status"
-                                                >
-                                                    <span
-                                                        class="visually-hidden"
-                                                        >Loading...</span
-                                                    >
-                                                </div>
-                                            </div>
-                                            <button
-                                                class="btn btn-secondary mt-2 pilihfoto"
-                                            >
-                                                Pilih Foto
-                                            </button>
-                                        </span>
-                                    </div>
-                                    <hr />
-                                    <h6 class="text-center">
-                                        Foto Kedua Mempelai (Potrait)
-                                    </h6>
-                                    <div class="d-flex justify-content-around">
-                                        <span class="text-center">
-                                            <div
-                                                class="mx-auto overflow-hidden d-flex justify-content-center align-items-center border position-relative"
-                                                style="
-                                                    width: 100px;
-                                                    height: 130px;
-                                                "
-                                            >
-                                                <i
-                                                    class="d-inline-block m-auto bi bi-image"
-                                                ></i
-                                                ><img
-                                                    class="position-absolute tampilfoto"
-                                                    src=""
-                                                />
-                                                <div
-                                                    class="spinner-border position-absolute text-info d-none img-loader"
-                                                    role="status"
-                                                >
-                                                    <span
-                                                        class="visually-hidden"
-                                                        >Loading...</span
-                                                    >
-                                                </div>
-                                            </div>
-                                            <button
-                                                class="btn btn-secondary mt-2 pilihfoto"
-                                            >
-                                                Pilih Foto
-                                            </button>
-                                        </span>
-                                        <span class="text-center">
-                                            <div
-                                                class="mx-auto overflow-hidden d-flex justify-content-center align-items-center border position-relative"
-                                                style="
-                                                    width: 100px;
-                                                    height: 130px;
-                                                "
-                                            >
-                                                <i
-                                                    class="d-inline-block m-auto bi bi-image"
-                                                ></i
-                                                ><img
-                                                    class="position-absolute tampilfoto"
-                                                    src=""
-                                                />
-                                                <div
-                                                    class="spinner-border position-absolute text-info d-none img-loader"
-                                                    role="status"
-                                                >
-                                                    <span
-                                                        class="visually-hidden"
-                                                        >Loading...</span
-                                                    >
-                                                </div>
-                                            </div>
-                                            <button
-                                                class="btn btn-secondary mt-2 pilihfoto"
-                                            >
-                                                Pilih Foto
-                                            </button>
-                                        </span>
-                                        <span class="text-center">
-                                            <div
-                                                class="mx-auto overflow-hidden d-flex justify-content-center align-items-center border position-relative"
-                                                style="
-                                                    width: 100px;
-                                                    height: 130px;
-                                                "
-                                            >
-                                                <i
-                                                    class="d-inline-block m-auto bi bi-image"
-                                                ></i
-                                                ><img
-                                                    class="position-absolute tampilfoto"
-                                                    src=""
-                                                />
-                                                <div
-                                                    class="spinner-border position-absolute text-info d-none img-loader"
-                                                    role="status"
-                                                >
-                                                    <span
-                                                        class="visually-hidden"
-                                                        >Loading...</span
-                                                    >
-                                                </div>
-                                            </div>
-                                            <button
-                                                class="btn btn-secondary mt-2 pilihfoto"
-                                            >
-                                                Pilih Foto
-                                            </button>
-                                        </span>
-                                    </div>
-                                    <hr />
-                                    <h6 class="text-center">
-                                        Foto Kedua Mempelai (Landscape)
-                                    </h6>
-                                    <div
-                                        class="d-flex flex-wrap justify-content-around"
-                                    >
-                                        <span class="text-center mb-3">
-                                            <div
-                                                class="mx-auto overflow-hidden d-flex justify-content-center align-items-center border position-relative"
-                                                style="
-                                                    width: 130px;
-                                                    height: 100px;
-                                                "
-                                            >
-                                                <i
-                                                    class="d-inline-block m-auto bi bi-image"
-                                                ></i
-                                                ><img
-                                                    class="position-absolute tampilfoto"
-                                                    src=""
-                                                />
-                                                <div
-                                                    class="spinner-border position-absolute text-info d-none img-loader"
-                                                    role="status"
-                                                >
-                                                    <span
-                                                        class="visually-hidden"
-                                                        >Loading...</span
-                                                    >
-                                                </div>
-                                            </div>
-                                            <button
-                                                class="btn btn-secondary d-block mx-auto mt-2 pilihfoto"
-                                            >
-                                                Pilih Foto
-                                            </button>
-                                        </span>
-                                        <span class="text-center">
-                                            <div
-                                                class="mx-auto overflow-hidden d-flex justify-content-center align-items-center border position-relative"
-                                                style="
-                                                    width: 130px;
-                                                    height: 100px;
-                                                "
-                                            >
-                                                <i
-                                                    class="d-inline-block m-auto bi bi-image"
-                                                ></i
-                                                ><img
-                                                    class="position-absolute tampilfoto"
-                                                    src=""
-                                                />
-                                                <div
-                                                    class="spinner-border position-absolute text-info d-none img-loader"
-                                                    role="status"
-                                                >
-                                                    <span
-                                                        class="visually-hidden"
-                                                        >Loading...</span
-                                                    >
-                                                </div>
-                                            </div>
-                                            <button
-                                                class="btn btn-secondary d-block mx-auto mt-2 pilihfoto"
-                                            >
-                                                Pilih Foto
-                                            </button>
-                                        </span>
-                                        <span class="text-center">
-                                            <div
-                                                class="mx-auto overflow-hidden d-flex justify-content-center align-items-center border position-relative"
-                                                style="
-                                                    width: 130px;
-                                                    height: 100px;
-                                                "
-                                            >
-                                                <i
-                                                    class="d-inline-block m-auto bi bi-image"
-                                                ></i
-                                                ><img
-                                                    class="position-absolute tampilfoto"
-                                                    src=""
-                                                />
-                                                <div
-                                                    class="spinner-border position-absolute text-info d-none img-loader"
-                                                    role="status"
-                                                >
-                                                    <span
-                                                        class="visually-hidden"
-                                                        >Loading...</span
-                                                    >
-                                                </div>
-                                            </div>
-                                            <button
-                                                class="btn btn-secondary d-block mx-auto mt-2 pilihfoto"
-                                            >
-                                                Pilih Foto
-                                            </button>
-                                        </span>
-                                    </div>
-                                    <p class="text-end">
-                                        <button
-                                            type="submit"
-                                            class="btn btn-success"
-                                        >
-                                            Simpan
-                                        </button>
-                                    </p>
-                                </form>
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    class="d-none"
-                                    id="inputimg"
-                                />
-                                <img class="d-none" id="imgreview" />
-                            </ul>
-                        </li>
-                        <li
-                            class="dropdown muzik position-relative text-white mx-0 p-1 pt-0"
-                        >
-                            <a id="x4" class="py-2 px-4 d-block" href="#"
-                                ><h5
-                                    class="my-0 d-flex justify-content-between"
-                                >
-                                    Musik Latar #
-                                    <i
-                                        class="bi bi-chevron-down dropdown-indicator"
-                                    ></i></h5
-                            ></a>
-                            <ul type="none" class="m-0 p-1 start-0 end-0">
-                                <form name="formmusik" class="px-2">
-                                    <div class="mb-3">
-                                        <label class="form-label"
-                                            >Musik Latar Dipilih :</label
-                                        >
-                                        <span class="d-flex align-items-center"
-                                            ><i
-                                                style="
-                                                    color: var(--color-primary);
-                                                    transform: scale(1.4);
-                                                "
-                                                class="d-inline-block bi bi-music-note-beamed mx-2"
-                                            ></i>
-                                            <h6 id="musikdipilih"></h6
-                                        ></span>
-                                        <hr />
-                                        <label for="musik" class="form-label"
-                                            >Cari Musik Latar Yang
-                                            Diinginkan</label
-                                        >
-                                        <span class="d-flex">
-                                            <input
-                                                type="text"
-                                                class="form-control rounded-end-0"
-                                                placeholder="Judul lagu, Artis"
-                                                id="musik"
-                                            /><button
-                                                class="btn btn-success rounded-start-0"
-                                                id="carimusik"
-                                            >
-                                                Cari
-                                            </button></span
-                                        >
-                                        <div id="hasilcari" class=""></div>
-                                    </div>
-                                </form>
-                            </ul>
-                        </li>
-                    </div>
-
-                    <div class="col-lg-4 px-2">
-                        <li class="dropdown text-white mx-0 p-1 pt-0">
-                            <a id="x5" class="py-2 px-4 d-block" href="#"
-                                ><h5
-                                    class="my-0 d-flex justify-content-between"
-                                >
-                                    Terima Hadiah #
-                                    <i
-                                        class="bi bi-chevron-down dropdown-indicator"
-                                    ></i></h5
-                            ></a>
-                            <ul type="none" class="m-0 px-2">
-                                <form name="formhadiah">
-                                    <div class="mb-3">
-                                        <label
-                                            for="cashless1"
-                                            class="form-label"
-                                            >Hadiah (Cashless 1)</label
-                                        >
-                                        <select
-                                            class="form-select cashless"
-                                            id="cashless1"
-                                            aria-label="Default select example"
-                                        >
-                                            <option value="">
-                                                ~ Bank Transfer / E-Wallet ~
-                                            </option>
-                                            <option value="bank">
-                                                Bank Transfer
-                                            </option>
-                                            <option value="ewallet">
-                                                E-Wallet
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label
-                                            for="platform1"
-                                            class="form-label"
-                                            >Nama Bank / Platform (Cashless
-                                            1)</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control platform"
-                                            id="platform1"
-                                        />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label
-                                            for="nomorcashless1"
-                                            class="form-label"
-                                            >Nomor Rekening (Cashless 1)</label
-                                        >
-                                        <input
-                                            type="text"
-                                            onkeypress="return onlyNumberKey(event)"
-                                            class="form-control"
-                                            id="nomorcashless1"
-                                        />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label
-                                            for="namacashless1"
-                                            class="form-label"
-                                            >Atas Nama (Cashless 1)</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="namacashless1"
-                                        />
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label
-                                            for="cashless2"
-                                            class="form-label"
-                                            >Hadiah (Cashless 2)</label
-                                        >
-                                        <select
-                                            class="form-select cashless"
-                                            id="cashless2"
-                                            aria-label="Default select example"
-                                        >
-                                            <option value="">
-                                                ~ Bank Transfer / E-Wallet ~
-                                            </option>
-                                            <option value="bank">
-                                                Bank Transfer
-                                            </option>
-                                            <option value="ewallet">
-                                                E-Wallet
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label
-                                            for="platform2"
-                                            class="form-label"
-                                            >Nama Bank / Platform (Cashless
-                                            2)</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control platform"
-                                            id="platform2"
-                                        />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label
-                                            for="nomorcashless2"
-                                            class="form-label"
-                                            >Nomor Rekening (Cashless 2)</label
-                                        >
-                                        <input
-                                            type="text"
-                                            onkeypress="return onlyNumberKey(event)"
-                                            class="form-control"
-                                            id="nomorcashless2"
-                                        />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label
-                                            for="namacashless2"
-                                            class="form-label"
-                                            >Atas Nama (Cashless 2)</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="namacashless2"
-                                        />
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label
-                                            for="alamatkado"
-                                            class="form-label"
-                                            >Alamat Penerima Hadiah Kado</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="alamatkado"
-                                        />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="namakado" class="form-label"
-                                            >Nama Penerima Hadiah Kado</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="namakado"
-                                        />
-                                    </div>
-                                    <p class="text-end">
-                                        <button
-                                            type="submit"
-                                            class="btn btn-success"
-                                        >
-                                            Simpan
-                                        </button>
-                                    </p>
-                                </form>
-                            </ul>
-                        </li>
-
-                        <div class="x1">
-                            <li class="dropdownx text-white mx-0 p-1 pt-0">
-                                <a class="py-2 px-4 d-block" href="#"
-                                    ><h5
-                                        class="my-0 d-flex justify-content-between"
-                                    >
-                                        Link Website Undangan
-                                        <i
-                                            class="bi bi-link-45deg"
-                                            style="color: var(--color-primary)"
-                                        ></i></h5
-                                ></a>
-                                <ul type="none" class="m-0 p-1">
-                                    <form name="formlink" class="px-2">
-                                        <div class="mb-3">
-                                            <p
-                                                style="word-wrap: break-word"
-                                                class="px-0 mx-0"
-                                                id="link1"
-                                            ></p>
-                                            <span
-                                                class="d-flex align-items-center justify-content-center mb-2"
-                                            >
-                                                <input
-                                                    type="text"
-                                                    class="form-control rounded-bottom-0 border-top-0 border-start-0 border-end-0 my-0 mx-0 px-0 w-50"
-                                                    style="
-                                                        color: var(
-                                                            --color-default
-                                                        );
-                                                        border-color: var(
-                                                            --color-primary
-                                                        );
-                                                    "
-                                                    minlength="6"
-                                                    placeholder="dinda&dandi"
-                                                    autocomplete="off"
-                                                    required
-                                                    id="inputlink" /><i
-                                                    class="bi bi-pencil"
-                                                ></i
-                                            ></span>
-                                        </div>
-                                        <p class="text-end">
-                                            <button
-                                                type="submit"
-                                                class="btn btn-success d-none"
-                                                id="simpanlink"
-                                            >
-                                                Simpan
-                                            </button>
-                                        </p>
-                                    </form>
-                                </ul>
-                            </li>
-                            <li class="dropdownx text-white mx-0 p-1 pt-0">
-                                <a class="py-2 px-4 d-block" href="#"
-                                    ><h5
-                                        class="my-0 d-flex justify-content-between"
-                                    >
-                                        Kirim Undangan
-                                        <i
-                                            class="bi bi-envelope-heart"
-                                            style="color: var(--color-primary)"
-                                        ></i></h5
-                                ></a>
-                                <ul type="none" class="m-0 p-1">
-                                    <form name="formkirim" class="px-2">
-                                        <div class="mb-3">
-                                            <label class="form-label"
-                                                ><i
-                                                    class="bi bi-link-45deg"
-                                                    style="
-                                                        color: var(
-                                                            --color-primary
-                                                        );
-                                                    "
-                                                ></i>
-                                                Link :</label
-                                            >
-                                            <p
-                                                style="word-wrap: break-word"
-                                                id="link2"
-                                            >
-                                                <span></span><span></span
-                                                ><span></span
-                                                ><i
-                                                    class="bi bi-copy ms-2"
-                                                    data-bs-toggle="tooltip"
-                                                    data-bs-placement="top"
-                                                    data-bs-title="Berhasil disalin"
-                                                    style="font-size: 1.2rem"
-                                                    id="copylink"
-                                                ></i>
-                                            </p>
-                                            <label
-                                                for="namatamu"
-                                                class="form-label"
-                                                >Nama Tamu Undangan</label
-                                            >
-                                            <input
-                                                type="text"
-                                                class="form-control"
-                                                required
-                                                id="namatamu"
-                                            />
-                                        </div>
-                                        <p class="text-end">
-                                            <button class="btn btn-success">
-                                                Kirim
-                                                <i class="bi bi-whatsapp"></i>
-                                            </button>
-                                        </p>
-                                    </form>
-                                    <a
-                                        target="_blank"
-                                        class="d-none"
-                                        id="kirimbtn"
-                                    ></a>
-                                </ul>
-                            </li>
-
-                            <div class="x1">
-                                <li class="dropdownx text-white mx-0 p-1 pt-0">
-                                    <a class="py-2 px-4 d-block" href="#"
-                                        ><h5
-                                            class="my-0 d-flex justify-content-between"
-                                        >
-                                            Ulasan
-                                            <i
-                                                class="bi bi-star"
-                                                style="
-                                                    color: var(--color-primary);
-                                                "
-                                            ></i></h5
-                                    ></a>
-                                    <ul type="none" class="m-0 p-1">
-                                        <form name="formulasan" class="px-2">
-                                            <div class="mb-3">
-                                                <label
-                                                    for="exampleFormControlTextarea1"
-                                                    class="form-label"
-                                                    >Tuliskan Ulasan Anda</label
-                                                >
-                                                <textarea
-                                                    class="form-control"
-                                                    id="ulasan"
-                                                    rows="3"
-                                                    maxlength="500"
-                                                    style="
-                                                        white-space: pre-wrap;
-                                                    "
-                                                ></textarea>
-                                            </div>
-                                            <p class="text-end" id="ulasan">
-                                                <button class="btn btn-success">
-                                                    Simpan
-                                                </button>
-                                            </p>
-                                        </form>
-                                    </ul>
-                                </li>
-                            </div>
+                    <div class="row gy-4 justify-content-center"></div>
+                </div>
+                <nav
+                    aria-label="Page navigation example"
+                    class="w-100 d-none justify-content-center mt-5 pagenav"
+                >
+                    <ul class="pagination"></ul>
+                </nav>
+            </section>
+            <!-- End Gallery Section -->
+        </main>
+        <main id="services" data-aos="fade" data-aos-delay="500">
+            <!-- ======= End Page Header ======= -->
+            <div class="page-header pt-5 d-flex pt-0 align-items-center">
+                <div class="container position-relative">
+                    <hr />
+                    <div class="row d-flex mt-5 justify-content-center">
+                        <div class="col-lg-6 text-center">
+                            <h2>Layanan</h2>
+                            <p class="mb-0">
+                                Pilihlah kenyamanan dan kepraktisan dengan
+                                undangan digital kami. Hemat waktu dan biaya
+                                cetak, serta raih kesan positif dari tamu
+                                undangan Anda dengan undangan digital yang
+                                elegan.
+                            </p>
                         </div>
                     </div>
-                </ul>
+                </div>
             </div>
-        </main>
+            <!-- End Page Header -->
 
+            <!-- ======= Services Section ======= -->
+            <section id="services" class="services">
+                <div class="container">
+                    <div class="section-header mt-1 mb-3 py-0">
+                        <h2>Manfaat</h2>
+                        <p>Apa saja yang akan diperoleh tamu Anda ?</p>
+                    </div>
+                    <div class="row gy-4 mt-3">
+                        <div class="col-xl-6 col-md-6 d-flex">
+                            <div class="service-item position-relative">
+                                <i class="bi bi-stars"></i>
+                                <h4 class="stretched-link">
+                                    Desain Interaktif
+                                </h4>
+                                <p>
+                                    Dirancang dengan sentuhan desain interaktif
+                                    yang modern. Bersiaplah untuk pengalaman
+                                    undangan yang lebih dari sekadar informasi,
+                                    tetapi sebuah perjalanan digital yang
+                                    mengundang ke dalam atmosfer perayaan acara.
+                                </p>
+                            </div>
+                        </div>
+                        <!-- End Service Item -->
+
+                        <div class="col-xl-6 col-md-6 d-flex">
+                            <div class="service-item position-relative">
+                                <i class="bi bi-images"></i>
+                                <h4 class="stretched-link">Galeri Foto</h4>
+                                <p>
+                                    Dengan fitur galeri foto, Anda dapat dengan
+                                    mudah menampilkan semua momen berharga yang
+                                    dapat diabadikan dan dibagikan dalam bentuk
+                                    galeri yang elegan untuk membuat tamu
+                                    undangan terpikat.
+                                </p>
+                            </div>
+                        </div>
+                        <!-- End Service Item -->
+
+                        <div class="col-xl-6 col-md-6 d-flex">
+                            <div class="service-item position-relative">
+                                <i class="bi bi-music-note-beamed"></i>
+                                <h4 class="stretched-link">Musik Latar</h4>
+                                <p>
+                                    Musik latar dapat membangkitkan emosi
+                                    tertentu dan menciptakan atmosfer yang
+                                    menyenangkan sehingga membuat tamu merasa
+                                    lebih termotivasi untuk menghadiri acara.
+                                </p>
+                            </div>
+                        </div>
+                        <!-- End Service Item -->
+
+                        <div class="col-xl-6 col-md-6 d-flex">
+                            <div class="service-item position-relative">
+                                <i class="bi bi-map"></i>
+                                <h4 class="stretched-link">
+                                    Integrasi Google Map
+                                </h4>
+                                <p>
+                                    Penerapan integrasi Map memungkinkan
+                                    visualisasi data yang lebih baik untuk
+                                    pemetaan dan mempermudah tamu undangan untuk
+                                    mencapai lokasi acara.
+                                </p>
+                            </div>
+                        </div>
+                        <!-- End Service Item -->
+
+                        <div class="col-xl-6 col-md-6 d-flex">
+                            <div class="service-item position-relative">
+                                <i class="bi bi-calendar-heart"></i>
+                                <h4 class="stretched-link">
+                                    Integrasi Google Kalender
+                                </h4>
+                                <p>
+                                    Terntegrasi dengan pengingat Google Kalender
+                                    sehingga tamu bisa mendapat notifikasi
+                                    sesuai dengan jadwal dan acara di hari
+                                    spesial Anda.
+                                </p>
+                            </div>
+                        </div>
+                        <!-- End Service Item -->
+
+                        <div class="col-xl-6 col-md-6 d-flex">
+                            <div class="service-item position-relative">
+                                <i class="bi bi-stopwatch"></i>
+                                <h4 class="stretched-link">
+                                    Timer Hitung Mundur
+                                </h4>
+                                <p>
+                                    Menampilkan hitungan mundur waktu yang
+                                    spesifik sampai pada acara. Para tamu dapat
+                                    melihat waktu yang tersisa sebelum acara
+                                    dimulai. Dapat membantu sebagai pengingat
+                                    agar para tamu tidak melewatkan acara.
+                                </p>
+                            </div>
+                        </div>
+                        <!-- End Service Item -->
+
+                        <div class="col-xl-6 col-md-6 d-flex">
+                            <div class="service-item position-relative">
+                                <i class="bi bi-gift"></i>
+                                <h4 class="stretched-link">Hadiah</h4>
+                                <p>
+                                    Tamu tidak perlu repot-repot membawa uang
+                                    tunai untuk diberikan secara langsung.
+                                    Mereka dapat dengan mudah memberikannya
+                                    secara cashless atau transfer yang tentunya
+                                    lebih praktis dan efisien.
+                                </p>
+                            </div>
+                        </div>
+                        <!-- End Service Item -->
+
+                        <div class="col-xl-6 col-md-6 d-flex">
+                            <div class="service-item position-relative">
+                                <i class="bi bi-chat-square-heart"></i>
+                                <h4 class="stretched-link">Ucapan & Do'a</h4>
+                                <p>
+                                    Dengan fitur ini, tamu undangan dapat
+                                    mengekspresikan dukungan dan kebahagiaan
+                                    mereka kepada yang mengundang. Tamu dapat
+                                    memberikan dukungan emosional, dan
+                                    pembentukan kenangan yang berharga.
+                                </p>
+                            </div>
+                        </div>
+                        <!-- End Service Item -->
+                    </div>
+                </div>
+            </section>
+            <!-- End Services Section -->
+
+            <!-- ======= Testimonials Section ======= -->
+            <section id="testimonials" class="testimonials">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>Testimoni</h2>
+                        <p>Apa kata mereka ?</p>
+                    </div>
+
+                    <div class="slides-3 swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="testimonial-item">
+                                    <div class="stars">
+                                        <i class="bi bi-star-fill"></i
+                                        ><i class="bi bi-star-fill"></i
+                                        ><i class="bi bi-star-fill"></i
+                                        ><i class="bi bi-star-fill"></i
+                                        ><i class="bi bi-star-fill"></i>
+                                    </div>
+                                    <p>
+                                        Desainnya bagus. Pelayanannya juga
+                                        sangat baik dan cepat, pokoknya mantap!!
+                                        Terimakasih sudah membantu kami.
+                                    </p>
+                                    <div class="profile mt-auto">
+                                        <img
+                                            src="img/testi1.jpg"
+                                            class="testimonial-img"
+                                            alt=""
+                                        />
+                                        <h3>Nina & Ilham</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End testimonial item -->
+
+                            <div class="swiper-slide">
+                                <div class="testimonial-item">
+                                    <div class="stars">
+                                        <i class="bi bi-star-fill"></i
+                                        ><i class="bi bi-star-fill"></i
+                                        ><i class="bi bi-star-fill"></i
+                                        ><i class="bi bi-star-fill"></i
+                                        ><i class="bi bi-star-fill"></i>
+                                    </div>
+                                    <p>
+                                        Pelayanannya bagus dan cepat, hasilnya
+                                        juga memuaskan, dan soal harga jangan
+                                        diragukan lagi. Sudah pasti harga murah
+                                        dan berkualitas, apalagi pake voucher
+                                        jadi murah bangettt!!!
+                                    </p>
+                                    <div class="profile mt-auto">
+                                        <img
+                                            src="img/testi2.jpg"
+                                            class="testimonial-img"
+                                            alt=""
+                                        />
+                                        <h3>Bayu & Fira</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End testimonial item -->
+
+                            <div class="swiper-slide">
+                                <div class="testimonial-item">
+                                    <div class="stars">
+                                        <i class="bi bi-star-fill"></i
+                                        ><i class="bi bi-star-fill"></i
+                                        ><i class="bi bi-star-fill"></i
+                                        ><i class="bi bi-star-fill"></i
+                                        ><i class="bi bi-star-fill"></i>
+                                    </div>
+                                    <p>
+                                        Recommend banget undangan online di
+                                        sini. Hasilnya bagus sesuai harapan.
+                                        Desain undangan elegan, modern & sangat
+                                        menarik. Pokoknya keren!!!
+                                    </p>
+                                    <div class="profile mt-auto">
+                                        <img
+                                            src="img/testi3.jpg"
+                                            class="testimonial-img"
+                                            alt=""
+                                        />
+                                        <h3>Dewi & Ricky</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End testimonial item -->
+
+                            <div class="swiper-slide">
+                                <div class="testimonial-item">
+                                    <div class="stars">
+                                        <i class="bi bi-star-fill"></i
+                                        ><i class="bi bi-star-fill"></i
+                                        ><i class="bi bi-star-fill"></i
+                                        ><i class="bi bi-star-fill"></i
+                                        ><i class="bi bi-star-fill"></i>
+                                    </div>
+                                    <p>
+                                        Desainnya bagus-bagus. Pelayanannya
+                                        cepat dan memuaskan. Untuk harga segitu
+                                        dengan kualitas yang sangat baik sih
+                                        masuk banget. Thankyouuu
+                                    </p>
+                                    <div class="profile mt-auto">
+                                        <img
+                                            src="img/testi4.jpg"
+                                            class="testimonial-img"
+                                            alt=""
+                                        />
+                                        <h3>Irfan & Ayu</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End testimonial item -->
+
+                            <div class="swiper-slide">
+                                <div class="testimonial-item">
+                                    <div class="stars">
+                                        <i class="bi bi-star-fill"></i
+                                        ><i class="bi bi-star-fill"></i
+                                        ><i class="bi bi-star-fill"></i
+                                        ><i class="bi bi-star-fill"></i
+                                        ><i class="bi bi-star-fill"></i>
+                                    </div>
+                                    <p>
+                                        Sebelumnya sempet bingung mau bikin
+                                        undangan digital dimana. Syukurnya bisa
+                                        ketemu situs ini dari sosmed. Prosesnya
+                                        cepet dan Suprisingly desain undangan
+                                        keren banget sih, sesuai ekspektasi.
+                                        Mantap!!! Thank you
+                                    </p>
+                                    <div class="profile mt-auto">
+                                        <img
+                                            src="img/testi5.jpg"
+                                            class="testimonial-img"
+                                            alt=""
+                                        />
+                                        <h3>Rina & Aldi</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End testimonial item -->
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </section>
+            <!-- End Testimonials Section -->
+        </main>
+        <main id="about" data-aos="fade" data-aos-delay="500">
+            <div class="page-header pt-5 d-flex align-items-center">
+                <div class="container position-relative">
+                    <hr />
+                    <div class="row d-flex mt-5 justify-content-center">
+                        <div class="col-lg-6 text-center">
+                            <h2>Tentang</h2>
+                            <p class="mb-0">
+                                Ayo kita buat perbedaan! Rayakan hari istimewa,
+                                undang teman-teman dengan undangan digital.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======= Pricing Section ======= -->
+            <section id="pricing" class="pricing mt-0">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>Kelebihan</h2>
+                        <p>Perbandingan dengan undangan cetak</p>
+                    </div>
+
+                    <div class="row gy-4 gx-lg-5">
+                        <div class="col-lg-6 d-flex flex-column">
+                            <h3 class="pricing-item">
+                                Biaya Cetak dan Pengiriman
+                            </h3>
+                            <p>
+                                Undangan cetak memerlukan biaya produksi,
+                                seperti pencetakan, bahan kertas, tinta, dan
+                                biaya pengiriman. Undangan digital menghilangkan
+                                kebutuhan ini, sehingga mengurangi biaya secara
+                                signifikan.
+                            </p>
+                        </div>
+                        <!-- End Pricing Item -->
+
+                        <div class="col-lg-6 d-flex flex-column">
+                            <h3 class="pricing-item">Waktu dan Tenaga</h3>
+                            <p>
+                                Proses mencetak, merangkai, dan mengirim
+                                undangan fisik membutuhkan waktu dan tenaga
+                                lebih banyak dibandingkan dengan membuat
+                                undangan digital yang dapat disebar dengan cepat
+                                melalui chat atau platform online.
+                            </p>
+                        </div>
+                        <!-- End Pricing Item -->
+
+                        <div class="col-lg-6 d-flex flex-column">
+                            <h3 class="pricing-item">Desain dan Kustomisasi</h3>
+                            <p>
+                                Pembuatan undangan digital lebih fleksibel dan
+                                mudah disesuaikan dengan kebutuhan. Tanpa
+                                batasan fisik seperti pada undangan cetak, Anda
+                                dapat dengan mudah mengubah data dan detail
+                                lainnya tanpa biaya tambahan.
+                            </p>
+                        </div>
+                        <!-- End Pricing Item -->
+
+                        <div class="col-lg-6 d-flex flex-column">
+                            <h3 class="pricing-item">Lingkungan</h3>
+                            <p>
+                                Undangan digital dapat dianggap lebih ramah
+                                lingkungan karena mengurangi penggunaan kertas
+                                dan bahan cetak lainnya. Ini dapat menjadi
+                                pertimbangan bagi orang-orang yang peduli
+                                tentang dampak lingkungan.
+                            </p>
+                        </div>
+                        <!-- End Pricing Item -->
+
+                        <div class="col-lg-6 d-flex flex-column">
+                            <h3 class="pricing-item">Kemudahan Distribusi</h3>
+                            <p>
+                                Pengiriman undangan digital dapat dilakukan
+                                dengan cepat dan efisien melalui email, media
+                                sosial, atau platform online lainnya. Ini
+                                mengurangi kebutuhan untuk mencetak, merangkai,
+                                dan mengirim secara manual.
+                            </p>
+                        </div>
+                        <!-- End Pricing Item -->
+
+                        <div class="col-lg-6 d-flex flex-column">
+                            <h3 class="pricing-item">
+                                Kemungkinan Interaktivitas
+                            </h3>
+                            <p>
+                                Undangan digital dapat mencakup elemen
+                                interaktif seperti peta interaktif, musik latar
+                                dan formulir ucapan do'a dari tamu. Hal ini bisa
+                                memberikan nilai tambah yang sulit dicapai
+                                dengan undangan tradisional.
+                            </p>
+                        </div>
+                        <!-- End Pricing Item -->
+                    </div>
+                </div>
+            </section>
+            <!-- End Pricing Section -->
+        </main>
+        <!-- End #main -->
         <!-- ======= Footer ======= -->
-        <div id="kosong"></div>
         <footer id="footer" class="footer">
             <div class="container">
                 <div class="copyright">
                     <span id="thnNow"></span> &copy; Copyright
-                    <a href="../"
-                        ><strong
-                            ><span style="color: var(--color-primary)"
-                                >UndangWeb</span
-                            ></strong
-                        ></a
+                    <strong
+                        ><span style="color: var(--color-primary)"
+                            >UndangWeb</span
+                        ></strong
                     ><br />
                     All Rights Reserved
                 </div>
-                <div class="credits">
-                    <!-- All the links in the footer should remain intact. -->
-                    <!-- You can delete the links only if you purchased the pro version. -->
-                    <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/photofolio-bootstrap-photography-website-template/ -->
-                </div>
+                <div class="credits"></div>
             </div>
         </footer>
-
-        <div
-            id="loadingsubmit"
-            class="position-fixed top-0 start-0 end-0 d-flex d-none justify-content-center align-items-center"
-            style="
-                z-index: 9;
-                background-color: rgba(0, 0, 0, 0.7);
-                height: 100vh;
-            "
-        >
-            <div
-                class="rounded d-flex flex-column justify-content-center align-items-center"
-                style="width: 200px; height: 150px; background-color: #ddd"
-            >
-                <div
-                    class="spinner-border submit0 d-none text-secondary"
-                    style="width: 3rem; height: 3rem"
-                    role="status"
-                >
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <i
-                    class="bi bi-check-circle submit1 d-none text-success"
-                    style="font-size: 3rem"
-                ></i>
-                <i
-                    class="bi bi-x-circle submit2 d-none text-danger"
-                    style="font-size: 3rem"
-                ></i>
-                <h5 class="text-dark submittext mt-2">Menyimpan</h5>
-            </div>
-        </div>
-
-        <a target="_blank" id="linkadmin"
-            ><button class="admin border border-2 btn btn-success shadow">
-                <i class="bi bi-whatsapp"></i> Admin
-            </button></a
-        >
 
         <div class="scroll-top">
             <i
@@ -1338,12 +1629,15 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/js/datepicker.min.js"></script>
-        <script src="../datepicker-id.js"></script>
+        <script src="datepicker-id.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script src="
+https://cdn.jsdelivr.net/npm/glightbox@3.2.0/dist/js/glightbox.min.js
+"></script>
         <script src="
 https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js
 "></script>
-        <script src="../server.js?v=1"></script>
-
+        <script src="server.js?v=1"></script>
         <script src="script.js?v=1"></script>
     </body>
 </html>
