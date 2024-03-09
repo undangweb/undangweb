@@ -33,14 +33,10 @@ function tampildata() {
             document.querySelectorAll(".orangtua").length > 0
         ) {
             document.querySelectorAll(".orangtua")[i].textContent =
-                "Bapak" +
-                nya +
-                " " +
-                mempelaix.split(";")[3] +
-                " & Ibu" +
-                nya +
-                " " +
-                mempelaix.split(";")[4];
+                "Bapak" + nya + " " + mempelaix.split(";")[3];
+            document.querySelectorAll(".orangtua")[i].innerHTML += "\n";
+            document.querySelectorAll(".orangtua")[i].textContent +=
+                "& Ibu" + nya + " " + mempelaix.split(";")[4];
         }
         if (
             i < document.querySelectorAll(".anak-ke").length &&
