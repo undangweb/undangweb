@@ -449,7 +449,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector(".iframemaps").src =
             "https://www.google.com/maps/embed/v1/search?q=" +
             `${data.lokasi == "" ? "indonesia" : data.lokasi}` +
-            "&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8";
+            "&key="+source.keyMaps;
 
         document.getElementById("musikdipilih").textContent =
             data.musik.split(";")[0] == ""
