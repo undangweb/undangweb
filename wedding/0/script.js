@@ -34,9 +34,9 @@ function tampildata() {
         ) {
             document.querySelectorAll(".orangtua")[i].textContent =
                 "Bapak" + nya + " " + mempelaix.split(";")[3];
-            document.querySelectorAll(".orangtua")[i].innerHTML += "\n";
-            document.querySelectorAll(".orangtua")[i].textContent +=
-                "& Ibu" + nya + " " + mempelaix.split(";")[4];
+            document.querySelectorAll(".orangtua")[i].innerHTML += "\n<br/>";
+            document.querySelectorAll(".orangtua")[i].innerText +=
+                "Dan Ibu" + nya + " " + mempelaix.split(";")[4];
         }
         if (
             i < document.querySelectorAll(".anak-ke").length &&
@@ -53,7 +53,8 @@ function tampildata() {
     /*document.querySelector(".maps-iframe").src =
         "https://www.google.com/maps/embed/v1/search?q=" +
         `${data.lokasi == "" ? "indonesia" : data.lokasi}` +
-        "&zoom=17&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8";*/
+        "&zoom=17&key=" +
+        source.keyMaps;*/
 
     foto(data.foto);
     tanggal(data.resepsi, "Resepsi");
@@ -151,7 +152,8 @@ function tampildata() {
     document.querySelector(".maps-iframe").src =
         "https://www.google.com/maps/embed/v1/search?q=" +
         `${data.lokasi == "" ? "indonesia" : data.lokasi}` +
-        "&zoom=17&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8";
+        "&zoom=17&key=" +
+        source.keyMaps;
 }
 
 function inisialmempelai(data4) {
