@@ -50,7 +50,7 @@ function tampildata() {
         }
     });
 
-   /* document.querySelector(".maps-iframe").src =
+    /* document.querySelector(".maps-iframe").src =
         "https://www.google.com/maps/embed/v1/search?q=" +
         `${data.lokasi == "" ? "indonesia" : data.lokasi}` +
         "&zoom=17&key=" +
@@ -152,7 +152,8 @@ function tampildata() {
     document.querySelector(".maps-iframe").src =
         "https://www.google.com/maps/embed/v1/search?q=" +
         `${data.lokasi == "" ? "indonesia" : data.lokasi}` +
-        "&zoom=17&key="+source.keyMaps;
+        "&zoom=17&key=" +
+        source.keyMaps;
 }
 
 function inisialmempelai(data4) {
@@ -894,20 +895,17 @@ function onYouTubeIframeAPIReady() {
     let jmlLoad = 0;
 
     function setdata() {
-        let resepsi = data[6].split(" ");
-        let resepsi0 = resepsi[0].split("/");
-        resepsi =
-            resepsi0[1] +
-            "/" +
-            resepsi0[0] +
-            "/" +
-            resepsi0[2] +
-            " " +
-            resepsi[1];
+        let resepsix = data[6].split(" ");
+        let resepsi0 = resepsix[0].split("/");
+        let resepsi = resepsi0[1] + "/" + resepsi0[0] + "/" + resepsi0[2] + " ";
+        resepsix.shift();
+        resepsi += resepsix.join(" ");
 
-        let akad = data[7].split(" ");
-        let akad0 = akad[0].split("/");
-        akad = akad0[1] + "/" + akad0[0] + "/" + akad0[2] + " " + akad[1];
+        let akadx = data[7].split(" ");
+        let akad0 = akadx[0].split("/");
+        let akad = akad0[1] + "/" + akad0[0] + "/" + akad0[2] + " ";
+        akadx.shift();
+        akad += akadx.join(" ");
         data = {
             desain: data[1],
             link: data[2],
@@ -938,7 +936,7 @@ function onYouTubeIframeAPIReady() {
                     C: username
                 }
             });
-            console.log(data);
+            
             if (
                 data[1] !== document.body.dataset.desain ||
                 data[2] !== username
@@ -951,11 +949,8 @@ function onYouTubeIframeAPIReady() {
 
             setdata();
         } catch (err) {
-            console.log(err);
-            if (
-                err.toString().toLowerCase() ==
-                "syntaxerror: unexpected end of json input"
-            ) {
+            
+            if (err.toString().toLowerCase().includes("syntaxerror")) {
                 document.body.innerHTML = `<h1 class="text-center" style="margin-top:30vh">UNDANGAN TIDAK DITEMUKAN !</h1>`;
                 return;
             }
