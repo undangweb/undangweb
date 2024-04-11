@@ -36,7 +36,7 @@ function tampildata() {
                 "Bapak" + nya + " " + mempelaix.split(";")[3];
             document.querySelectorAll(".orangtua")[i].innerHTML += "\n<br/>";
             document.querySelectorAll(".orangtua")[i].innerText +=
-                "Dan Ibu" + nya + " " + mempelaix.split(";")[4];
+                "& Ibu" + nya + " " + mempelaix.split(";")[4];
         }
         if (
             i < document.querySelectorAll(".anak-ke").length &&
@@ -50,7 +50,7 @@ function tampildata() {
         }
     });
 
-    /*document.querySelector(".maps-iframe").src =
+   /* document.querySelector(".maps-iframe").src =
         "https://www.google.com/maps/embed/v1/search?q=" +
         `${data.lokasi == "" ? "indonesia" : data.lokasi}` +
         "&zoom=17&key=" +
@@ -152,8 +152,7 @@ function tampildata() {
     document.querySelector(".maps-iframe").src =
         "https://www.google.com/maps/embed/v1/search?q=" +
         `${data.lokasi == "" ? "indonesia" : data.lokasi}` +
-        "&zoom=17&key=" +
-        source.keyMaps;
+        "&zoom=17&key="+source.keyMaps;
 }
 
 function inisialmempelai(data4) {
@@ -700,55 +699,55 @@ function onYouTubeIframeAPIReady() {
     var ae = function () {
             le(), (oe = oe < V.length - 1 ? oe + 1 : 0), ie(oe, !1), de();
         },
-        ie = function (e) {
-            var n =
-                !(arguments.length > 1 && void 0 !== arguments[1]) ||
-                arguments[1];
-            le(), n && ve();
-            var t = ne.offsetWidth - ne.scrollWidth;
-            (V[e].style.display = ""), $[e].classList.add("active");
-            var o = ee.offsetWidth / 2 - te / 2 - $[e].offsetLeft;
-            (ne.style.transform = "translateX(".concat(
-                o > 0 ? 0 : o < t ? t : o,
-                "px)"
-            )),
-                (oe = e);
-        },
-        se = {
+        o;
+    (ie = function (e) {
+        var n =
+            !(arguments.length > 1 && void 0 !== arguments[1]) || arguments[1];
+        le(), n && ve();
+        var t = ne.offsetWidth - ne.scrollWidth;
+        (V[e].style.display = ""), $[e].classList.add("active");
+        var o = ee.offsetWidth / 2 - te / 2 - $[e].offsetLeft;
+        (ne.style.transform = "translateX(".concat(
+            o > 0 ? 0 : o < t ? t : o,
+            "px)"
+        )),
+            (oe = e);
+    }),
+        (se = {
             mouse: { down: "mousedown", move: "mousemove", up: "mouseup" },
             touch: { down: "touchstart", move: "touchmove", up: "touchend" }
-        },
-        re = 0,
-        ce = function (e) {
+        }),
+        (re = 0),
+        (ce = function (e) {
             var n = Q() ? e.touches[0].clientY : e.clientY;
             re - 50 > n && (ve(), ae()),
                 re < n - 50 &&
                     (le(), ie((oe = oe > 0 ? oe - 1 : oe)), de(), ve());
-        },
-        de = function (e) {
+        }),
+        (de = function (e) {
             window.removeEventListener(se[K].move, ce, !1);
-        },
-        ue = function (e) {
+        }),
+        (ue = function (e) {
             e.cancelable && e.preventDefault(),
                 (re = Q() ? e.touches[0].clientY : e.clientY),
                 window.addEventListener(se[K].up, de, !1),
                 window.addEventListener(se[K].move, ce, !1);
-        },
-        me = document.getElementById("btnAutoplay"),
-        ye = !1,
-        pe = function () {
+        }),
+        (me = document.getElementById("btnAutoplay")),
+        (ye = !1),
+        (pe = function () {
             (ye = !0),
                 (autoPlay = setInterval(function () {
                     ae();
                 }, 8e3)),
                 me.classList.add("playing");
-        },
-        ve = function () {
+        }),
+        (ve = function () {
             ye &&
                 ((ye = !1),
                 clearInterval(autoPlay),
                 me.classList.remove("playing"));
-        };
+        });
     me.addEventListener(
         "click",
         function (e) {
@@ -924,7 +923,7 @@ function onYouTubeIframeAPIReady() {
             ulasan: data[12]
         };
 
-        //  tampildata();
+        // tampildata();
         youtubeAudio();
     }
 
@@ -939,7 +938,7 @@ function onYouTubeIframeAPIReady() {
                     C: username
                 }
             });
-
+            console.log(data);
             if (
                 data[1] !== document.body.dataset.desain ||
                 data[2] !== username
@@ -952,6 +951,7 @@ function onYouTubeIframeAPIReady() {
 
             setdata();
         } catch (err) {
+            console.log(err);
             if (
                 err.toString().toLowerCase() ==
                 "syntaxerror: unexpected end of json input"
@@ -1016,11 +1016,11 @@ function onYouTubeIframeAPIReady() {
         }`;
         data = datacoba;
         coba = true;
-        // tampildata(datacoba, true);
+        //tampildata();
         youtubeAudio();
     } else {
         data = dataprev;
-        // tampildata(dataprev);
+        // tampildata();
         youtubeAudio();
     }
 
@@ -1032,13 +1032,10 @@ function onYouTubeIframeAPIReady() {
         ) {
             source.idmusic.sort(() => Math.random() - 0.5);
             musikid = source.idmusic[0];
-            // document.getElementById("youtube-audio").dataset.video = idmusic[0];
         } else {
-            //  document.getElementById("youtube-audio").dataset.video =
             musikid = data.musik.split(";")[1];
         }
 
-        //  youtubeAudio();
         const div = document.createElement("div");
         div.id = "youtube-audio";
         div.classList.add("d-none");
