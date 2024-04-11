@@ -449,7 +449,8 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector(".iframemaps").src =
             "https://www.google.com/maps/embed/v1/search?q=" +
             `${data.lokasi == "" ? "indonesia" : data.lokasi}` +
-            "&key="+source.keyMaps;
+            "&key=" +
+            source.keyMaps;
 
         document.getElementById("musikdipilih").textContent =
             data.musik.split(";")[0] == ""
@@ -1086,7 +1087,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.forms["formkirim"].onsubmit = e => {
         e.preventDefault();
-        if (document.getElementById("namatamu").value) {
+        if (data.link == "") {
+            document.getElementById("simpanlink").click();
+        } else if (data.mempelai.split(";")[0] == "") {
+            document.getElementById("simpanMempelai").click();
+        } else if (data.mempelai.split(";")[1] == "") {
+            document.getElementById("simpanMempelai").click();
+        } else if (document.getElementById("namatamu").value) {
+            document.getElementById("kirimbtn").href =
+                "https://api.whatsapp.com/send?text=" +
+                encodeURIComponent(`Assalamu’alaikum Warahmatullahi Wabarakatuh.
+
+Maha suci Allah yang telah menjadikan segala sesuatu lebih indah dan sempurna.
+
+Izinkan kami mengundang Bapak/Ibu/Sahabat sekalian untuk dapat menghadiri acara pernikahan kami.
+
+Link undangan :
+
+${
+    "https://" +
+    document.querySelector("#link2 span:nth-child(1)").textContent +
+    document.querySelector("#link2 span:nth-child(2)").textContent +
+    document.querySelector("#link2 span:nth-child(3)").textContent
+}
+
+
+Kehadiran, doa dan restu anda semua adalah kado terindah bagi kami. Tiada yang dapat kami ungkapkan selain rasa terima kasih dari hati yang tulus dan dalam.
+
+Kami yang berbahagia\n
+${data.mempelai.split(";").join(" & ")}`);
             document.getElementById("kirimbtn").click();
         }
     };
@@ -1111,25 +1140,6 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             document.querySelector("#link2 span:nth-child(3)").textContent =
                 encodeURI(e.value);
-            document.getElementById("kirimbtn").href =
-                "https://api.whatsapp.com/send?text=" +
-                encodeURIComponent(`Assalamu’alaikum Warahmatullahi Wabarakatuh.
-
-Maha suci Allah yang telah menjadikan segala sesuatu lebih indah dan sempurna.
-
-Izinkan kami mengundang Bapak/Ibu/Sahabat sekalian untuk dapat menghadiri acara pernikahan kami.
-
-Link undangan :
-
-${"https://" + document.getElementById("link2").textContent}
-
-
-Kehadiran, doa dan restu anda semua adalah kado terindah bagi kami. Tiada yang dapat kami ungkapkan selain rasa terima kasih dari hati yang tulus dan dalam.
-
-Jangan lupa menggunakan protokol kesehatan dengan memakai masker
-
-Kami yang berbahagia\n
-${data.mempelai.split(";").join(" & ")}`);
         }
     }
 
