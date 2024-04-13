@@ -105,19 +105,19 @@ function tampildata() {
     ) {
         document.querySelectorAll(".hadiah").forEach((e, i) => {
             e.remove();
+            document.querySelector(".btn-hadiah").style.display = "none";
         });
+        
         V = document.querySelectorAll(".satumomen_slide");
         $ = document.querySelectorAll(".satumomen_menu_item");
     } else {
-        if (
-            data.hadiah.split("%")[1].split(";")[0] &&
-            data.hadiah.split("%")[1].split(";")[0] != ""
-        ) {
+        if (data.hadiah.split("%")[1].split(";")[0] != "") {
             document.querySelector(".alamatkado").textContent = data.hadiah
                 .split("%")[1]
                 .split(";")[0];
             document.querySelector(".penerimakado").textContent =
                 "(" + data.hadiah.split("%")[1].split(";")[1] + ")";
+            console.log(data.hadiah.split("%")[1].split(";")[0]);
         } else {
             document.querySelectorAll(".btn-gift")[1].style.display = "none";
         }
@@ -267,6 +267,7 @@ function tanggal(e, f) {
         } else {
             z = e[2];
         }
+
         document.querySelector(".jamResepsi").textContent =
             e[0].split(" ")[1].split(":").join(".") +
             " " +
@@ -385,7 +386,7 @@ function onYouTubeIframeAPIReady() {
 (() => {
     if (!document.querySelector(".canvas").classList.contains("rounded-0")) {
         document.querySelector(".canvas").classList.add("rounded-0");
-        document.getElementById("loader").classList.add("d-flex");
+        // document.getElementById("loader").classList.add("d-flex");
     }
     var e,
         n,
@@ -921,8 +922,8 @@ function onYouTubeIframeAPIReady() {
             ulasan: data[12]
         };
 
-        // tampildata();
-        youtubeAudio();
+        tampildata();
+        // youtubeAudio();
     }
 
     async function load1() {
@@ -936,7 +937,7 @@ function onYouTubeIframeAPIReady() {
                     C: username
                 }
             });
-            
+
             if (
                 data[1] !== document.body.dataset.desain ||
                 data[2] !== username
@@ -949,7 +950,6 @@ function onYouTubeIframeAPIReady() {
 
             setdata();
         } catch (err) {
-            
             if (err.toString().toLowerCase().includes("syntaxerror")) {
                 document.body.innerHTML = `<h1 class="text-center" style="margin-top:30vh">UNDANGAN TIDAK DITEMUKAN !</h1>`;
                 return;
@@ -1011,12 +1011,12 @@ function onYouTubeIframeAPIReady() {
         }`;
         data = datacoba;
         coba = true;
-        //tampildata();
-        youtubeAudio();
+        tampildata();
+        // youtubeAudio();
     } else {
         data = dataprev;
-        // tampildata();
-        youtubeAudio();
+        tampildata();
+        // youtubeAudio();
     }
 
     function youtubeAudio() {
