@@ -14,6 +14,8 @@ function formatDate(date = new Date()) {
 }
 
 function tampildata() {
+    clearTimeout(youtubeload);
+    youtubeload = undefined;
     inisialmempelai(data.mempelai);
 
     let mempelaix;
@@ -103,13 +105,13 @@ function tampildata() {
         (!data.hadiah.split("%")[1].split(";")[0] ||
             data.hadiah.split("%").split(";")[0] == "")
     ) {
-        document.querySelectorAll(".hadiah").forEach((e, i) => {
-            e.remove();
-            document.querySelector(".btn-hadiah").style.display = "none";
+        document.querySelectorAll(".satumomen_slide").forEach((e, i) => {
+            if (e.classList.contains("hadiah")) {
+                skip = i;
+                e.remove();
+                document.querySelectorAll(".satumomen_menu_item")[i].remove();
+            }
         });
-
-        V = document.querySelectorAll(".satumomen_slide");
-        $ = document.querySelectorAll(".satumomen_menu_item");
     } else {
         if (data.hadiah.split("%")[1].split(";")[0] != "") {
             document.querySelector(".alamatkado").textContent = data.hadiah
@@ -117,7 +119,6 @@ function tampildata() {
                 .split(";")[0];
             document.querySelector(".penerimakado").textContent =
                 "(" + data.hadiah.split("%")[1].split(";")[1] + ")";
-            console.log(data.hadiah.split("%")[1].split(";")[0]);
         } else {
             document.querySelectorAll(".btn-gift")[1].style.display = "none";
         }
@@ -339,8 +340,7 @@ function onYouTubeIframeAPIReady() {
             onReady: function (e) {
                 r.setPlaybackQuality("small"),
                     o(r.getPlayerState() !== YT.PlayerState.CUED);
-                clearTimeout(youtubeload);
-                youtubeload = undefined;
+
                 tampildata();
                 document.getElementById("loader").classList.remove("d-flex");
             },
@@ -382,7 +382,8 @@ function onYouTubeIframeAPIReady() {
         }
     };
 }
-
+let skip;
+let page = 0;
 (() => {
     if (!document.querySelector(".canvas").classList.contains("rounded-0")) {
         document.querySelector(".canvas").classList.add("rounded-0");
@@ -675,7 +676,7 @@ function onYouTubeIframeAPIReady() {
             }
         };
     Q();
-    var V = document.querySelectorAll(".satumomen_slide"),
+    let V = document.querySelectorAll(".satumomen_slide"),
         $ = document.querySelectorAll(".satumomen_menu_item"),
         ee = document.getElementById("smMenu"),
         ne = document.querySelector(".satumomen_menu_list"),
@@ -691,6 +692,7 @@ function onYouTubeIframeAPIReady() {
                         (e.onclick = function (n) {
                             n.cancelable && n.preventDefault(),
                                 (oe = Array.from($).indexOf(e)),
+                                (page = oe),
                                 ie(oe);
                         });
                 }),
@@ -705,8 +707,14 @@ function onYouTubeIframeAPIReady() {
     (ie = function (e) {
         var n =
             !(arguments.length > 1 && void 0 !== arguments[1]) || arguments[1];
+
         le(), n && ve();
         var t = ne.offsetWidth - ne.scrollWidth;
+        if (e == skip) {
+            $[e].classList.remove("active");
+            page < e ? (e = e + 1) : (e = e - 1);
+        }
+        page = e;
         (V[e].style.display = ""), $[e].classList.add("active");
         var o = ee.offsetWidth / 2 - te / 2 - $[e].offsetLeft;
         (ne.style.transform = "translateX(".concat(
@@ -722,6 +730,7 @@ function onYouTubeIframeAPIReady() {
         (re = 0),
         (ce = function (e) {
             var n = Q() ? e.touches[0].clientY : e.clientY;
+
             re - 50 > n && (ve(), ae()),
                 re < n - 50 &&
                     (le(), ie((oe = oe > 0 ? oe - 1 : oe)), de(), ve());
@@ -922,8 +931,8 @@ function onYouTubeIframeAPIReady() {
             ulasan: data[12]
         };
 
-        // tampildata();
-        youtubeAudio();
+        //tampildata();
+         youtubeAudio();
     }
 
     async function load1() {
@@ -1011,11 +1020,11 @@ function onYouTubeIframeAPIReady() {
         }`;
         data = datacoba;
         coba = true;
-        // tampildata();
+       // tampildata();
         youtubeAudio();
     } else {
         data = dataprev;
-        //tampildata();
+       // tampildata();
         youtubeAudio();
     }
 
@@ -1437,9 +1446,6 @@ function onYouTubeIframeAPIReady() {
             if (a == "ok") {
                 kirimkomen(nd);
             } else {
-                //    console.log(ax);
-                //    console.log(a);
-                //    alert(a);
                 alert("Periksa koneksi anda!\nSilahkan coba lagi");
             }
             document.getElementById("submitkomen2").classList.add("d-none");
