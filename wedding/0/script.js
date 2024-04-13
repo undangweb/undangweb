@@ -107,7 +107,7 @@ function tampildata() {
             e.remove();
             document.querySelector(".btn-hadiah").style.display = "none";
         });
-        
+
         V = document.querySelectorAll(".satumomen_slide");
         $ = document.querySelectorAll(".satumomen_menu_item");
     } else {
@@ -386,7 +386,7 @@ function onYouTubeIframeAPIReady() {
 (() => {
     if (!document.querySelector(".canvas").classList.contains("rounded-0")) {
         document.querySelector(".canvas").classList.add("rounded-0");
-        // document.getElementById("loader").classList.add("d-flex");
+        document.getElementById("loader").classList.add("d-flex");
     }
     var e,
         n,
@@ -922,8 +922,8 @@ function onYouTubeIframeAPIReady() {
             ulasan: data[12]
         };
 
-        tampildata();
-        // youtubeAudio();
+        // tampildata();
+        youtubeAudio();
     }
 
     async function load1() {
@@ -1011,12 +1011,12 @@ function onYouTubeIframeAPIReady() {
         }`;
         data = datacoba;
         coba = true;
-        tampildata();
-        // youtubeAudio();
+        // tampildata();
+        youtubeAudio();
     } else {
         data = dataprev;
-        tampildata();
-        // youtubeAudio();
+        //tampildata();
+        youtubeAudio();
     }
 
     function youtubeAudio() {
@@ -1437,9 +1437,9 @@ function onYouTubeIframeAPIReady() {
             if (a == "ok") {
                 kirimkomen(nd);
             } else {
-                console.log(ax);
-                console.log(a);
-                alert(a);
+                //    console.log(ax);
+                //    console.log(a);
+                //    alert(a);
                 alert("Periksa koneksi anda!\nSilahkan coba lagi");
             }
             document.getElementById("submitkomen2").classList.add("d-none");
