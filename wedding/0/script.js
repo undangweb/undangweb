@@ -213,18 +213,11 @@ function foto(data9) {
     });
 
     document.querySelectorAll(".background-image").forEach((e, i) => {
-        if (e.classList.contains("grey")) {
-            data9.split(";")[i + 2] != ""
-                ? (e.src = data9.split(";")[i + 2])
-                : (e.src = "");
-        } else {
-            data9.split(";")[i + 2] != "" &&
-            (!location.href.includes("?") ||
-                !location.href.split("?")[1].includes("&"))
-                ? (e.style.backgroundImage = `url(${data9.split(";")[i + 2]})`)
-                : (e.style.backgroundImage =
-                      "url(https://ui-avatars.com/api/?background=A9A9A9&name=)");
-        }
+        data9.split(";")[i + 2] != "" ||
+        data9.split(";")[i + 2] != "https://satumomen.com/images/no-image.jpg"
+            ? (e.style.backgroundImage = `url(${data9.split(";")[i + 2]})`)
+            : (e.style.backgroundImage =
+                  "url(https://ui-avatars.com/api/?background=A9A9A9&name=)");
     });
 }
 
@@ -931,8 +924,8 @@ let page = 0;
             ulasan: data[12]
         };
 
-        //tampildata();
-         youtubeAudio();
+        // tampildata();
+        youtubeAudio();
     }
 
     async function load1() {
@@ -1020,11 +1013,11 @@ let page = 0;
         }`;
         data = datacoba;
         coba = true;
-       // tampildata();
+        // tampildata();
         youtubeAudio();
     } else {
         data = dataprev;
-       // tampildata();
+        //tampildata();
         youtubeAudio();
     }
 
