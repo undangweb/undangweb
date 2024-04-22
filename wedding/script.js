@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+(() => {
     "use strict";
 
     document.querySelector(
@@ -461,10 +461,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const b2 = data.hadiah.split("%")[0].split("$")[1];
         const b3 = data.hadiah.split("%")[1];
 
-        // document.getElementById("platform1").value = b1.split(";")[1];
+    
         document.getElementById("nomorcashless1").value = b1.split(";")[2];
         document.getElementById("namacashless1").value = b1.split(";")[3];
-        //  document.getElementById("platform2").value = b2.split(";")[1];
+
         document.getElementById("nomorcashless2").value = b2.split(";")[2];
         document.getElementById("namacashless2").value = b2.split(";")[3];
         document.getElementById("alamatkado").value = b3.split(";")[0];
@@ -1326,4 +1326,4 @@ ${data.mempelai.split(";").join(" & ")}`);
     window.addEventListener("load", () => {
         load();
     });
-});
+})();

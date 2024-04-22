@@ -9,8 +9,8 @@
         <meta content="" name="keywords" />
         <meta name="theme-color" content="#1b1f28" />
         <!-- Favicons -->
-        <link href="../img/icon.png" rel="icon" />
-        <link href="../img/icon.png" rel="apple-touch-icon" />
+        <link href="https://i.ibb.co/W3x8pwW/icon.png" rel="icon" />
+        <link href="https://i.ibb.co/W3x8pwW/icon.png" rel="apple-touch-icon" />
 
         <!-- Google Fonts -->
 
@@ -243,7 +243,7 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                                             type="text"
                                             class="form-control"
                                             id="keberapa1"
-                                            placeholder="pertama, kedua, ketiga..."
+                                            placeholder="pertama, kedua, sulung, bungsu..."
                                         />
                                     </div>
                                     <div class="mb-3">
@@ -320,7 +320,7 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                                             type="text"
                                             class="form-control"
                                             id="keberapa2"
-                                            placeholder="pertama, kedua, ketiga..."
+                                            placeholder="pertama, kedua, sulung, bungsu..."
                                         />
                                     </div>
                                     <div class="mb-3">
@@ -1359,8 +1359,10 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
         <script src="
 https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js
 "></script>
-        <script src="../server.js?v=0"></script>
-
-        <script src="script.js?v=0"></script>
+        <script>
+            const versijs = document.createElement("script");
+            versijs.src = "versi.js?v=" + new Date().getTime();
+            document.body.appendChild(versijs);
+        </script>
     </body>
 </html>
