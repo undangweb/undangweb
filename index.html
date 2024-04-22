@@ -15,8 +15,8 @@
         />
         <meta name="theme-color" content="#1b1f28" />
         <!-- Favicons -->
-        <link href="img/icon.png" rel="icon" />
-        <link href="img/icon.png" rel="apple-touch-icon" />
+        <link href="https://i.ibb.co/W3x8pwW/icon.png" rel="icon" />
+        <link href="https://i.ibb.co/W3x8pwW/icon.png" rel="apple-touch-icon" />
 
         <!-- Google Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -446,12 +446,13 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                                                 <div class="modal-body pt-0">
                                                     <div class="">
                                                         <label
-                                                            for="recipient-name"
+                                                            for="coba1"
                                                             class="col-form-label"
                                                             >Nama
                                                             Mempelai1:</label
                                                         >
                                                         <input
+                                                            id="coba1"
                                                             type="text"
                                                             class="form-control cobanama"
                                                             required
@@ -459,12 +460,13 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                                                     </div>
                                                     <div class="mb-3">
                                                         <label
-                                                            for="message-text"
+                                                            for="coba2"
                                                             class="col-form-label"
                                                             >Nama
                                                             Mempelai2:</label
                                                         >
                                                         <input
+                                                            id="coba2"
                                                             type="text"
                                                             class="form-control cobanama"
                                                             required
@@ -777,7 +779,7 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                                                         "
                                                     >
                                                         <img
-                                                            src="img/gopay.svg"
+                                                            src="https://i.ibb.co/vwj3sz2/gopay.png"
                                                             style="width: 100%"
                                                         />
                                                     </div>
@@ -788,7 +790,7 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                                                         "
                                                     >
                                                         <img
-                                                            src="img/dana.svg"
+                                                            src="https://i.ibb.co/7bg2tf7/dana.png"
                                                             style="width: 100%"
                                                         />
                                                     </div>
@@ -1113,13 +1115,6 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                     <a href="#" class="linkedin"
                         ><i class="bi bi-linkedin"></i
                     ></a>-->
-                    <img
-                        style="width: 63px"
-                        src="https://lh3.googleusercontent.com/d/14mTjLwGYg8PHteLyDvRMa1Hy6FIi9hi7"
-                        alt=""
-                        class="d-none"
-                        id="isOpen"
-                    />
                 </div>
                 <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
                 <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
@@ -1360,7 +1355,7 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                                     </p>
                                     <div class="profile mt-auto">
                                         <img
-                                            src="img/testi1.jpg"
+                                            src="https://i.ibb.co/N1zjYMf/testi1.jpg"
                                             class="testimonial-img"
                                             alt=""
                                         />
@@ -1388,7 +1383,7 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                                     </p>
                                     <div class="profile mt-auto">
                                         <img
-                                            src="img/testi2.jpg"
+                                            src="https://i.ibb.co/TWt1t4X/testi2.jpg"
                                             class="testimonial-img"
                                             alt=""
                                         />
@@ -1415,7 +1410,7 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                                     </p>
                                     <div class="profile mt-auto">
                                         <img
-                                            src="img/testi3.jpg"
+                                            src="https://i.ibb.co/rbjSzYX/testi3.jpg"
                                             class="testimonial-img"
                                             alt=""
                                         />
@@ -1442,7 +1437,7 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                                     </p>
                                     <div class="profile mt-auto">
                                         <img
-                                            src="img/testi4.jpg"
+                                            src="https://i.ibb.co/8PrV0jC/testi4.jpg"
                                             class="testimonial-img"
                                             alt=""
                                         />
@@ -1471,7 +1466,7 @@ https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.css
                                     </p>
                                     <div class="profile mt-auto">
                                         <img
-                                            src="img/testi5.jpg"
+                                            src="https://i.ibb.co/cwxFY14/testi5.jpg"
                                             class="testimonial-img"
                                             alt=""
                                         />
@@ -1637,7 +1632,10 @@ https://cdn.jsdelivr.net/npm/glightbox@3.2.0/dist/js/glightbox.min.js
         <script src="
 https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js
 "></script>
-        <script src="server.js?v=1"></script>
-        <script src="script.js?v=1"></script>
+        <script>
+            const versijs = document.createElement("script");
+            versijs.src = "versi.js?v=" + new Date().getTime();
+            document.body.appendChild(versijs);
+        </script>
     </body>
 </html>

@@ -13,13 +13,8 @@ function onlyNumberKey(evt) {
     return true;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+(() => {
     "use strict";
-
-    /**
-     * Preloader
-     */
-
     /**
      * Mobile nav toggle
      */
@@ -302,8 +297,8 @@ document.addEventListener("DOMContentLoaded", () => {
     function newSwiper() {
         swiper = new Swiper(".slides-1", {
             speed: 600,
-            loop: true,
-            slidesPerView: "auto",
+            loop: false,
+            slidesPerView: 1,
             autoplay: false,
             allowTouchMove: false,
             spaceBetween: 1,
@@ -353,12 +348,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     alert(
                         "Tanggal sudah terlewat!\nSilahkan masukan tanggal yang benar."
                     );
-                } else if (x.getTime() < c) {
+                } /* else if (x.getTime() < c) {
                     inputtgl.value = "";
                     alert(
                         "Maksimal 40 hari sebelum hari H !\nTanggal acara yang anda masukan diatas 40 hari dari hari sekarang.\nSilahkan coba lagi di lain hari."
                     );
-                }
+                }*/
                 datepicker.update({
                     autohide: true,
                     forceRefresh: true
@@ -519,7 +514,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         imgs.forEach((e, i) => {
             imgs1.innerHTML += ` <div class="swiper-slide d-flex">
-                <img class="position-absolute w-100" src="${e}" alt="">
+                <img class="position-absolute h-100" src="${e}" alt="">
                   <div class="m-auto"><i class="bi-file-earmark-image" style="font-size:5rem"></i></div>
               </div>`;
             imgs2.push({
@@ -717,131 +712,122 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    function loaddata1(dataStart, max) {
+    const perPage = 8;
+    let jmlPage;
+    function loaddata1(page) {
+        document.querySelector("#gallery .row").innerHTML = "";
+        let i;
+
+        i = page * perPage - (perPage - 1);
+        pagination(page);
         return new Promise(resolve => {
-            document.querySelector("#gallery .row").innerHTML = "";
-            const jmlPerPage = 8;
-            if (data.length < dataStart + jmlPerPage) {
-                max = data.length + 1;
-            } else {
-                max = dataStart + jmlPerPage;
-            }
-            for (let i = dataStart; i < max; i++) {
-                if (max - i == 1 && data.length < dataStart + jmlPerPage) {
-                    document.querySelector(
-                        "#gallery .row"
-                    ).innerHTML += `<div class="d-flex flex-column align-items-center col-xl-3 col-lg-4 col-md-6 px-1">
-            <div class="gallery-item">
-          <div class="card rounded-0 border-0">
-
-          <img src="https://lh3.googleusercontent.com/d/1TO3CGX_eQ70iaWjYvh9F8pWnRc1HFXrA"  alt="" class="position-absolute" style="width:100%">
-              <div class="gallery-links">
-              </div>
-        
-          <div class="m-auto"><i class="bi-file-earmark-image" style="font-size:5rem"></i></div>
-</div><p class="py-2 mb-0 text-center">Desain lainnya #</p></div>
-
-          </div>`;
+            let text;
+            let klik;
+            function tampil() {
+                if (i == data.length - 1) {
+                    (klik = ""),
+                        (text =
+                            "<span class='text-center w-100'>Desain Lainnya #</span>");
                 } else {
-                    document.querySelector(
-                        "#gallery .row"
-                    ).innerHTML += `<div class="d-flex flex-column align-items-center col-xl-3 col-lg-4 col-md-6 px-1">
-            <div class="gallery-item"  onclick="modalShow(${i})">
+                    (klik = `onclick="modalShow(${i})`),
+                        (text = `<span>${
+                            data[i][0].split(";")[1]
+                        }</span><span style="color:rgba(255,255,255,.6)">${
+                            data[i][0].split(";")[0]
+                        }</span>`);
+                }
+                document.querySelector(
+                    "#gallery .row"
+                ).innerHTML += `<div class="d-flex flex-column align-items-center col-xl-3 col-lg-4 col-md-6 px-1">
+            <div class="gallery-item" ${klik}">
           <div class="card rounded-0 border-0">
 
-          <img src="${
-              data[i][2].split(";")[0]
-          }"  alt="" class="position-absolute w-100">
+          <img src="${data[i][2].split(";")[0]}
+              
+          "  alt="" class="position-absolute w-100">
               <div class="gallery-links">
               </div>
         
           <div class="m-auto"><i class="bi-file-earmark-image" style="font-size:5rem"></i></div>
-</div><p class="py-2 mb-0 d-flex justify-content-between px-3"><span>${
-                        data[i][0].split(";")[1]
-                    }</span><span style="color:rgba(255,255,255,.6)">${
-                        data[i][0].split(";")[0]
-                    }</span></p></div>
+</div><p class="py-2 mb-0 d-flex justify-content-between px-3">${text}</p></div>
 
           </div>`;
+
+                if (
+                    i < perPage * page &&
+                    page <= jmlPage &&
+                    i < data.length - 1
+                ) {
+                    i += 1;
+                    tampil();
+                } else {
+                    resolve();
                 }
             }
-
-            const jmlPage = Math.ceil((data.length - 1) / jmlPerPage);
-            if (jmlPage > 1) {
-                document
-                    .querySelector(".pagenav")
-                    .classList.replace("d-none", "d-flex");
-                pagination(
-                    dataStart,
-                    jmlPerPage,
-                    jmlPage,
-                    document.querySelector(".pagination")
-                );
-            }
-
-            setTimeout(() => {
-                resolve("ok");
-            }, 100);
+            tampil();
         });
     }
 
-    function pagination(dataStart, jmlPerPage, jmlPage, pageNav) {
-        pageNav.innerHTML = "";
-        const pageNow = (dataStart - 1) / jmlPerPage + 1;
+    const ul = document.querySelector(".pagination");
+    function pagination(now) {
         let max = 7;
-        if (jmlPage < 7) {
+        if (jmlPage < max) {
             max = jmlPage;
         }
-        if (dataStart != 1) {
-            pageNav.innerHTML += `<li class="page-item">
+        ul.innerHTML = "";
+
+        now > 1
+            ? (ul.innerHTML += `<li class="page-item">
       <a class="page-link fw-bold" style="font-size:1.2rem" data-page="prev" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
-      </a>`;
-        }
+      </a>`)
+            : "";
+
         let a = "";
         for (let i = 1; i < max; i++) {
-            if (i == pageNow) {
+            if (i == now) {
                 a = "active";
             }
-            pageNav.innerHTML += `
+            ul.innerHTML += `
     <li class="page-item ${a}"><a class="page-link fw-bold" style="font-size:1.2rem" data-page="${i}">${i}</a></li>`;
             a = "";
-            if (pageNow - 1 > 2 && i < pageNow - 2 && jmlPage > 7) {
-                if (pageNow + 3 <= jmlPage) {
-                    i = pageNow - 3;
-                    max = pageNow + 3;
-                } else if (jmlPage - pageNow < 3 && i <= jmlPage - pageNow) {
-                    i = pageNow - 3 - (3 - (jmlPage - pageNow));
-                    max = pageNow + (jmlPage - pageNow);
-                } else if (jmlPage == pageNow && i < pageNow - 5) {
-                    i = pageNow - 6;
+
+            if (now - 1 > 2 && i < now - 2 && jmlPage > 7) {
+                if (now + 3 <= jmlPage) {
+                    i = now - 3;
+                    max = now + 3;
+                } else if (jmlPage - now < 3 && i <= jmlPage - now) {
+                    i = now - 3 - (3 - (jmlPage - now));
+                    max = now + (jmlPage - now);
+                } else if (jmlPage == now && i < now - 5) {
+                    i = now - 6;
                     max = jmlPage;
                 }
             }
         }
+
         let b = "";
-        if (pageNow == jmlPage) {
+        if (now == jmlPage) {
             b = "active";
         }
-        pageNav.innerHTML += `
+        ul.innerHTML += `
     <li class="page-item ${b}"><a class="page-link fw-bold" style="font-size:1.2rem" data-page="${jmlPage}">${jmlPage}</a></li>`;
-        if (pageNow != jmlPage) {
-            pageNav.innerHTML += `<li class="page-item">
+
+        now < jmlPage
+            ? (ul.innerHTML += `<li class="page-item">
       <a class="page-link fw-bold" style="font-size:1.2rem" data-page="next" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
-    </li>`;
-        }
+    </li>`)
+            : "";
 
-        pageNav.onclick = async e => {
+        ul.onclick = e => {
             if (e.target.dataset.page == "next") {
-                await loaddata1(dataStart + jmlPerPage);
+                loaddata1(now + 1);
             } else if (e.target.dataset.page == "prev") {
-                await loaddata1(dataStart - jmlPerPage);
+                loaddata1(now - 1);
             } else if (parseInt(e.target.dataset.page) > 0) {
-                await loaddata1(
-                    (parseInt(e.target.dataset.page) - 1) * jmlPerPage + 1
-                );
+                loaddata1(parseInt(e.target.dataset.page));
             }
 
             windowScroll("gal");
@@ -908,11 +894,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 SHEETID: source.sheetid,
                 FN: "READ"
             });
-
+            data.push(["", "", "https://i.ibb.co/Lpj0Tjv/comingsoon.png;"]);
+            jmlPage = Math.ceil((data.length - 1) / perPage);
             await loaddata1(1);
+            Math.ceil(data.length / perPage) > 1
+                ? document
+                      .querySelector(".pagenav")
+                      .classList.replace("d-none", "d-flex")
+                : "";
 
             data[0][4].toLowerCase() == "open"
-                ? document.getElementById("isOpen").classList.remove("d-none")
+                ? (document.querySelector(
+                      ".header-social-links"
+                  ).innerHTML = `<img
+                        style="width: 63px"
+                        src="https://i.ibb.co/9pW7xQn/open.png"
+                        alt=""
+                      
+                        id="isOpen"
+                    />`)
                 : "";
             document.getElementById("nomorAdmin").textContent =
                 data[0][1].split(";")[0];
@@ -960,4 +960,4 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("load", () => {
         load1();
     });
-});
+})();
