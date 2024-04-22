@@ -13,50 +13,41 @@ function formatDate(date = new Date()) {
     return [year, month, day].join("");
 }
 
+let nya = "";
+if (coba) {
+    nya = "nya";
+}
+let isGroom;
+const jmlNamaLengkap = document.querySelectorAll(".nama-lengkap").length;
 function tampildata() {
     clearTimeout(youtubeload);
     youtubeload = undefined;
+    document.querySelectorAll(".satumomen_menu_item")[0].click();
+
     inisialmempelai(data.mempelai);
 
     let mempelaix;
+
     document.querySelectorAll(".nama-lengkap").forEach((e, i) => {
-        if (i % 2 == 0) {
+        if (e.classList.contains(data.mempelai1.split(";")[1])) {
+            mempelaix = data.mempelai1;
+
+            isGroom == undefined
+                ? (isGroom = data.mempelai1.split(";")[1])
+                : "";
+        } else if (e.classList.contains(data.mempelai2.split(";")[1])) {
+            mempelaix = data.mempelai2;
+            isGroom == undefined
+                ? (isGroom = data.mempelai1.split(";")[1])
+                : "";
+        } else if (i % 2 == 0) {
             mempelaix = data.mempelai1;
         } else {
             mempelaix = data.mempelai2;
         }
         e.textContent = mempelaix.split(";")[0];
-        let nya = "";
-        if (coba) {
-            nya = "nya";
-        }
-        if (
-            i < document.querySelectorAll(".orangtua").length &&
-            document.querySelectorAll(".orangtua").length > 0
-        ) {
-            document.querySelectorAll(".orangtua")[i].textContent =
-                "Bapak" + nya + " " + mempelaix.split(";")[3];
-            document.querySelectorAll(".orangtua")[i].innerHTML += "\n<br/>";
-            document.querySelectorAll(".orangtua")[i].innerText +=
-                "& Ibu" + nya + " " + mempelaix.split(";")[4];
-        }
-        if (
-            i < document.querySelectorAll(".anak-ke").length &&
-            document.querySelectorAll(".anak-ke").length > 0
-        ) {
-            document.querySelectorAll(".anak-ke")[i].textContent =
-                mempelaix.split(";")[1] +
-                " " +
-                mempelaix.split(";")[2] +
-                " dari";
-        }
+        tampilmempelai(mempelaix, i);
     });
-
-    /* document.querySelector(".maps-iframe").src =
-        "https://www.google.com/maps/embed/v1/search?q=" +
-        `${data.lokasi == "" ? "indonesia" : data.lokasi}` +
-        "&zoom=17&key=" +
-        source.keyMaps;*/
 
     foto(data.foto);
     tanggal(data.resepsi, "Resepsi");
@@ -130,8 +121,11 @@ function tampildata() {
                     .querySelectorAll(".btn-gift")[0]
                     .classList.remove("d-none");
                 const data8aa = e.split(";");
-                document.querySelectorAll(".bankwallet")[i].src =
-                    "../../img/" + data8aa[0] + ".png";
+                let banklet;
+                data8aa[0] == "bank"
+                    ? (banklet = "https://i.ibb.co/X4pKk0d/bank.png")
+                    : (banklet = "https://i.ibb.co/XpDfKks/ewallet.png");
+                document.querySelectorAll(".bankwallet")[i].src = banklet;
                 document.querySelectorAll(".nomorrekening")[i].textContent =
                     data8aa[2];
                 document.querySelectorAll(".namarekening")[i].textContent =
@@ -157,6 +151,23 @@ function tampildata() {
         source.keyMaps;
 }
 
+function tampilmempelai(mempelai0, i) {
+    let j = i;
+    if (i > 1) {
+        j = i - jmlNamaLengkap + 2;
+    }
+
+    document.querySelectorAll(".orangtua")[j].textContent =
+        "Bapak" + nya + " " + mempelai0.split(";")[3];
+    document.querySelectorAll(".orangtua")[j].innerHTML += "\n<br/>";
+    document.querySelectorAll(".orangtua")[j].innerText +=
+        "& Ibu" + nya + " " + mempelai0.split(";")[4];
+    let dari;
+    mempelai0.split(";")[2] == "" ? (dari = "dari") : (dari = " dari");
+    document.querySelectorAll(".anak-ke")[j].textContent =
+        mempelai0.split(";")[1] + " " + mempelai0.split(";")[2] + dari;
+}
+
 function inisialmempelai(data4) {
     document.querySelectorAll(".nama").forEach((e, i) => {
         if (i % 2 == 0) {
@@ -176,8 +187,18 @@ function inisialmempelai(data4) {
 }
 
 function foto(data9) {
+    let j = 0;
+    let jmlFotoMempelai = document.querySelectorAll(".foto-mempelai").length;
+    if (jmlNamaLengkap > jmlFotoMempelai) {
+        j = jmlFotoMempelai;
+    }
     document.querySelectorAll(".foto-mempelai").forEach((e, i) => {
-        if (i % 2 == 0) {
+        if (
+            document
+                .querySelectorAll(".nama-lengkap")
+                [j + i].classList.contains(isGroom) ||
+            (!isGroom && i % 2 == 0)
+        ) {
             data9.split(";")[0] != ""
                 ? (e.src = data9.split(";")[0])
                 : (e.src = source.noimg);
@@ -303,78 +324,7 @@ function tanggal(e, f) {
     });
 }
 
-function onYouTubeIframeAPIReady() {
-    let time;
 
-    var e = document.getElementById("youtube-audio"),
-        a = document.createElement("div");
-    a.setAttribute("id", "youtube-player"), e.appendChild(a);
-    var o = function (f) {
-        if (f) {
-            if (
-                !document
-                    .getElementById("btnMusic")
-                    .classList.contains("playing")
-            ) {
-                document.getElementById("btnMusic").classList.add("playing");
-            }
-        } else {
-            document.getElementById("btnMusic").classList.remove("playing");
-        }
-    };
-
-    var r = new YT.Player("youtube-player", {
-        height: "0",
-        width: "0",
-        videoId: musikid,
-        playerVars: { playsinline: 1 },
-
-        events: {
-            onReady: function (e) {
-                r.setPlaybackQuality("small"),
-                    o(r.getPlayerState() !== YT.PlayerState.CUED);
-
-                tampildata();
-                document.getElementById("loader").classList.remove("d-flex");
-            },
-            onStateChange: function (e) {
-                if (e.data === YT.PlayerState.ENDED) {
-                    document.getElementById("btnMusic").click();
-                } else if (r.getPlayerState() === YT.PlayerState.BUFFERING) {
-                    //  o(!1);
-                    document.getElementById("btnMusic").style.transform =
-                        "scale(0)";
-                    time = setTimeout(() => {
-                        document.getElementById("btnMusic").style.transform =
-                            "none";
-                    }, 20000);
-                } else {
-                    //o(!0);
-                    if (
-                        document.querySelector(".btn-open-invitation").style
-                            .display == "none"
-                    ) {
-                        document.getElementById("btnMusic").style.transform =
-                            "none";
-
-                        clearTimeout(time);
-                        time = undefined;
-                    }
-                }
-            }
-        }
-    });
-    document.getElementById("btnMusic").onclick = function () {
-        if (
-            r.getPlayerState() === YT.PlayerState.PLAYING ||
-            r.getPlayerState() === YT.PlayerState.BUFFERING
-        ) {
-            r.pauseVideo(), o(!1);
-        } else {
-            r.playVideo(), o(!0);
-        }
-    };
-}
 let skip;
 let page = 0;
 (() => {
@@ -780,18 +730,19 @@ let page = 0;
                               "Browser not support portrait full screen mode"
                           )
                         : openFullScreen(),
-                    // playMusic(!0),
+                    playMusic(!0),
                     pe(),
                     document
                         .querySelector(".not-open")
                         .classList.remove("not-open"),
                     window.addEventListener(se[K].down, ue, !1),
                     ae(),
-                    (e.target.style.display = "none");
-                document.getElementById("btnMusic").click();
+                    e.target.remove();
+            
+                document.getElementById("btnMusic").style.transform = "none";
                 document.getElementById("btnAutoplay").style.transform = "none";
             },
-            we = document.getElementsByClassName("btn-open-invitation"),
+            we = document.querySelectorAll(".btn-open-invitation"),
             he = 0;
         he < we.length;
         he++
@@ -923,7 +874,7 @@ let page = 0;
             musik: data[11],
             ulasan: data[12]
         };
-
+        document.querySelectorAll(".satumomen_menu_item")[1].click();
         // tampildata();
         youtubeAudio();
     }
@@ -1013,11 +964,13 @@ let page = 0;
         }`;
         data = datacoba;
         coba = true;
-        // tampildata();
+        document.querySelectorAll(".satumomen_menu_item")[1].click();
+        //   tampildata();
         youtubeAudio();
     } else {
         data = dataprev;
-        //tampildata();
+        document.querySelectorAll(".satumomen_menu_item")[1].click();
+        // tampildata();
         youtubeAudio();
     }
 
@@ -1033,18 +986,46 @@ let page = 0;
             musikid = data.musik.split(";")[1];
         }
 
-        const div = document.createElement("div");
-        div.id = "youtube-audio";
-        div.classList.add("d-none");
-        document.body.appendChild(div);
-        var tag = document.createElement("script");
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName("script")[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        youtubeload = setTimeout(() => {
-            alert("Masalah koneksi!\nMemuat ulang...");
-            location.reload();
-        }, 90000);
+        const url = "https://co.wuk.sh/api/json";
+        const options = {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                url: "https://m.youtube.com/watch?v=" + musikid,
+                isAudioOnly: true,
+                aFormat: "opus",
+                disableMetadata: true
+            })
+        };
+
+        async function a() {
+            try {
+                const response = await fetch(url, options);
+                const result = await response.json();
+
+                const a = document.createElement("audio");
+                a.setAttribute("loop", "");
+                //  a.setAttribute("controls", "");
+                a.id = "musik";
+                const b = document.createElement("source");
+                b.src = result.url;
+                a.appendChild(b);
+                document.body.appendChild(a);
+                g = document.getElementById("musik");
+                tampildata();
+                document.getElementById("loader").classList.remove("d-flex");
+            } catch (error) {
+                if (confirm("Masalah koneksi!\nMuat ulang sekarang ?")) {
+                    location.reload();
+                } else {
+                    document.body.innerHTML = `<h1 class="text-center" style="margin-top:30vh">Masalah Koneksi !</h1><p class="text-center"><button class="btn btn-primary" onclick="location.reload()">Muat Ulang!</button></p>`;
+                }
+            }
+        }
+        a();
     }
 
     let inputnama = "";
@@ -1211,7 +1192,7 @@ let page = 0;
                 document.querySelector(
                     `#coments > div:nth-child(2) .namakomen`
                 ).innerHTML +=
-                    '  <img src="../../img/centang.png" style="height:1em">';
+                    '  <img src="https://i.ibb.co/QQjWmvX/centang.png" style="height:1em">';
 
                 document.querySelector(
                     `#coments > div:nth-child(2) .isikomen`
