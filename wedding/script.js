@@ -1142,7 +1142,7 @@ ${data.mempelai.split(";").join(" & ")}`);
         }
     }
 
-    const validUsername = /^[0-9a-z\-+._]{0,20}$/;
+    const validUsername = /^[0-9a-z&\-+._]{0,20}$/;
 
     const inputx = [];
     function cekinput() {
