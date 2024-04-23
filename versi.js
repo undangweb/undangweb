@@ -1,5 +1,5 @@
 const versiServer = "1";
-const versiScript = "0&";
+const versiScript = "1";
 const serverjs = document.createElement("script");
 const scriptjs = document.createElement("script");
 serverjs.src = "server.js?v=" + versiServer;
