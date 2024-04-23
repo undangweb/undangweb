@@ -719,7 +719,7 @@ function onlyNumberKey(evt) {
         let i;
 
         i = page * perPage - (perPage - 1);
-        pagination(page);
+        
         return new Promise(resolve => {
             let text;
             let klik;
@@ -761,6 +761,7 @@ function onlyNumberKey(evt) {
                     i += 1;
                     tampil();
                 } else {
+                  pagination(page);
                     resolve();
                 }
             }
