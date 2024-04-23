@@ -461,7 +461,6 @@
         const b2 = data.hadiah.split("%")[0].split("$")[1];
         const b3 = data.hadiah.split("%")[1];
 
-    
         document.getElementById("nomorcashless1").value = b1.split(";")[2];
         document.getElementById("namacashless1").value = b1.split(";")[3];
 
@@ -1143,7 +1142,7 @@ ${data.mempelai.split(";").join(" & ")}`);
         }
     }
 
-    const validUsername = /^[0-9a-z@&\-+._]{0,20}$/;
+    const validUsername = /^[0-9a-z\-+._]{0,20}$/;
 
     const inputx = [];
     function cekinput() {
