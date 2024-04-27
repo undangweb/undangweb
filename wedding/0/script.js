@@ -1078,8 +1078,8 @@ let page = 0;
             body: JSON.stringify({
                 url: "https://m.youtube.com/watch?v=" + musikid,
                 isAudioOnly: true,
-                aFormat: "opus",
-                disableMetadata: true
+                vQuality: "144",
+                aFormat: "opus"
             })
         };
 
@@ -1112,6 +1112,11 @@ let page = 0;
             }
         }
         x();
+        a.onerror = () => {
+            setTimeout(() => {
+                x();
+            }, 5000);
+        };
     }
 
     let inputnama = "";
