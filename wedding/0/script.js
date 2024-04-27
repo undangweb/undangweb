@@ -21,8 +21,9 @@ let isGroom;
 const jmlNamaLengkap = document.querySelectorAll(".nama-lengkap").length;
 function tampildata() {
     clearTimeout(youtubeload);
-    youtubeload = undefined;
+
     document.querySelectorAll(".satumomen_menu_item")[0].click();
+    document.getElementById("loader").classList.remove("d-flex");
 
     inisialmempelai(data.mempelai);
 
@@ -324,6 +325,76 @@ function tanggal(e, f) {
     });
 }
 
+function onYouTubeIframeAPIReady() {
+    let time;
+
+    var e = document.getElementById("youtube-audio"),
+        a = document.createElement("div");
+    a.setAttribute("id", "youtube-player"), e.appendChild(a);
+    var o = function (f) {
+        if (f) {
+            if (
+                !document
+                    .getElementById("btnMusic")
+                    .classList.contains("playing")
+            ) {
+                document.getElementById("btnMusic").classList.add("playing");
+            }
+        } else {
+            document.getElementById("btnMusic").classList.remove("playing");
+        }
+    };
+
+    var r = new YT.Player("youtube-player", {
+        height: "0",
+        width: "0",
+        videoId: musikid,
+        playerVars: { playsinline: 1 },
+
+        events: {
+            onReady: function (e) {
+                r.setPlaybackQuality("small"),
+                    o(r.getPlayerState() !== YT.PlayerState.CUED);
+
+                tampildata();
+            },
+            onStateChange: function (e) {
+                if (e.data === YT.PlayerState.ENDED) {
+                    document.getElementById("btnMusic").click();
+                } else if (r.getPlayerState() === YT.PlayerState.BUFFERING) {
+                    //  o(!1);
+                    document.getElementById("btnMusic").style.transform =
+                        "scale(0)";
+                    time = setTimeout(() => {
+                        document.getElementById("btnMusic").style.transform =
+                            "none";
+                    }, 20000);
+                } else {
+                    //o(!0);
+                    if (
+                        document.querySelector(".btn-open-invitation") == null
+                    ) {
+                        document.getElementById("btnMusic").style.transform =
+                            "none";
+
+                        clearTimeout(time);
+                        time = undefined;
+                    }
+                }
+            }
+        }
+    });
+    document.getElementById("btnMusic").onclick = function () {
+        if (
+            r.getPlayerState() === YT.PlayerState.PLAYING ||
+            r.getPlayerState() === YT.PlayerState.BUFFERING
+        ) {
+            r.pauseVideo(), o(!1);
+        } else {
+            r.playVideo(), o(!0);
+        }
+    };
+}
 
 let skip;
 let page = 0;
@@ -730,7 +801,6 @@ let page = 0;
                               "Browser not support portrait full screen mode"
                           )
                         : openFullScreen(),
-                    playMusic(!0),
                     pe(),
                     document
                         .querySelector(".not-open")
@@ -738,8 +808,13 @@ let page = 0;
                     window.addEventListener(se[K].down, ue, !1),
                     ae(),
                     e.target.remove();
-            
-                document.getElementById("btnMusic").style.transform = "none";
+                if (!youtubeload) {
+                    playMusic(!0);
+                    document.getElementById("btnMusic").style.transform =
+                        "none";
+                } else {
+                    document.getElementById("btnMusic").click();
+                }
                 document.getElementById("btnAutoplay").style.transform = "none";
             },
             we = document.querySelectorAll(".btn-open-invitation"),
@@ -846,8 +921,6 @@ let page = 0;
 
     const username = location.href.split("#")[2];
 
-    let jmlLoad = 0;
-
     function setdata() {
         let resepsix = data[6].split(" ");
         let resepsi0 = resepsix[0].split("/");
@@ -907,18 +980,12 @@ let page = 0;
                 document.body.innerHTML = `<h1 class="text-center" style="margin-top:30vh">UNDANGAN TIDAK DITEMUKAN !</h1>`;
                 return;
             }
-            if (jmlLoad < 4) {
-                setTimeout(() => {
-                    load1();
-                }, 10000);
+
+            if (confirm("Masalah koneksi!\nMuat ulang sekarang ?")) {
+                location.reload();
             } else {
-                if (confirm("Masalah koneksi!\nMuat ulang sekarang ?")) {
-                    location.reload();
-                } else {
-                    document.body.innerHTML = `<h1 class="text-center" style="margin-top:30vh">Masalah Koneksi !</h1><p class="text-center"><button class="btn btn-primary" onclick="location.reload()">Muat Ulang!</button></p>`;
-                }
+                document.body.innerHTML = `<h1 class="text-center" style="margin-top:30vh">Masalah Koneksi !</h1><p class="text-center"><button class="btn btn-primary" onclick="location.reload()">Muat Ulang!</button></p>`;
             }
-            jmlLoad += 1;
         }
     }
 
@@ -974,6 +1041,21 @@ let page = 0;
         youtubeAudio();
     }
 
+    function youtubeAudio2() {
+        const div = document.createElement("div");
+        div.id = "youtube-audio";
+        div.classList.add("d-none");
+        document.body.appendChild(div);
+        var tag = document.createElement("script");
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName("script")[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        youtubeload = setTimeout(() => {
+            alert("Masalah koneksi!\nMemuat ulang...");
+            location.reload();
+        }, 90000);
+    }
+
     function youtubeAudio() {
         if (
             !data.musik ||
@@ -1001,31 +1083,35 @@ let page = 0;
             })
         };
 
-        async function a() {
+        const a = document.createElement("audio");
+        a.setAttribute("loop", "");
+        // a.setAttribute("controls", "");
+        a.setAttribute("crossorigin", "anonymous");
+        a.id = "musik";
+        document.body.appendChild(a);
+        g = a;
+
+        async function x() {
             try {
                 const response = await fetch(url, options);
                 const result = await response.json();
 
-                const a = document.createElement("audio");
-                a.setAttribute("loop", "");
-                //  a.setAttribute("controls", "");
-                a.id = "musik";
-                const b = document.createElement("source");
-                b.src = result.url;
-                a.appendChild(b);
-                document.body.appendChild(a);
-                g = document.getElementById("musik");
-                tampildata();
-                document.getElementById("loader").classList.remove("d-flex");
-            } catch (error) {
-                if (confirm("Masalah koneksi!\nMuat ulang sekarang ?")) {
-                    location.reload();
-                } else {
-                    document.body.innerHTML = `<h1 class="text-center" style="margin-top:30vh">Masalah Koneksi !</h1><p class="text-center"><button class="btn btn-primary" onclick="location.reload()">Muat Ulang!</button></p>`;
+                a.src = result.url;
+
+                let iv = setInterval(() => {
+                    a.duration ? b() : 0;
+                }, 300);
+                function b() {
+                    clearInterval(iv);
+                    iv = !iv;
+
+                    tampildata();
                 }
+            } catch (error) {
+                youtubeAudio2();
             }
         }
-        a();
+        x();
     }
 
     let inputnama = "";
