@@ -1,39 +1,58 @@
-const modalbtn = document.getElementById("modalbtn");
-let index = 0;
-let iModal = 0;
-function modalShow(i) {
-    index = i;
-    modalbtn.click();
-}
-
-function onlyNumberKey(evt) {
-    // Only ASCII character in that range allowed
-    var ASCIICode = evt.which ? evt.which : evt.keyCode;
-    if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) return false;
-    return true;
-}
-
 (() => {
     "use strict";
+
+    document.querySelector(
+        ".containerEdit > ul > div:nth-child(4)"
+    ).style.transform = `translateY(-${
+        document.querySelector(".containerEdit > ul > div:nth-child(2) form")
+            .offsetHeight -
+        document.querySelector(".containerEdit > ul > div:nth-child(1) form")
+            .offsetHeight
+    }px)`;
+
+    if (window.innerWidth > 1279) {
+        document.querySelector(".containerEdit > ul").style.height =
+            document.querySelector(".containerEdit > ul").offsetHeight -
+            (document.querySelector(
+                ".containerEdit > ul > div:nth-child(2) form"
+            ).offsetHeight -
+                document.querySelector(
+                    ".containerEdit > ul > div:nth-child(1) form"
+                ).offsetHeight) +
+            "px";
+        document.querySelector(
+            ".containerEdit > ul > div:nth-child(4) .x1"
+        ).style.transform = `translateY(-${
+            document
+                .querySelector(
+                    ".containerEdit > ul > div:nth-child(4) form[name='formhadiah']"
+                )
+                .getBoundingClientRect().bottom -
+            document
+                .querySelector(".containerEdit > ul > div:nth-child(2) form")
+                .getBoundingClientRect().bottom
+        }px)`;
+    }
+
     /**
      * Mobile nav toggle
      */
     const mobileNavShow = document.querySelector(".mobile-nav-show");
     const mobileNavHide = document.querySelector(".mobile-nav-hide");
     const scrollTop = document.querySelector(".scroll-top");
-    const cbody = document.querySelector("body");
 
     function mobileNavToogle(target0) {
         mobileNavShow.classList.toggle("d-none");
         mobileNavHide.classList.toggle("d-none");
-        if (cbody.classList.contains("mobile-nav-active")) {
+        if (document.body.classList.contains("mobile-nav-active")) {
             setTimeout(() => {
                 if (target0) {
+                    document.getElementById(target0).click();
                     windowScroll(target0);
                 }
             }, 800);
         }
-        cbody.classList.toggle("mobile-nav-active");
+        document.body.classList.toggle("mobile-nav-active");
     }
 
     mobileNavShow.onclick = () => {
@@ -44,23 +63,17 @@ function onlyNumberKey(evt) {
     /**
      * Toggle mobile nav dropdowns
      */
-    const navDropdowns = document.querySelectorAll(".navbar .dropdown > a");
+    const navDropdowns = document.querySelectorAll(".dropdown > a");
+    let dropdownActive = 0;
 
-    navDropdowns.forEach(el => {
-        el.addEventListener("click", function (event) {
-            if (document.querySelector(".mobile-nav-active")) {
-                event.preventDefault();
-                this.classList.toggle("active");
-                this.nextElementSibling.classList.toggle("dropdown-active");
+    function toggleDropdown(e) {
+        e.classList.toggle("active");
+        e.nextElementSibling.classList.toggle("dropdown-active");
 
-                let dropDownIndicator = this.querySelector(
-                    ".dropdown-indicator"
-                );
-                dropDownIndicator.classList.toggle("bi-chevron-up");
-                dropDownIndicator.classList.toggle("bi-chevron-down");
-            }
-        });
-    });
+        let dropDownIndicator = e.querySelector(".dropdown-indicator");
+        dropDownIndicator.classList.toggle("bi-chevron-up");
+        dropDownIndicator.classList.toggle("bi-chevron-down");
+    }
 
     const navpage = document.getElementById("navpage");
 
@@ -77,14 +90,66 @@ function onlyNumberKey(evt) {
                 "var(--color-default)";
             document.querySelector("." + target0).classList.toggle("active");
             navpage.classList.replace(navpage0, target0);
+        } else if (
+            document
+                .querySelector("#" + target0 + ">h5>i")
+                .classList.contains("bi-chevron-down")
+        ) {
+            document.querySelector("#navpage ." + target0).style.color =
+                "rgba(255, 255, 255, 0.5)";
+        } else if (
+            document
+                .querySelector("#" + target0 + ">h5>i")
+                .classList.contains("bi-chevron-up")
+        ) {
+            document.querySelector("#navpage ." + target0).style.color =
+                "var(--color-default)";
         }
     }
+
+    navDropdowns.forEach((el, i) => {
+        el.addEventListener("click", function (event) {
+            event.preventDefault();
+            toggleDropdown(el);
+            if (
+                dropdownActive != undefined &&
+                dropdownActive != i &&
+                navDropdowns[dropdownActive].classList.contains("active")
+            ) {
+                toggleDropdown(navDropdowns[dropdownActive]);
+            }
+            dropdownActive = i;
+            navActive(el.id);
+
+            if (document.body.offsetHeight < window.innerHeight + 50) {
+                document.getElementById("kosong").style.height =
+                    window.innerHeight + 50 - document.body.offsetHeight + "px";
+            } else {
+                document.getElementById("kosong").style.height = 50 + "px";
+            }
+            if (
+                document
+                    .querySelector("#" + el.id + ">h5>i")
+                    .classList.contains("bi-chevron-up")
+            ) {
+                windowScroll(el.id);
+            }
+        });
+    });
+
+    const navDropdownx = document.querySelectorAll(".dropdownx > a");
+    navDropdownx.forEach((el, i) => {
+        el.addEventListener("click", function (event) {
+            event.preventDefault();
+        });
+    });
 
     function windowScroll(target0) {
         window.scrollTo({
             top:
                 document.getElementById(target0).getBoundingClientRect().top -
-                document.body.getBoundingClientRect().top,
+                document.body.getBoundingClientRect().top -
+                document.getElementById("header").offsetHeight,
             behavior: "smooth"
         });
     }
@@ -94,10 +159,12 @@ function onlyNumberKey(evt) {
         const target0 = e.target.classList.item(0);
         if (
             target0 &&
-            !e.target.classList.contains("active") &&
+            !document
+                .querySelector("#" + target0 + ">h5>i")
+                .classList.contains("bi-chevron-up") &&
             !e.target.classList.contains("dropdown")
         ) {
-            if (cbody.classList.contains("mobile-nav-active")) {
+            if (document.body.classList.contains("mobile-nav-active")) {
                 navActive(target0);
                 mobileNavToogle(target0);
             } else {
@@ -106,7 +173,6 @@ function onlyNumberKey(evt) {
         }
     };
 
-    const windowHeight = (window.innerHeight * 30) / 100;
     window.onscroll = () => {
         const scrollPercent =
             window.scrollY / (document.body.offsetHeight - window.innerHeight);
@@ -120,23 +186,6 @@ function onlyNumberKey(evt) {
         ).style.background = `conic-gradient(#eee ${
             degrees + 5
         }deg, rgba(0,0,0,0) ${degrees}deg)`;
-
-        if (
-            document.getElementById("about").getBoundingClientRect().top <
-            windowHeight
-        ) {
-            navActive("about");
-        } else if (
-            document.getElementById("services").getBoundingClientRect().top <
-            windowHeight
-        ) {
-            navActive("services");
-        } else if (
-            document.getElementById("home").getBoundingClientRect().top <
-            windowHeight
-        ) {
-            navActive("home");
-        }
     };
 
     /**
@@ -161,422 +210,162 @@ function onlyNumberKey(evt) {
             });
     }
 
-    const myCarousel = document.getElementById("carouselExampleIndicators");
-    const navbarsinput = document.querySelectorAll("#navbar2 input");
-    myCarousel.addEventListener("slide.bs.carousel", event => {
-        navbarsinput[event.to].click();
-    });
-
-    document
-        .querySelectorAll('[data-bs-toggle="tooltip"]')
-        .forEach(tooltipTriggerEl => {
-            const tooltip = new bootstrap.Tooltip(tooltipTriggerEl);
-            tooltipTriggerEl.addEventListener("show.bs.tooltip", () => {
-                setTimeout(() => {
-                    tooltip.hide();
-                }, 1300);
-            });
-        });
-
-    function copyToClipboard(text) {
-        const textArea = document.createElement("textarea");
-        textArea.value = text.textContent;
-
-        text.appendChild(textArea);
-
-        textArea.select();
-        textArea.setSelectionRange(0, text.textContent.length);
-
-        navigator.clipboard.writeText(textArea.value);
-
-        text.removeChild(textArea);
+    function onlyNumberKey(evt) {
+        // Only ASCII character in that range allowed
+        var ASCIICode = evt.which ? evt.which : evt.keyCode;
+        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) return false;
+        return true;
     }
-
-    document.getElementById("copyNomor").onclick = () => {
-        copyToClipboard(document.getElementById("nomorAdmin"));
-    };
-
-    document.getElementById("copykode").onclick = () => {
-        copyToClipboard(document.getElementById("kodebayar"));
-    };
-
-    document.querySelectorAll(".bi-clipboard").forEach(e => {
-        e.onclick = ev => {
-            navigator.clipboard.readText().then(copiedText => {
-                document.getElementById(ev.target.dataset.id).value =
-                    copiedText;
-            });
-        };
-    });
-
-    function showConfetti() {
-        function random(max) {
-            return Math.random() * (max - 0) + 0;
-        }
-
-        var c = document.createDocumentFragment();
-        for (var i = 0; i < 100; i++) {
-            var styles =
-                "transform: translate3d(" +
-                (random(500) - 250) +
-                "px, " +
-                (random(200) - 150) +
-                "px, 0) rotate(" +
-                random(360) +
-                "deg);\
-                  background: hsla(" +
-                random(360) +
-                ",100%,50%,1);\
-                  animation: bang 1500ms 300ms ease-out forwards;\
-                  opacity: 0";
-
-            var e = document.createElement("i");
-            e.style.cssText = styles.toString();
-            c.appendChild(e);
-        }
-
-        document.getElementById("confetti").append(c);
-    }
-
-    // Instead of using a selector, define the gallery elements
-
-    const myGallery = GLightbox({
-        touchNavigation: true,
-        loop: true,
-        closeOnOutsideClick: false,
-        autoplayVideos: true,
-        elements: []
-    });
-
-    function aos_init() {
-        AOS.init({
-            duration: 800,
-            easing: "ease-in-out",
-            once: true,
-            mirror: false
-        });
-    }
-
-    // If later you need to modify the elements you can use setElements
-    //myGallery.setElements([...]);
-
-    /**
-     * Init swiper slider with 1 slide at once in desktop view
-     */
-    new Swiper(".slides-3", {
-        scrollbar: { draggable: false },
-        speed: 600,
-        loop: true,
-        autoplay: {
-            delay: 5000,
-            disableOnInteraction: false
-        },
-        slidesPerView: "auto",
-        pagination: {
-            el: ".swiper-pagination",
-            type: "bullets",
-            clickable: true
-        },
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev"
-        },
-        breakpoints: {
-            320: {
-                slidesPerView: 1,
-                spaceBetween: 40
-            },
-
-            1200: {
-                slidesPerView: 3
-            }
-        }
-    });
-
-    let swiper;
-    function newSwiper() {
-        swiper = new Swiper(".slides-1", {
-            speed: 600,
-            loop: false,
-            slidesPerView: 1,
-            autoplay: false,
-            allowTouchMove: false,
-            spaceBetween: 1,
-            pagination: {
-                el: ".swiper-pagination",
-                type: "bullets",
-                clickable: true
-            },
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev"
-            }
-        });
-    }
-
-    const imgsView = document.querySelector(".modal .bi-aspect-ratio");
-
-    imgsView.onclick = () => {
-        myGallery.open();
-        document.querySelector(".gclose").onclick = e => {
-            datepicker.hide();
-            datepickerInput.blur();
-            document.querySelectorAll(".cobanama")[0].blur();
-        };
-    };
 
     const elem = document.querySelector('input[name="foo"]');
+
     const datepicker = new Datepicker(elem, {
-        autohide: true,
-        language: "id"
-    });
-    const datepickerInput = document.querySelector(".datepicker-input");
-    const inputtgl = document.getElementById("inputtgl");
-
-    document.querySelector(".datepicker-grid").addEventListener("click", e => {
-        if (e.target.classList.contains("day")) {
-            datepickerInput.blur();
-            const a = new Date();
-            const x = new Date(a.getFullYear(), a.getMonth(), a.getDate() + 40);
-            setTimeout(() => {
-                const b = inputtgl.value.split("/");
-                const c = new Date(
-                    "" + b[1] + "/" + b[0] + "/" + b[2] + ""
-                ).getTime();
-                if (c < a.getTime()) {
-                    inputtgl.value = "";
-                    alert(
-                        "Tanggal sudah terlewat!\nSilahkan masukan tanggal yang benar."
-                    );
-                } /* else if (x.getTime() < c) {
-                    inputtgl.value = "";
-                    alert(
-                        "Maksimal 40 hari sebelum hari H !\nTanggal acara yang anda masukan diatas 40 hari dari hari sekarang.\nSilahkan coba lagi di lain hari."
-                    );
-                }*/
-                datepicker.update({
-                    autohide: true,
-                    forceRefresh: true
-                });
-            }, 100);
-        }
+        autohide: true
     });
 
-    const bayarArea = document.getElementById("bayarArea");
-    const closeBayar = document.getElementById("closeBayar");
-    closeBayar.onclick = () => {
-        bayarArea.style.transform = "translateX(100%)";
-        document.querySelectorAll(".bayarbtn").forEach(e => {
-            e.classList.remove("d-none");
-        });
-        document.querySelector(".ujicobabtn").classList.remove("d-none");
-        if (
-            !document
-                .querySelector("#hargaArea>div:first-child")
-                .classList.contains("d-none")
-        ) {
-            document.querySelectorAll("#hargaArea > div").forEach(el => {
-                el.classList.toggle("d-none");
-            });
-        }
+    document.querySelector(".mapsbtn").onclick = e => {
+        e.preventDefault();
+        document.querySelector(".iframemaps").src =
+            "https://www.google.com/maps/embed/v1/search?q=" +
+            encodeURI(document.getElementById("mapsresepsi").value) +
+            "&zoom=17&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8";
     };
 
-    /**
-     * Init swiper slider with 3 slides at once in desktop view
-     */
-    let data;
-
-    const hargaAhir = document.getElementById("hargaAhir");
-    const trDisc = document.getElementById("trDisc");
-    const tglbtn = document.getElementById("tglbtn");
-
-    document.querySelectorAll(".bayarbtn").forEach((e, i) => {
-        e.onclick = () => {
-            const harga = data[iModal][1].split(";");
-            const tgl = document.getElementById("inputtgl").value.split("/");
-            if (i == 0) {
-                hargaAhir.textContent =
-                    "Rp. " +
-                    (harga[0] - harga[1])
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                document.getElementById("discAhir").textContent =
-                    "Rp. " +
-                    harga[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                document.getElementById("persenAhir").textContent =
-                    Math.round((harga[1] / harga[0]) * 100) + "%";
-
-                document.getElementById("kodebayar").textContent =
-                    data[index][0]
-                        .split(";")[0]
-                        .split(" #")
-                        .join("#")
-                        .toLowerCase() +
-                    "/" +
-                    data[0][3] +
-                    "/" +
-                    new Date(tgl[1] + "/" + tgl[0] + "/" + tgl[2]).getTime();
-                if (trDisc.classList.contains("d-none")) {
-                    trDisc.classList.remove("d-none");
-                }
-            } else {
-                if (!inputtgl.value) {
-                    tglbtn.click();
-                    return;
-                }
-                hargaAhir.textContent =
-                    "Rp. " +
-                    harga[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                document.getElementById("kodebayar").textContent =
-                    data[index][0]
-                        .split(";")[0]
-                        .split(" #")
-                        .join("#")
-                        .toLowerCase() +
-                    "/vf/" +
-                    new Date(tgl[1] + "/" + tgl[0] + "/" + tgl[2]).getTime();
-                if (!trDisc.classList.contains("d-none")) {
-                    trDisc.classList.toggle("d-none");
-                }
-            }
-            bayarArea.style.transform = "none";
-            setTimeout(() => {
-                e.classList.toggle("d-none");
-                document
-                    .querySelector(".ujicobabtn")
-                    .classList.toggle("d-none");
-            }, 400);
-        };
-    });
-
-    function xVoucher(a, b, c) {
-        a = document.getElementById(a);
-        b = document.getElementById(b);
-        if (c == 0) {
-            a.style.transform = "translateX(-102%)";
-            b.style.transform = "translateY(-102%)";
-        } else if (a.style.transform == "none") {
-            if (c == "ya") {
-                a.style.transform = "translateX(-102%)";
-            } else {
-                a.style.transform = "translateY(-102%)";
-            }
-            setTimeout(() => {
-                b.style.transform = "none";
-            }, 300);
+    function platform(e, i) {
+        if (e == "bank") {
+            document.querySelectorAll(".platform")[i].placeholder =
+                "BRI, BCA, Mandiri...";
+        } else if (e == "ewallet") {
+            document.querySelectorAll(".platform")[i].placeholder =
+                "DANA, OVO, GOPAY...";
         } else {
-            b.style.transform = "none";
+            document.querySelectorAll(".platform")[i].placeholder =
+                "BRI, Mandiri, DANA, GOPAY...";
         }
     }
 
-    document.getElementById("yaVoucher").onclick = () => {
-        xVoucher("noVoucherX", "yaVoucherX");
-    };
-
-    document.getElementById("noVoucher").onclick = () => {
-        xVoucher("yaVoucherX", "noVoucherX", "ya");
-    };
-
-    /**
-     * Animation on scroll function and init
-     */
-
-    document.querySelector(".modal-footer .imgs").onclick = () => {
-        imgsView.click();
-    };
-
-    const imgs1 = document.querySelector("#gallery-single .swiper-wrapper");
-    const fiturArea = document.getElementById("fiturArea");
-    const ulasanArea = document.getElementById("ulasanArea");
-    const inputVoucher = document.getElementById("inputVoucher");
-
-    modalbtn.addEventListener("click", () => {
-        if (index == iModal) {
-            return;
+    function gender(e, i) {
+        if (e == "Putra" || e == "Putri") {
+            document.querySelectorAll(".genderx")[i].textContent = e;
+        } else {
+            document.querySelectorAll(".genderx")[i].textContent = "Putra/i";
         }
-        if (iModal > 0) {
-            swiper.destroy(true, false);
-        }
-        document.querySelectorAll("#navbar2 label")[0].click();
-        fiturArea.innerHTML = "";
-        document.getElementById("exampleModalLabel").innerHTML = `${
-            data[index][0].split(";")[0]
-        }`;
-        const fiturs = data[index][3].split(";");
-        fiturs.forEach(e => {
-            fiturArea.innerHTML += `
-                  <li><i class="bi bi-chevron-right"></i> ${e}</li>`;
-        });
+    }
 
-        const imgs = data[index][2].split(";");
-        imgs1.innerHTML = "";
-        const imgs2 = [];
+    document.querySelectorAll(".cashless").forEach((e, i) => {
+        document.querySelectorAll(".platform")[i].placeholder =
+            "BRI, Mandiri, DANA, GOPAY...";
+        e.onchange = function () {
+            platform(this.value, i);
+        };
 
-        imgs.forEach((e, i) => {
-            imgs1.innerHTML += ` <div class="swiper-slide d-flex">
-                <img class="position-absolute h-100" src="${e}" alt="">
-                  <div class="m-auto"><i class="bi-file-earmark-image" style="font-size:5rem"></i></div>
-              </div>`;
-            imgs2.push({
-                href: e,
-                type: "image",
-                title: i + 1 + "/" + imgs.length
-            });
-        });
-
-        if (
-            !document
-                .querySelector("#hargaArea > div:first-child")
-                .classList.contains("d-none")
-        ) {
-            document
-                .querySelector("#hargaArea > div:first-child")
-                .classList.toggle("d-none");
-        }
-        document
-            .querySelector("#hargaArea > div:last-child")
-            .classList.remove("d-none");
-
-        const harga = data[index][1].split(";");
-        document.querySelectorAll(".modal .harga1").forEach((e, i) => {
-            e.textContent =
-                "Rp. " +
-                harga[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-            document.querySelectorAll(".modal .disc")[i].textContent =
-                "Rp. " +
-                harga[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        });
-        document.getElementById("hargaDisc").textContent =
-            "Rp. " +
-            (harga[0] - harga[1])
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        document.getElementById("persenDisc").textContent =
-            Math.round((harga[1] / harga[0]) * 100) + "%";
-        document.querySelectorAll(".bayarbtn").forEach(e => {
-            e.innerHTML = "Bayar Langsung<br>" + data[index][0].split(";")[0];
-            e.classList.remove("d-none");
-        });
-        document.querySelector(".ujicobabtn").classList.remove("d-none");
-
-        voucherbtn.classList.remove("disabled");
-
-        datepickerInput.value = "";
-        closeBayar.click();
-        inputVoucher.value = "";
-        document.getElementById("xya").checked = false;
-        document.getElementById("xno").checked = false;
-        xVoucher("yaVoucherX", "noVoucherX", 0);
-        document.getElementById("modalcoba").style.zIndex = -1;
-        document.getElementById("modalcoba").style.opacity = 0;
-        datepicker.update({
-            autohide: true,
-            forceRefresh: true
-        });
-        newSwiper();
-        myGallery.setElements(imgs2);
-        iModal = index;
+        document.querySelectorAll(".gender")[i].onchange = function () {
+            gender(this.value, i);
+        };
     });
+
+    document.getElementById("carimusik").onclick = e => {
+        e.preventDefault();
+        document.getElementById(
+            "hasilcari"
+        ).innerHTML = `<p class="text-center mt-4"><span
+                  class="spinner-border spinner-border mx-auto"
+                  role="status"
+                  aria-hidden="true"
+                ></span></p>`;
+        fetch(
+            "https://www.googleapis.com/youtube/v3/search?key=AIzaSyDv3O8b6aS9UPYu6snKtvVF8ejNq3J2wj0&type=video&videoEmbeddable=true&part=snippet&safeSearch=strict&maxResults=9&q=" +
+                encodeURI(document.getElementById("musik").value) +
+                "%20-%20Topic"
+        )
+            .then(r => r.json())
+            .then(r => {
+                document.getElementById("hasilcari").innerHTML = "";
+                r.items.forEach((e, i) => {
+                    if (e.snippet.channelTitle != e.snippet.title) {
+                        let btn = "";
+                        if (data.musik.split(";")[1] != e.id.videoId) {
+                            btn = `<button class="btn btn-primary m-auto pilihmusik" data-musik="${
+                                e.snippet.channelTitle.split(" - Topic")[0] +
+                                " - " +
+                                e.snippet.title +
+                                ";" +
+                                e.id.videoId
+                            }">Pilih</button>`;
+                        }
+                        document.getElementById(
+                            "hasilcari"
+                        ).innerHTML += `<hr><span class="d-flex justify-content-between"><h6 classmb-0>${
+                            e.snippet.channelTitle.split(" - Topic")[0] +
+                            " - " +
+                            e.snippet.title
+                        }</h6><span>${btn}</span></span>`;
+                    }
+                });
+            });
+    };
+
+    let indexpilihfoto;
+    document.querySelectorAll(".pilihfoto").forEach((e, i) => {
+        e.onclick = x => {
+            x.preventDefault();
+            indexpilihfoto = i;
+            document.getElementById("inputimg").value = "";
+            document.getElementById("inputimg").click();
+        };
+    });
+
+    document.querySelectorAll(".tampilfoto").forEach(x => {
+        x.onload = e => {
+            if (e.target.height < e.target.width) {
+                e.target.style.height = "100%";
+                e.target.style.width = "auto";
+            } else {
+                e.target.style.width = "100%";
+                e.target.style.height = "auto";
+            }
+        };
+    });
+
+    document.getElementById("inputimg").onchange = async function () {
+        document.querySelectorAll(".tampilfoto")[indexpilihfoto].src = "";
+        document
+            .querySelectorAll(".img-loader")
+            [indexpilihfoto].classList.toggle("d-none");
+
+        const a = await resizeIMG(this.files[0]);
+        document.querySelectorAll(".tampilfoto")[indexpilihfoto].src = a;
+        document
+            .querySelectorAll(".img-loader")
+            [indexpilihfoto].classList.toggle("d-none");
+    };
+
+    function resizeIMG(file) {
+        return new Promise(resolve => {
+            const fr = new FileReader();
+            fr.readAsDataURL(file);
+            fr.onloadend = () => {
+                let res = fr.result;
+                document.getElementById("imgreview").src = res;
+                document.getElementById("imgreview").onload = e => {
+                    const canvas = document.createElement("canvas");
+                    const maxWidth = 1100;
+                    const scaleSize = maxWidth / e.target.width;
+                    canvas.width = maxWidth;
+                    canvas.height = e.target.height * scaleSize;
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(e.target, 0, 0, canvas.width, canvas.height);
+                    res = ctx.canvas.toDataURL(e.target, "image/jpeg");
+                    resolve(res);
+                };
+            };
+        });
+    }
+
+    let data;
+    let data0;
+    let index;
+    let A;
 
     function Fetch(obj, type) {
         return fetch(source.urldb, {
@@ -598,354 +387,917 @@ function onlyNumberKey(evt) {
             });
     }
 
-    let voucherHistory;
-    const cekVoucher = document.forms["cekVoucher"];
-    const voucherbtn = document.getElementById("voucherbtn");
-    //   const voucherDanger = document.getElementById("voucherDanger");
+    function setdata() {
+        data = {
+            desain: data[1],
+            link: data[2],
+            mempelai: data[3],
+            mempelai1: data[4],
+            mempelai2: data[5],
+            resepsi: data[6],
+            akad: data[7],
+            lokasi: data[8],
+            foto: data[9],
+            hadiah: data[10],
+            musik: data[11],
+            ulasan: data[12].split(";")[1]
+        };
+    }
 
-    cekVoucher.onsubmit = async function (e) {
-        e.preventDefault();
+    function loaddata() {
+        document.getElementById("desain").textContent =
+            data.desain.toUpperCase();
 
-        if (!inputtgl.value) {
-            tglbtn.click();
-            return;
-        }
+        document.getElementById("nama1").value = data.mempelai.split(";")[0];
+        document.getElementById("namalengkap1").value =
+            data.mempelai1.split(";")[0];
+        document.getElementById("gender1").value = data.mempelai1.split(";")[1];
+        document.getElementById("keberapa1").value =
+            data.mempelai1.split(";")[2];
+        document.getElementById("bapak1").value = data.mempelai1.split(";")[3];
+        document.getElementById("ibu1").value = data.mempelai1.split(";")[4];
+        document.getElementById("nama2").value = data.mempelai.split(";")[1];
+        document.getElementById("namalengkap2").value =
+            data.mempelai2.split(";")[0];
+        document.getElementById("gender2").value = data.mempelai2.split(";")[1];
+        document.getElementById("keberapa2").value =
+            data.mempelai2.split(";")[2];
+        document.getElementById("bapak2").value = data.mempelai2.split(";")[3];
+        document.getElementById("ibu2").value = data.mempelai2.split(";")[4];
 
-        if (inputVoucher.value == data[0][2]) {
-            voucherbtn.textContent = "Konfirmasi";
-            voucherbtn.classList.remove("disabled");
-            if (voucherHistory == undefined) {
-                showConfetti();
+        document.getElementById("tanggalakad").value = data.akad
+            .split(";")[0]
+            .split(" ")[0];
+        document.getElementById("jamakad").value = data.akad
+            .split(";")[0]
+            .split(" ")[1];
+        document.getElementById("tempatakad").value = data.akad.split(";")[3];
+        document.getElementById("lokasiakad").value = data.akad.split(";")[4];
+        document.getElementById("tanggalresepsi").value = data.resepsi
+            .split(";")[0]
+            .split(" ")[0];
+        document.getElementById("mulairesepsi").value = data.resepsi
+            .split(";")[0]
+            .split(" ")[1];
+        document.getElementById("akhirresepsi").value =
+            data.resepsi.split(";")[1];
+        document.getElementById("tempatresepsi").value =
+            data.resepsi.split(";")[3];
+        document.getElementById("lokasiresepsi").value =
+            data.resepsi.split(";")[4];
+        document.getElementById("mapsresepsi").value = decodeURI(data.lokasi);
+        document.querySelector(".iframemaps").src =
+            "https://www.google.com/maps/embed/v1/search?q=" +
+            `${data.lokasi == "" ? "indonesia" : data.lokasi}` +
+            "&key=" +
+            source.keyMaps;
+
+        document.getElementById("musikdipilih").textContent =
+            data.musik.split(";")[0] == ""
+                ? "~ Belum ada musik yang dipilih ~"
+                : data.musik.split(";")[0];
+
+        const b1 = data.hadiah.split("%")[0].split("$")[0];
+        const b2 = data.hadiah.split("%")[0].split("$")[1];
+        const b3 = data.hadiah.split("%")[1];
+
+        document.getElementById("nomorcashless1").value = b1.split(";")[2];
+        document.getElementById("namacashless1").value = b1.split(";")[3];
+
+        document.getElementById("nomorcashless2").value = b2.split(";")[2];
+        document.getElementById("namacashless2").value = b2.split(";")[3];
+        document.getElementById("alamatkado").value = b3.split(";")[0];
+        document.getElementById("namakado").value = b3.split(";")[1];
+
+        function pilih(a, b, i) {
+            if (
+                i < document.querySelectorAll(a + " option").length &&
+                document.querySelectorAll(a + " option")[i].value == b
+            ) {
+                document
+                    .querySelectorAll(a + " option")
+                    [i].setAttribute("selected", "");
+                if (a == "#cashless1") {
+                    platform(b, 0);
+                } else if (a == "#cashless2") {
+                    platform(b, 1);
+                } else if (a == "#gender1") {
+                    gender(b, 0);
+                } else if (a == "#gender2") {
+                    gender(b, 1);
+                }
             }
-
-            voucherHistory = inputVoucher.value;
-
-            document.querySelectorAll("#hargaArea > div").forEach(e => {
-                e.classList.toggle("d-none");
-            });
-        } else {
-            inputVoucher.value = "";
-            alert("Voucher tidak aktif !");
         }
-        return;
-        try {
-            const cek = await Fetch({
-                SHEETID: source.sheetid,
-                SHEETNAME: "Customer",
-                FN: "QUERY",
-                SQL: `SELECT A,B WHERE A = '${inputVoucher.value}' AND B = ''`
-            });
 
-            voucherbtn.textContent = "Konfirmasi";
-            voucherbtn.classList.remove("disabled");
-            if (cek[0][0] == inputVoucher.value) {
-                document.querySelectorAll("#hargaArea > div").forEach(e => {
-                    e.classList.toggle("d-none");
-                });
-
-                if (voucherHistory == undefined) {
-                    showConfetti();
+        const fotos = data.foto.split(";");
+        document
+            .querySelectorAll("form[name='formfoto'] img")
+            .forEach((e, i) => {
+                if (!fotos[i] || fotos[i] == "") {
+                    e.src = source.noimg;
+                } else {
+                    e.src = fotos[i];
                 }
 
-                voucherHistory = inputVoucher.value;
-            } else {
-                inputVoucher.value = "";
-                alert("Voucher tidak aktif !");
+                pilih("#zonaakad", data.akad.split(";")[2], i);
+                pilih("#zonaresepsi", data.resepsi.split(";")[2], i);
+                pilih("#cashless1", b1.split(";")[0], i);
+                pilih("#cashless2", b2.split(";")[0], i);
+                pilih("#gender1", data.mempelai1.split(";")[1], i);
+                pilih("#gender2", data.mempelai2.split(";")[1], i);
+            });
+
+        document.getElementById("link1").textContent =
+            data0[0] +
+            "/" +
+            data.desain.split(" #")[0].toLowerCase() +
+            "/" +
+            data.desain.split(" #")[1] +
+            "#" +
+            index +
+            "#" +
+            data.link;
+        document.getElementById("inputlink").value = data.link;
+
+        document.querySelector("#link2 span:nth-child(1)").textContent =
+            data0[0] +
+            "/" +
+            data.desain.split(" #")[0].toLowerCase() +
+            "/" +
+            data.desain.split(" #")[1] +
+            "#";
+        document.querySelector("#link2 span:nth-child(2)").textContent =
+            index + "#" + data.link + "#";
+        document.querySelector("#link2 span:nth-child(3)").textContent =
+            "Nama_Tamu";
+        document.getElementById("ulasan").value = data.ulasan;
+        document.getElementById("linkadmin").href =
+            "https://api.whatsapp.com/send?phone=" + data0[1];
+    }
+
+    document.forms["formmempelai"].onsubmit = async e => {
+        e.preventDefault();
+        const a =
+            document.getElementById("nama1").value +
+            "%" +
+            document.getElementById("namalengkap1").value +
+            "%" +
+            document.getElementById("gender1").value +
+            "%" +
+            document.getElementById("keberapa1").value +
+            "%" +
+            document.getElementById("bapak1").value +
+            "%" +
+            document.getElementById("ibu1").value +
+            "%" +
+            document.getElementById("nama2").value +
+            "%" +
+            document.getElementById("namalengkap2").value +
+            "%" +
+            document.getElementById("gender2").value +
+            "%" +
+            document.getElementById("keberapa2").value +
+            "%" +
+            document.getElementById("bapak2").value +
+            "%" +
+            document.getElementById("ibu2").value;
+
+        const b =
+            data.mempelai.split(";")[0] +
+            "%" +
+            data.mempelai1.split(";")[0] +
+            "%" +
+            data.mempelai1.split(";")[1] +
+            "%" +
+            data.mempelai1.split(";")[2] +
+            "%" +
+            data.mempelai1.split(";")[3] +
+            "%" +
+            data.mempelai1.split(";")[4] +
+            "%" +
+            data.mempelai.split(";")[1] +
+            "%" +
+            data.mempelai2.split(";")[0] +
+            "%" +
+            data.mempelai2.split(";")[1] +
+            "%" +
+            data.mempelai2.split(";")[2] +
+            "%" +
+            data.mempelai2.split(";")[3] +
+            "%" +
+            data.mempelai2.split(";")[4];
+
+        if (a == b) {
+            submitend(".submit1", "x");
+        } else {
+            const obj = {
+                index: index,
+                A: A,
+                mempelai:
+                    document.getElementById("nama1").value +
+                    ";" +
+                    document.getElementById("nama2").value,
+                mempelai1:
+                    document.getElementById("namalengkap1").value +
+                    ";" +
+                    document.getElementById("gender1").value +
+                    ";" +
+                    document.getElementById("keberapa1").value +
+                    ";" +
+                    document.getElementById("bapak1").value +
+                    ";" +
+                    document.getElementById("ibu1").value,
+                mempelai2:
+                    document.getElementById("namalengkap2").value +
+                    ";" +
+                    document.getElementById("gender2").value +
+                    ";" +
+                    document.getElementById("keberapa2").value +
+                    ";" +
+                    document.getElementById("bapak2").value +
+                    ";" +
+                    document.getElementById("ibu2").value
+            };
+            loadingsubmit();
+            try {
+                const a = await Fetch(
+                    {
+                        SHEETID: source.sheetid,
+                        FN: "DATA",
+                        DATA: obj
+                    },
+                    "text"
+                );
+                if (a == "ok") {
+                    data.mempelai = obj.mempelai;
+                    data.mempelai1 = obj.mempelai1;
+                    data.mempelai2 = obj.mempelai2;
+                    submitend(".submit1");
+                } else {
+                    submitend(".submit2");
+                    alert("gagal");
+                }
+            } catch (err) {
+                submitend(".submit2");
             }
-        } catch (err) {
-            alert("Terjadi ERROR !\nSilahkan coba lagi nanti.");
         }
     };
 
-    const ulasanbtn = document.querySelector(".ulasanbtn");
-    let jmlLoadUlasan = 0;
+    document.forms["formacara"].onsubmit = async e => {
+        e.preventDefault();
 
-    async function loadUlasan() {
-        try {
-            const ulasans = await Fetch({
-                SHEETID: source.sheetid,
-                FN: "ULASAN"
-            });
+        const a =
+            document.getElementById("tanggalakad").value +
+            "%" +
+            document.getElementById("zonaakad").value +
+            "%" +
+            document.getElementById("jamakad").value +
+            "%" +
+            document.getElementById("tempatakad").value +
+            "%" +
+            document.getElementById("lokasiakad").value +
+            "%" +
+            document.getElementById("tanggalresepsi").value +
+            "%" +
+            document.getElementById("zonaresepsi").value +
+            "%" +
+            document.getElementById("mulairesepsi").value +
+            "%" +
+            document.getElementById("akhirresepsi").value +
+            "%" +
+            document.getElementById("tempatresepsi").value +
+            "%" +
+            document.getElementById("lokasiresepsi").value +
+            "%" +
+            document.getElementById("mapsresepsi").value;
 
-            if (ulasans.length < 1) {
-                ulasanArea.innerHTML = `<span class="m-auto" style="color:rgba(255,255,255,.6)">~ Belum ada ulasan ~</span>`;
-                return;
-            }
+        const b =
+            data.akad.split(";")[0].split(" ")[0] +
+            "%" +
+            data.akad.split(";")[2] +
+            "%" +
+            data.akad.split(";")[0].split(" ")[1] +
+            "%" +
+            data.akad.split(";")[3] +
+            "%" +
+            data.akad.split(";")[4] +
+            "%" +
+            data.resepsi.split(";")[0].split(" ")[0] +
+            "%" +
+            data.resepsi.split(";")[2] +
+            "%" +
+            data.resepsi.split(";")[0].split(" ")[1] +
+            "%" +
+            data.resepsi.split(";")[1] +
+            "%" +
+            data.resepsi.split(";")[3] +
+            "%" +
+            data.resepsi.split(";")[4] +
+            "%" +
+            decodeURI(data.lokasi);
 
-            ulasanArea.innerHTML = "";
-
-            ulasans.forEach((e, i) => {
-                ulasanArea.innerHTML += `<div class="p-3 mb-2 shadow-sm">
-              <span class="d-flex justify-content-between"><h6 class="my-0"><i class="bi bi-people-fill" style="color:var(--color-primary);font-size:1.1rem"></i> <span class="nama" style="text-transform: capitalize;"></span></h6><p class="my-0 tgl" style="font-size:.8rem;color:rgba(255,255,255,.6)"></p></i></span>
-              <p class="fst-italic my-0 komen" style="white-space:pre-wrap"></p>
-            </div>`;
-                ulasanArea.querySelectorAll(".nama")[i].textContent = e[0]
-                    .split(";")
-                    .join(" & ");
-                ulasanArea.querySelectorAll(".tgl")[i].textContent =
-                    e[1].split(";")[0];
-                ulasanArea.querySelectorAll(".komen")[i].textContent =
-                    e[1].split(";")[1];
-            });
-        } catch (err) {
-            if (jmlLoadUlasan < 4) {
-                setTimeout(() => {
-                    ulasanbtn.click();
-                }, 10000);
-            } else {
-                if (confirm("Masalah koneksi!\nMuat ulang sekarang ?")) {
-                    location.reload();
+        if (a == b) {
+            submitend(".submit1", "x");
+        } else {
+            const obj = {
+                index: index,
+                A: A,
+                resepsi:
+                    document.getElementById("mulairesepsi").value +
+                    ";" +
+                    document.getElementById("akhirresepsi").value +
+                    ";" +
+                    document.getElementById("zonaresepsi").value +
+                    ";" +
+                    document.getElementById("tempatresepsi").value +
+                    ";" +
+                    document.getElementById("lokasiresepsi").value,
+                akad:
+                    document.getElementById("tanggalakad").value +
+                    " " +
+                    document.getElementById("jamakad").value +
+                    ";;" +
+                    document.getElementById("zonaakad").value +
+                    ";" +
+                    document.getElementById("tempatakad").value +
+                    ";" +
+                    document.getElementById("lokasiakad").value,
+                lokasi: encodeURI(document.getElementById("mapsresepsi").value)
+            };
+            loadingsubmit();
+            try {
+                const a = await Fetch(
+                    {
+                        SHEETID: source.sheetid,
+                        FN: "DATA",
+                        DATA: obj
+                    },
+                    "text"
+                );
+                if (a == "ok") {
+                    data.resepsi =
+                        document.getElementById("tanggalresepsi").value +
+                        " " +
+                        obj.resepsi;
+                    data.akad = obj.akad;
+                    data.lokasi = obj.lokasi;
+                    submitend(".submit1");
                 } else {
-                    ulasanArea.innerHTML = "";
+                    submitend(".submit2");
                 }
+            } catch (err) {
+                submitend(".submit2");
             }
-            jmlLoadUlasan += 1;
+        }
+    };
+
+    document.forms["formfoto"].onsubmit = async e => {
+        e.preventDefault();
+        let a0 = data.foto.split(";");
+        let a = "";
+        let b = "";
+        a0.forEach((el, i) => {
+            if (!el || el == "") {
+                i == 0 ? (a += source.noimg) : (a += "%" + source.noimg);
+            } else {
+                i == 0 ? (a += el) : (a += "%" + el);
+            }
+            i == 0
+                ? (b += document.querySelectorAll("form[name='formfoto'] img")[
+                      i
+                  ].src)
+                : (b +=
+                      "%" +
+                      document.querySelectorAll("form[name='formfoto'] img")[i]
+                          .src);
+        });
+
+        if (a == b) {
+            submitend(".submit1", "x");
+        } else {
+            const obj = {
+                index: index,
+                A: A,
+                folderid: "1-0tvGQb7TW_efWTMdDtRu2ZnRyU_oFoW",
+                foto: []
+            };
+            document
+                .querySelectorAll("form[name='formfoto'] img")
+                .forEach((el, i) => {
+                    if (el.src != a.split("%")[i]) {
+                        obj.foto.push([
+                            index + "-" + i + ".jpg",
+                            el.src.split("base64,")[1]
+                        ]);
+                    } else {
+                        obj.foto.push(a0[i]);
+                    }
+                });
+
+            loadingsubmit();
+            try {
+                const a = await Fetch(
+                    {
+                        SHEETID: source.sheetid,
+                        FN: "FOTO",
+                        DATA: obj
+                    },
+                    "text"
+                );
+
+                if (a.split(";").length == 8) {
+                    data.foto = a;
+                    document
+                        .querySelectorAll("form[name='formfoto'] img")
+                        .forEach((el, i) => {
+                            if (!a.split(";")[i] || a.split(";")[i] == "") {
+                                el.src = source.noimg;
+                            } else {
+                                el.src = a.split(";")[i];
+                            }
+                        });
+                    submitend(".submit1");
+                } else {
+                    submitend(".submit2");
+                }
+            } catch (err) {
+                submitend(".submit2");
+            }
+        }
+    };
+
+    document.forms["formmusik"].onsubmit = e => {
+        e.preventDefault();
+    };
+
+    document.getElementById("hasilcari").onclick = async e => {
+        if (e.target.classList.contains("pilihmusik")) {
+            const obj = {
+                index: index,
+                A: A,
+                musik: e.target.dataset.musik
+            };
+            loadingsubmit();
+            try {
+                const a = await Fetch(
+                    {
+                        SHEETID: source.sheetid,
+                        FN: "DATA",
+                        DATA: obj
+                    },
+                    "text"
+                );
+                if (a == "ok") {
+                    data.musik = obj.musik;
+                    document.getElementById("musikdipilih").textContent =
+                        obj.musik.split(";")[0];
+                    document.getElementById("hasilcari").textContent = "";
+                    submitend(".submit1");
+                } else {
+                    submitend(".submit2");
+                }
+            } catch (err) {
+                submitend(".submit2");
+            }
+        }
+    };
+
+    document.forms["formhadiah"].onsubmit = async e => {
+        e.preventDefault();
+
+        const a =
+            document.getElementById("cashless1").value +
+            "%" +
+            document.getElementById("platform1").value +
+            "%" +
+            document.getElementById("nomorcashless1").value +
+            "%" +
+            document.getElementById("namacashless1").value +
+            "%" +
+            document.getElementById("cashless2").value +
+            "%" +
+            document.getElementById("platform2").value +
+            "%" +
+            document.getElementById("nomorcashless2").value +
+            "%" +
+            document.getElementById("namacashless2").value +
+            "%" +
+            document.getElementById("alamatkado").value +
+            "%" +
+            document.getElementById("namakado").value;
+        const b1 = data.hadiah.split("%")[0].split("$")[0];
+        const b2 = data.hadiah.split("%")[0].split("$")[1];
+        const b3 = data.hadiah.split("%")[1];
+        const b =
+            b1.split(";")[0] +
+            "%" +
+            b1.split(";")[1] +
+            "%" +
+            b1.split(";")[2] +
+            "%" +
+            b1.split(";")[3] +
+            "%" +
+            b2.split(";")[0] +
+            "%" +
+            b2.split(";")[1] +
+            "%" +
+            b2.split(";")[2] +
+            "%" +
+            b2.split(";")[3] +
+            "%" +
+            b3.split(";")[0] +
+            "%" +
+            b3.split(";")[1];
+
+        if (a == b) {
+            submitend(".submit1", "x");
+        } else {
+            const obj = {
+                index: index,
+                A: A,
+                hadiah:
+                    document.getElementById("cashless1").value +
+                    ";" +
+                    document.getElementById("platform1").value +
+                    ";" +
+                    document.getElementById("nomorcashless1").value +
+                    ";" +
+                    document.getElementById("namacashless1").value +
+                    "$" +
+                    document.getElementById("cashless2").value +
+                    ";" +
+                    document.getElementById("platform2").value +
+                    ";" +
+                    document.getElementById("nomorcashless2").value +
+                    ";" +
+                    document.getElementById("namacashless2").value +
+                    "%" +
+                    document.getElementById("alamatkado").value +
+                    ";" +
+                    document.getElementById("namakado").value
+            };
+            loadingsubmit();
+            try {
+                const a = await Fetch(
+                    {
+                        SHEETID: source.sheetid,
+                        FN: "DATA",
+                        DATA: obj
+                    },
+                    "text"
+                );
+                if (a == "ok") {
+                    data.hadiah = obj.hadiah;
+                    submitend(".submit1");
+                } else {
+                    submitend(".submit2");
+                }
+            } catch (err) {
+                submitend(".submit2");
+            }
+        }
+    };
+
+    document.forms["formlink"].onsubmit = async e => {
+        e.preventDefault();
+        const a = validUsername.test(
+            document.getElementById("inputlink").value
+        );
+        if (!a) {
+            submitend(".submit1", "x");
+        } else {
+            const obj = {
+                index: index,
+                A: A,
+                username: document.getElementById("inputlink").value
+            };
+            loadingsubmit();
+            try {
+                const a = await Fetch(
+                    {
+                        SHEETID: source.sheetid,
+                        FN: "DATA",
+                        DATA: obj
+                    },
+                    "text"
+                );
+                if (a == "ok") {
+                    data.link = obj.username;
+                    document.querySelector(
+                        "#link2 > span:nth-child(2)"
+                    ).textContent = obj.username + "#";
+                    if (
+                        !document
+                            .getElementById("simpanlink")
+                            .classList.contains("d-none")
+                    ) {
+                        document
+                            .getElementById("simpanlink")
+                            .classList.toggle("d-none");
+                    }
+                    submitend(".submit1");
+                } else {
+                    submitend(".submit2");
+                }
+            } catch (err) {
+                submitend(".submit2");
+            }
+        }
+    };
+
+    document.forms["formulasan"].onsubmit = async e => {
+        e.preventDefault();
+        if (document.getElementById("ulasan").value == data.ulasan) {
+            submitend(".submit1", "x");
+        } else {
+            loadingsubmit();
+
+            const obj = {
+                index: index,
+                A: A,
+                ulasan: document.getElementById("ulasan").value
+            };
+            const a = await Fetch(
+                {
+                    SHEETID: source.sheetid,
+                    FN: "DATA",
+                    DATA: obj
+                },
+                "text"
+            );
+            if (a == "ok") {
+                data.ulasan = obj.ulasan;
+                submitend(".submit1");
+            } else {
+                submitend(".submit2");
+            }
+        }
+    };
+
+    function loadingsubmit(submit) {
+        if (!submit) {
+            document.querySelector(".submit0").classList.toggle("d-none");
+            document.querySelector("html").classList.toggle("overflow-hidden");
+        } else {
+            document.querySelector(submit).classList.toggle("d-none");
+            document.querySelector("html").classList.toggle("overflow-hidden");
+        }
+        document.getElementById("loadingsubmit").classList.toggle("d-none");
+        document.querySelector(".submittext").textContent = "Menyimpan";
+    }
+
+    function submitend(submit, x) {
+        document.querySelector(submit).classList.toggle("d-none");
+        if (submit == ".submit1") {
+            document.querySelector(".submittext").textContent = "Berhasil!";
+        } else {
+            document.querySelector(".submittext").textContent = "Gagal!";
+        }
+        if (x == "x") {
+            document.getElementById("loadingsubmit").classList.toggle("d-none");
+            document.querySelector("html").classList.toggle("overflow-hidden");
+        } else {
+            document.querySelector(".submit0").classList.toggle("d-none");
+        }
+        setTimeout(() => {
+            loadingsubmit(submit);
+        }, 2300);
+    }
+
+    document.getElementById("pratinjau").onclick = e => {
+        if (data.link == "") {
+            document.getElementById("simpanlink").click();
+        } else {
+            document.getElementById("bukalink").href =
+                "https://" +
+                data0[0] +
+                "/" +
+                data.desain.split(" #")[0].toLowerCase() +
+                "/" +
+                data.desain.split(" #")[1] +
+                "#" +
+                index +
+                "#" +
+                data.link +
+                "#Nama_Tamu";
+            document.getElementById("bukalink").click();
+        }
+    };
+
+    document.forms["formkirim"].onsubmit = e => {
+        e.preventDefault();
+        if (data.link == "") {
+            document.getElementById("simpanlink").click();
+        } else if (data.mempelai.split(";")[0] == "") {
+            document.getElementById("simpanMempelai").click();
+        } else if (data.mempelai.split(";")[1] == "") {
+            document.getElementById("simpanMempelai").click();
+        } else if (document.getElementById("namatamu").value) {
+            document.getElementById("kirimbtn").href =
+                "https://api.whatsapp.com/send?text=" +
+                encodeURIComponent(`Assalamu’alaikum Warahmatullahi Wabarakatuh.
+
+Maha suci Allah yang telah menjadikan segala sesuatu lebih indah dan sempurna.
+
+Izinkan kami mengundang Bapak/Ibu/Sahabat sekalian untuk dapat menghadiri acara pernikahan kami.
+
+Link undangan :
+
+${
+    "https://" +
+    document.querySelector("#link2 span:nth-child(1)").textContent +
+    document.querySelector("#link2 span:nth-child(2)").textContent +
+    document.querySelector("#link2 span:nth-child(3)").textContent
+}
+
+
+Kehadiran, doa dan restu anda semua adalah kado terindah bagi kami. Tiada yang dapat kami ungkapkan selain rasa terima kasih dari hati yang tulus dan dalam.
+
+Kami yang berbahagia\n
+${data.mempelai.split(";").join(" & ")}`);
+            document.getElementById("kirimbtn").click();
+        }
+    };
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText("https://" + text);
+    }
+
+    document.getElementById("copylink").onclick = () => {
+        let text = "";
+        document
+            .querySelectorAll("#link2 > span")
+            .forEach(e => (text += e.textContent));
+
+        copyToClipboard(text);
+    };
+
+    function fnamatamu(e) {
+        if (!e.value) {
+            document.querySelector("#link2 span:nth-child(3)").textContent =
+                "Nama_Tamu";
+        } else {
+            document.querySelector("#link2 span:nth-child(3)").textContent =
+                encodeURI(e.value);
         }
     }
 
-    ulasanArea.innerHTML = "";
-    ulasanbtn.onclick = e => {
-        if (!ulasanArea.innerHTML || ulasanArea.innerHTML == "") {
-            ulasanArea.innerHTML = `<div class="spinner-border m-auto" style="width: 2rem; height: 2rem;color:var(--color-primary);background-color:rgba(0,0,0,0)" role="status">
-</div>`;
-            loadUlasan();
-        }
-    };
+    const validUsername = /^[0-9a-z&\-+._]{0,20}$/;
 
-    const perPage = 8;
-    let jmlPage;
-    function loaddata1(page) {
-        document.querySelector("#gallery .row").innerHTML = "";
-        let i;
-
-        i = page * perPage - (perPage - 1);
-        
-        return new Promise(resolve => {
-            let text;
-            let klik;
-            function tampil() {
-                if (i == data.length - 1) {
-                    (klik = ""),
-                        (text =
-                            "<span class='text-center w-100'>Desain Lainnya #</span>");
-                } else {
-                    (klik = `onclick="modalShow(${i})`),
-                        (text = `<span>${
-                            data[i][0].split(";")[1]
-                        }</span><span style="color:rgba(255,255,255,.6)">${
-                            data[i][0].split(";")[0]
-                        }</span>`);
-                }
-                document.querySelector(
-                    "#gallery .row"
-                ).innerHTML += `<div class="d-flex flex-column align-items-center col-xl-3 col-lg-4 col-md-6 px-1">
-            <div class="gallery-item" ${klik}">
-          <div class="card rounded-0 border-0">
-
-          <img src="${data[i][2].split(";")[0]}
-              
-          "  alt="" class="position-absolute w-100">
-              <div class="gallery-links">
-              </div>
-        
-          <div class="m-auto"><i class="bi-file-earmark-image" style="font-size:5rem"></i></div>
-</div><p class="py-2 mb-0 d-flex justify-content-between px-3">${text}</p></div>
-
-          </div>`;
-
-                if (
-                    i < perPage * page &&
-                    page <= jmlPage &&
-                    i < data.length - 1
+    const inputx = [];
+    function cekinput() {
+        document.querySelectorAll("form .form-control").forEach((e, i) => {
+            inputx.push(e.value);
+            e.onkeypress = () => {
+                return !(window.event && window.event.keyCode == 13);
+            };
+            e.onkeyup = function (evt) {
+                if (this.id == "inputlink") {
+                    if (!validUsername.test(this.value)) {
+                        this.value = inputx[i];
+                    } else if (
+                        this.value.toLowerCase() != data.link.toLowerCase()
+                    ) {
+                        document
+                            .getElementById("simpanlink")
+                            .classList.remove("d-none");
+                        document.getElementById("link1").textContent =
+                            data0[0] +
+                            "/" +
+                            data.desain.split(" #")[0].toLowerCase() +
+                            "/" +
+                            data.desain.split(" #")[1] +
+                            "#" +
+                            this.value.toLowerCase();
+                        inputx[i] = this.value.toLowerCase();
+                    } else if (
+                        !document
+                            .getElementById("simpanlink")
+                            .classList.contains("d-none")
+                    ) {
+                        document
+                            .getElementById("simpanlink")
+                            .classList.toggle("d-none");
+                        document.getElementById("link1").textContent =
+                            data0[0] +
+                            "/" +
+                            data.desain.split(" #")[0].toLowerCase() +
+                            "/" +
+                            data.desain.split(" #")[1] +
+                            "#" +
+                            this.value.toLowerCase();
+                        inputx[i] = this.value.toLowerCase();
+                    }
+                } else if (this.id == "namatamu") {
+                    fnamatamu(this);
+                } else if (
+                    e.value.includes(";") ||
+                    e.value.includes("%") ||
+                    e.value.includes("$")
                 ) {
-                    i += 1;
-                    tampil();
+                    this.value = inputx[i];
                 } else {
-                  pagination(page);
-                    resolve();
+                    inputx[i] = this.value;
                 }
-            }
-            tampil();
+            };
         });
     }
 
-    const ul = document.querySelector(".pagination");
-    function pagination(now) {
-        let max = 7;
-        if (jmlPage < max) {
-            max = jmlPage;
+    document
+        .querySelectorAll('[data-bs-toggle="tooltip"]')
+        .forEach(tooltipTriggerEl => {
+            const tooltip = new bootstrap.Tooltip(tooltipTriggerEl);
+            tooltipTriggerEl.addEventListener("show.bs.tooltip", () => {
+                setTimeout(() => {
+                    tooltip.hide();
+                }, 1300);
+            });
+        });
+
+    function setcookie() {
+        if (
+            (document.cookie.includes("=") &&
+                document.cookie.split("=")[0] != location.href.split("#")[1]) ||
+            document.cookie.split("=")[1] != location.href.split("#")[2]
+        ) {
+            document.cookie =
+                document.cookie.split("=")[0] +
+                "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         }
-        ul.innerHTML = "";
+        if (
+            (!document.cookie || document.cookie == "") &&
+            location.href.split("#")[2] &&
+            location.href.split("#")[2] != ""
+        ) {
+            const date1 = new Date();
+            const tgl = data.resepsi.split(" ")[0].split("/");
+            const date2 = new Date(tgl[1] + "/" + tgl[0] + "/" + tgl[2]);
+            let exday = Math.round(
+                (date2.getTime() - date1.getTime()) / (1000 * 3600 * 24)
+            );
+            exday < 1 ? (exday = 0) : "";
 
-        now > 1
-            ? (ul.innerHTML += `<li class="page-item">
-      <a class="page-link fw-bold" style="font-size:1.2rem" data-page="prev" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>`)
-            : "";
-
-        let a = "";
-        for (let i = 1; i < max; i++) {
-            if (i == now) {
-                a = "active";
-            }
-            ul.innerHTML += `
-    <li class="page-item ${a}"><a class="page-link fw-bold" style="font-size:1.2rem" data-page="${i}">${i}</a></li>`;
-            a = "";
-
-            if (now - 1 > 2 && i < now - 2 && jmlPage > 7) {
-                if (now + 3 <= jmlPage) {
-                    i = now - 3;
-                    max = now + 3;
-                } else if (jmlPage - now < 3 && i <= jmlPage - now) {
-                    i = now - 3 - (3 - (jmlPage - now));
-                    max = now + (jmlPage - now);
-                } else if (jmlPage == now && i < now - 5) {
-                    i = now - 6;
-                    max = jmlPage;
-                }
-            }
+            date1.setTime(date1.getTime() + (exday + 7) * 24 * 60 * 60 * 1000);
+            document.cookie =
+                location.href.split("#")[1] +
+                "=" +
+                location.href.split("#")[2] +
+                ";expires=" +
+                date1.toGMTString() +
+                ";path=/";
         }
-
-        let b = "";
-        if (now == jmlPage) {
-            b = "active";
-        }
-        ul.innerHTML += `
-    <li class="page-item ${b}"><a class="page-link fw-bold" style="font-size:1.2rem" data-page="${jmlPage}">${jmlPage}</a></li>`;
-
-        now < jmlPage
-            ? (ul.innerHTML += `<li class="page-item">
-      <a class="page-link fw-bold" style="font-size:1.2rem" data-page="next" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>`)
-            : "";
-
-        ul.onclick = e => {
-            if (e.target.dataset.page == "next") {
-                loaddata1(now + 1);
-            } else if (e.target.dataset.page == "prev") {
-                loaddata1(now - 1);
-            } else if (parseInt(e.target.dataset.page) > 0) {
-                loaddata1(parseInt(e.target.dataset.page));
-            }
-
-            windowScroll("gal");
-        };
     }
 
-    document.querySelector(".ujicobabtn").onclick = e => {
-        document.getElementById("modalcoba").style.zIndex = 2;
-        document.getElementById("modalcoba").style.opacity = 1;
-    };
-
-    document.querySelectorAll(".cobanama").forEach((e, i) => {
-        e.onkeyup = function () {
-            if (this.value.includes("&")) {
-                this.value = xnama[i];
-            } else {
-                xnama[i] = this.value;
-            }
-        };
-    });
-
-    document.forms["formcoba"].onsubmit = e => {
-        e.preventDefault();
-
-        document.getElementById("modalcoba").style.zIndex = -1;
-        document.getElementById("modalcoba").style.opacity = 0;
-        window.open(
-            data[0][0] +
-                data[index][0]
-                    .split(";")[0]
-                    .split(" #")
-                    .join("/")
-                    .toLowerCase() +
-                "?" +
-                document.querySelectorAll(".cobanama")[0].value +
-                "&" +
-                document.querySelectorAll(".cobanama")[1].value,
-            "_blank"
-        );
-    };
-
-    document.querySelectorAll(".pratinjau").forEach((e, i) => {
-        e.onclick = () => {
-            document.getElementById("linkPratinjau").href =
-                data[0][0] +
-                data[index][0]
-                    .split(";")[0]
-                    .split(" #")
-                    .join("/")
-                    .toLowerCase();
-            document.getElementById("linkPratinjau").click();
-        };
-        document.querySelectorAll(".adminbtn")[i].onclick = () => {
-            document.getElementById("linkAdmin").click();
-        };
-    });
+    function aos_init() {
+        AOS.init({
+            duration: 800,
+            easing: "ease-in-out",
+            once: true,
+            mirror: false
+        });
+    }
 
     const preloader = document.querySelector("#preloader");
     let jmlLoad = 0;
-
-    async function load1() {
+    async function load() {
         try {
             data = await Fetch({
                 SHEETID: source.sheetid,
-                FN: "READ"
+                FN: "LOAD",
+                DATA: { index: index, A: A }
             });
-            data.push(["", "", "https://i.ibb.co/Lpj0Tjv/comingsoon.png;"]);
-            jmlPage = Math.ceil((data.length - 1) / perPage);
-            await loaddata1(1);
-            Math.ceil(data.length / perPage) > 1
-                ? document
-                      .querySelector(".pagenav")
-                      .classList.replace("d-none", "d-flex")
-                : "";
 
-            data[0][4].toLowerCase() == "open"
-                ? (document.querySelector(
-                      ".header-social-links"
-                  ).innerHTML = `<img
-                        style="width: 63px"
-                        src="https://i.ibb.co/9pW7xQn/open.png"
-                        alt=""
-                      
-                        id="isOpen"
-                    />`)
-                : "";
-            document.getElementById("nomorAdmin").textContent =
-                data[0][1].split(";")[0];
+            data0 = data[0];
+            data = data[1];
 
-            document.getElementById("linkAdmin").href =
-                "https://api.whatsapp.com/send?phone=" +
-                data[0][1].split(";")[1];
-            document.getElementById("namaAdmin").textContent =
-                "(" + data[0][1].split(";")[2] + ")";
-
+            if (data[0] != index) {
+                document.body.innerHTML = `<h1 class="text-center" style="margin-top:30vh">Masalah koneksi !</h1>`;
+                return;
+            }
             if (preloader) {
                 preloader.classList.add("loaded");
                 aos_init();
+                setdata();
+                setcookie();
+                loaddata();
+                cekinput();
                 setTimeout(() => {
-                    navbarsinput.forEach((e, i) => {
-                        if (i > 0) {
-                            e.checked = false;
-                        } else {
-                            e.checked = true;
-                        }
-                    });
-                    document.getElementById("xya").checked = false;
-                    document.getElementById("xno").checked = false;
                     preloader.remove();
                 }, 2000);
             }
         } catch (err) {
+            if (
+                err.toString().toLowerCase() ==
+                "syntaxerror: unexpected end of json input"
+            ) {
+                document.body.innerHTML = `<h1 class="text-center" style="margin-top:30vh">UNDANGAN TIDAK DITEMUKAN !</h1>`;
+                return;
+            }
             if (data == undefined) {
-                if (jmlLoad < 4) {
+                if (jmlLoad < 2) {
                     setTimeout(() => {
-                        load1();
-                    }, 10000);
+                        load();
+                    }, 20000);
                 } else {
                     if (confirm("Masalah koneksi!\nMuat ulang sekarang ?")) {
                         location.reload();
@@ -958,7 +1310,19 @@ function onlyNumberKey(evt) {
         }
     }
 
+    if (
+        location.href.split("#")[1] &&
+        location.href.split("#")[1] != "" &&
+        location.href.split("#")[2] &&
+        location.href.split("#")[2] != ""
+    ) {
+        index = parseInt(location.href.split("#")[1]);
+        A = location.href.split("#")[2];
+    } else {
+        location.href = "http://localhost:8080/undangweb";
+    }
+
     window.addEventListener("load", () => {
-        load1();
+        load();
     });
 })();
