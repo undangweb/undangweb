@@ -1,1 +1,2419 @@
-.
+<!doctype html>
+<html lang="id" class="notranslate" translate="no">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+        />
+        <meta name="color-scheme" content="light only" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="google" content="notranslate" />
+        <title>Undangan Pernikahan</title>
+        <meta name="title" content="Undangan Pernikahan" />
+        <meta name="description" content="" />
+        <link
+            rel="icon"
+            type="image/x-icon"
+            href=""
+        />
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Undangan Pernikahan" />
+        <meta property="og:description" content="" />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+        <!--        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+            rel="stylesheet"
+        />-->
+        <meta name="theme-color" id="theme" content="" />
+        <style id="style">
+            @import url("https://fonts.googleapis.com/css2?family=Alex+Brush&family=Jost:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Kalnia:wght@400;500;600;700&display=swap");
+           /* @import url("https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playball&display=swap");
+           */ @font-face {
+                font-family: ytfont;
+                src: url(youtube-sans-medium.ttf);
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: "Jost", sans-serif;
+            }
+            .header h1,#infodiv h5,
+            .judul {
+                font-family: "ytfont", serif;
+            }
+            .header h1 {
+                font-size: 1.5em;
+            }
+            h5{
+              word-wrap: break-word;
+            }
+    
+                
+            
+            #inputcari {
+                font-size: 1em;
+            }
+            .main {
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+            }
+
+            .main,
+            .carousel-dark,.hasil,.infodown,
+            #carousel1,
+            .carousel-item {
+                height: 100%;
+                overflow: hidden;
+            }
+            #carousel1 > .carousel-item:nth-child(1).active {
+                display: flex;
+            }
+
+            iframe {
+                width: 100%;
+            }
+            @media only screen and (max-width: 320px) {
+                .header h1 {
+                    font-size: 1.3em;
+                }
+                #downdiv h6,#downdiv .btn{
+                  font-size:.8em;
+                }
+            }
+            @media only screen and (min-width: 540px) {
+                iframe {
+                    width: 412px;
+                    height: 232px;
+                }
+            }
+
+            @media only screen and (min-width: 960px) {
+                .navdown {
+                    display: none;
+                }
+                #carousel1 {
+                    display: flex;
+                }
+                #carousel1 .carousel-item {
+                    display: block;
+                    margin: 0;
+                }
+                iframe {
+                    width: 100%;
+                }
+            }
+
+            .autocomplete-suggestions {
+                text-align: left;
+                cursor: default;
+                border: 1px solid #ccc;
+                border-top: 0;
+                background: #fff;
+                color: block;
+                box-shadow: -1px 1px 3px rgba(0, 0, 0, 0.1);
+                position: absolute;
+                display: none;
+                z-index: 3;
+                max-height: 254px;
+                overflow: hidden;
+                overflow-y: auto;
+                box-sizing: border-box;
+            }
+
+            .autocomplete-suggestion {
+                position: relative;
+                padding: 0 0.6em;
+                line-height: 23px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-size: .9em;
+                color: #000;
+            }
+
+            .autocomplete-suggestion b {
+                font-weight: bold;
+            }
+
+            .autocomplete-suggestion.selected {
+                background: #eee;
+                color: #333;
+            }
+
+            #inputcari:focus {
+                box-shadow: 0 0 0 0.15em rgba(13, 110, 253, 0.25);
+            }
+
+            #divhasil {
+                translate: calc(-100% / 5);
+                width: 500%;
+                display: flex;
+               /* transition: transform 0.6s ease-in-out;*/
+            }
+
+            #divhasil > div {
+                width: 100%;
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+
+            .kosong.a {
+                background-color: rgba(0, 0, 0, 0.4);
+            }
+
+            .kosong.a + div .onplay {
+                display: flex;
+            }
+            .kosong:not(.channellabel),
+            .onplay {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+            }
+            .onplay {
+                align-items: center;
+                justify-content: center;
+                display: none;
+                z-index: 2;
+            }
+
+            .playing {
+                background-color: rgba(255, 255, 255, 0.2);
+                width: 3em;
+                height: 3em;
+                border-radius: 0.3em;
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-end;
+                padding: 0.5em;
+                box-sizing: border-box;
+            }
+
+            .playing__bar {
+                display: inline-block;
+                background: white;
+                width: 30%;
+                height: 100%;
+                animation: up-and-down 1.3s ease infinite alternate;
+            }
+
+            .playing__bar1 {
+                height: 60%;
+            }
+
+            .playing__bar2 {
+                height: 30%;
+                animation-delay: -2.2s;
+            }
+
+            .playing__bar3 {
+                height: 75%;
+                animation-delay: -3.7s;
+            }
+
+            @keyframes up-and-down {
+                10% {
+                    height: 30%;
+                }
+
+                30% {
+                    height: 100%;
+                }
+
+                60% {
+                    height: 50%;
+                }
+
+                80% {
+                    height: 75%;
+                }
+
+                100% {
+                    height: 60%;
+                }
+            }
+
+            .loader {
+                width: 40px;
+                height: 40px;
+                border: 5px solid #bbb;
+                border-bottom-color: transparent;
+                border-radius: 50%;
+                display: inline-block;
+                box-sizing: border-box;
+                animation: rotation 1s linear infinite;
+            }
+
+            @keyframes rotation {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+            
+            .form-check-label{
+            /*  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;*/
+             /* color: rgba(0,0,0,.7);*/
+             font-size: .9em;
+            }
+            .form-check-input{
+              display: none;
+            }
+            .form-check-input:checked+label,.xlabel{
+              font-family: "ytfont", serif;
+             /* box-shadow: rgba(0, 0, 0, .3) 0px 5px 15px 0px;*/
+              color: black;
+              border-bottom: 2px solid black;
+              font-size:1em;
+              line-height: 1.1em;
+            }
+            
+            .navig span{
+              text-align:center;
+              font-size: 1.2em
+            }
+            .navig span:first-child{
+              font-size: 1em;
+              color: rgba(0,0,0,.5);
+             /* color: rgba(128,128,128,.8);
+              
+              display: flex;
+              align-items:center;
+              justify-content: center;*/
+            }
+        
+            
+            .infodown{
+              width: 300%;
+            }
+            .infodown > div{
+              width: 100%;
+              overflow-y: auto;
+            }
+            
+            .comstats,.namakomen{
+              color:rgba(0,0,0,.6);
+            }
+            
+            #infodiv .loadchn{
+              display: none;
+            }
+            /*.vidchannel .bell,.vidchannel .xbell{
+              display: none;
+            }*/
+            
+        </style>
+    </head>
+    <body>
+        <div class="main position-absolute d-flex flex-column">
+          
+                <div id="carousel1">
+                    <div class="carousel-item flex-column active">
+                        
+                        <div
+                            class="header d-flex align-items-center justify-content-between p-2"
+                        >
+                            <h1 class="my-0 py-0">YT Lite</h1>
+                            <div class="d-flex align-items-center" style="width:70%">
+                              <img src="bell.svg" style="scale:1.5" class="topbell">
+                              <div class="input-group input-group-sm ms-2">
+                                <input
+                                    id="inputcari"
+                                    type="search"
+                                    class="form-control"
+                                    style="font-size:.9em"
+                                    placeholder="search or paste url"
+                                />
+                                <button
+                                    class="btn btn-outline-dark rounded-end d-none"
+                                    type="button"
+                                    id="btncari"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+</svg>
+                                </button>
+                                <button
+                                    class="btn btn-outline-secondary rounded-end d-flex"
+                                    type="button"
+                                    id="xbtncari"
+                                >
+                                    <div
+                                        class="spinner-border spinner-border-sm m-auto"
+                                        role="status"
+                                    >
+                                        <span class="visually-hidden"
+                                            >Loading...</span
+                                        >
+                                    </div>
+                                </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="iframe bg-black d-flex justify-content-center top-0 bottom-0 w-100" style="z-index:3">
+                            <div id="ytplayer" class="m-auto" style="z-index:3"></div>
+                          <span id="terang" class="d-none" style="position:absolute;bottom:20px;right:20px;"><img src="lightbulb-white.svg" style="width:25px"></span>
+                        </div>
+                        <div class="d-flex align-items-center mb-2 mt-1 navig">
+                            <span id="resolusi" class="col-2">&#183;&#183;&#183;</span>
+                            <span class="col-2">
+                              <input class="form-check-input" type="checkbox" value="" id="auto">
+                              <label class="form-check-label" for="auto">
+                                auto
+                              </label>
+                            </span>
+                            <span class="col-2">
+                              <img src="playlist2.svg?0" class="addbtn h-100" style="scale:1.15">
+                              <img src="remove.svg?0" class="movebtn h-100 d-none" style="scale:.75">
+                            </span>
+                          <!--  <span id="list" class="col-2"><img src="playlist.svg" class="h-100" style="transform:scale(1.15)"></span>-->
+                           <input class="form-check-input d-none" type="radio" name="infodown" value="0" id="ads">
+                        
+                            <span class="col-2"><input class="form-check-input" type="radio" name="infodown" value="1" id="down">
+                              <label class="form-check-label" for="down"><img src="download2.svg" class="h-100" style="scale:1.15"></label></span>
+                           <!-- <span id="info" class="col-2"><img src="info.svg" class="h-100" style=""></span>-->
+                             <span class="col-2"><input class="form-check-input" type="radio" name="infodown" value="2" id="info">
+                              <label class="form-check-label" for="info"><img src="info2.svg?0" class="h-100" style="scale:1.11"></label></span>
+                           
+                            <span id="mode" class="col-2"><img src="lightbulb.svg?0x" class="h-100" style="scale:1.15"></span>
+                        </div>
+                        <div class="infodown d-flex d-none" data-active="0">
+                          <div id="iklan">iklan</div>
+                          <div id="downdiv" class="h-100 overflow-y-auto d-flex flex-column">
+                          <h6 class="text-center mb-3">
+                                    <span class="border-bottom border-2 border-dark"
+                                        >VIDEO</span
+                                    >
+                                
+                          </h6>
+                          <div id="viddiv" data-active="2" class="input-group flex-column px-2 mb-3">
+                        
+                              <span class="mb-1">
+                              <button class="btn btn-outline-secondary" type="button" data-resol="medium" data-value="360" data-index="0">360p</button>
+                            <button class="btn btn-outline-secondary" type="button" data-resol="large" data-value="480" data-index="1">480p</button>
+                            <button class="btn btn-outline-secondary active" type="button" data-resol="hd720" data-value="720" data-index="2">720p</button>
+                            <button class="btn btn-outline-secondary" type="button" data-resol="hd1080" data-value="1080" data-index="3">1080p</button>
+                            </span>
+                            <span class="d-flex justify-content-between">
+                              <span>
+                            <button class="btn btn-outline-secondary" type="button" data-resol="hd1440" data-value="1440" data-index="4">1440p</button>
+                            <button class="btn btn-outline-secondary" type="button" data-resol="hd2160" data-value="2160" data-index="5">4K</button>
+                            <button class="btn btn-outline-secondary" type="button" data-resol="highres" data-value="max" data-index="6">8K</button>
+                              </span>
+                            <button id="downvid" class="btn btn-dark flex-shrink-1 d-flex justify-content-center">START <img src="dl-white.svg"></button>
+                            <button id="xdownvid" class="btn btn-dark flex-shrink-1 d-none">START <div
+                                        class="spinner-border spinner-border-sm m-auto"
+                                        role="status"
+                                    >
+                                        <span class="visually-hidden"
+                                            >Loading...</span
+                                        >
+                                    </div>
+                            </button>
+                            
+                            </span>
+                            </div>
+                            <h6 class="text-center mb-3">
+                                    <span class="border-bottom border-2 border-dark"
+                                        >AUDIO</span
+                                    >
+                                
+                          </h6>
+                          <div id="auddiv" data-active="0" class="d-flex flex-column px-2">
+                            <span class="mb-1">
+                              <button class="btn btn-outline-secondary active" type="button" data-value="best" data-index="0">best</button>
+                            <button class="btn btn-outline-secondary" type="button" data-value="mp3" data-index="1">mp3</button>
+                            <button class="btn btn-outline-secondary" type="button" data-value="ogg" data-index="2">ogg</button>
+                            <button class="btn btn-outline-secondary" type="button" data-value="wav" data-index="3">wav</button>
+                            <button class="btn btn-outline-secondary" type="button" data-value="opus" data-index="4">opus</button>
+                            </span>
+                            <div class="d-flex justify-content-end"><button id="downaud" class="btn btn-dark flex-shrink-1 d-flex align-items-center"><span>START</span> <img src="dl-white.svg"></button>
+                            <button id="xdownaud" class="btn btn-dark flex-shrink-1 d-none">START <div
+                                        class="spinner-border spinner-border-sm m-auto"
+                                        role="status"
+                                    >
+                                        <span class="visually-hidden"
+                                            >Loading...</span
+                                        >
+                                    </div>
+                            </button>
+                            </div>
+                          </div>
+                          
+                        </div>
+                          <div id="infodiv" class="d-flex flex-column h-100 overflow-hidden">
+                            <h5 id="ijudul" class="px-2 mb-0" style="font-size:1.14em">Lorem ipsum dolor sit amet</h5>
+                            <div class="d-flex mb-1 px-2 justify-content-between" style="color:rgba(0,0,0,.7);font-size:.8em" id="iviews"><span>12 views</span><span>1 bln lalu</span></div>
+                            <div class="ceksubs d-flex mb-2 py-1 border align-items-center justify-content-between pe-3">
+                              <div class="channellabel d-flex" data-channel-id="" data-channel="" data-thumb="" data-channeldurasi="" data-videoimg=""><span class="mx-2 my-auto" style="width:42px"><img style="width:100%" class="ithumb"></span>
+                              <div class="me-1 d-flex flex-column justify-content-center">
+                                <h5 class="ichannel mb-1" style="font-size:1em">lorem ipsum</h5>
+                                <span class="isubs" style="color:rgba(0,0,0,.7);font-size:.8em">33567 subs</span>
+                              </div></div>
+                               <img src="bell.svg" style="scale:1.5" class="bell">
+                               <img src="xbell.svg" style="scale:1.5" class="xbell d-none">
+                             
+                              <div class="loadchn spinner-border spinner-border-sm text-secondary" style="scale:1.5" role="status"><span class="visually-hidden">Loading...</span></div>
+                            </div>
+                            <span id="deskombtn" class="d-flex justify-content-evenly">
+                              <input class="form-check-input" type="radio" name="deskom" id="des" checked>
+                              <label class="form-check-label" for="des" data-index="0" id="ideskbtn">Description</label>
+                              <input class="form-check-input" type="radio" name="deskom" id="kom">
+                              <label class="form-check-label" for="kom" data-index="1" data-loadkomen="0" id="icombtn" data.jml="" data-video-id="">Comments</label>
+                            </span>
+                            <div id="deskom" class="h-100 pt-1 d-flex" style="width:200%;overflow:hidden">
+                              <div id="ideskrip" class="w-50 px-2 pb-3 overflow-x-hidden overflow-y-auto">
+                                <div class="w-100" style="white-space: pre-wrap;word-wrap: break-word;font-size:.9em;"></div>
+                              </div>
+                              <div id="ikomen" class="w-50 px-2 d-flex flex-column overflow-y-auto">
+                                komen
+                              </div>
+                            </div>
+                            
+                          </div>
+                        </div>
+                        <div class="hasil d-flex flex-column">
+                        <div id="navhasil" class="d-flex justify-content-center mb-1" data-active="1">
+                           
+                            <input
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="radio"
+                                        data-bs-slide-to="0"
+                                        id="radio1"
+                                    />
+                                    <label
+                                        class="playlistbtn form-check-label py-0 text-center rounded-4 rounded-bottom-0 col-3 flex-fill mx-2"
+                                        for="radio1"
+                                        
+                                        >Playlist</label
+                                    >
+                            <input
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="radio"
+                                        data-bs-slide-to="1"
+                                        id="radio2"
+                                        checked
+                                    />
+                                    <label
+                                        class="form-check-label searchbtn py-0 text-center rounded-4 rounded-bottom-0 col-3 flex-fill"
+                                        for="radio2"
+                                        >Search</label
+                                    >
+                            <input
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="radio"
+                                        data-bs-slide-to="2"
+                                        id="radio3"
+                                    />
+                                    <label
+                                        class="trendbtn form-check-label py-0 text-center rounded-4 rounded-bottom-0 col-3 flex-fill mx-2"
+                                        for="radio3"
+                                        >Trending</label
+                                    >
+                                    <input
+                                        class="form-check-input channelbtn"
+                                        type="radio"
+                                        name="radio"
+                                        data-bs-slide-to="3"
+                                        data-channel-id=""
+                                        data-channel=""
+                                        data-thumb=""
+                                        id="radio4"
+                                    />
+                                    <input
+                                        class="form-check-input subrekbtn"
+                                        type="radio"
+                                        name="radio"
+                                        data-bs-slide-to="4"
+                                        id="radio5"
+                                    />
+                        </div>
+
+                        
+                            <div id="divhasil" class="overflow-y-hidden h-100">
+                                <div class="divplaylist d-flex flex-column"
+                                data-index=""
+                                data-imgloaded="0"
+                                data-imgloading="0"
+                                data-is-loaded="0"
+                                data-loading="0"
+                                data-lastindex="0"
+                                data-next-token="undefined"
+                                data-ambilnext="0"
+                                >list</div>
+                                <div
+                                    class="hasilcari d-flex flex-column"
+                                    data-index=""
+                                    data-next-token="undefined"
+                                    data-ambilnext="0"
+                                    data-lastindex="0"
+                                    data-imgloading="0"
+                                    data-imgloaded="0"
+                                    data-is-loaded="0"
+                                    data-loading="0"
+                                ></div>
+                                <div class="d-flex flex-column trending"
+                                  data-index=""
+                                  data-next-token="undefined"
+                                    data-ambilnext="0"
+                                    data-lastindex="0"
+                                    data-imgloading="0"
+                                    data-imgloaded="0"
+                                    data-is-loaded="0"
+                                    data-loading="0"
+                                >
+                
+                                </div>
+                                <div class="d-flex flex-column vidchannel"
+                                  data-next-token="undefined"
+                                  data-index=""
+                                    data-ambilnext="0"
+                                    data-lastindex="0"
+                                    data-imgloading="0"
+                                    data-channel-id="x"
+                                    data-is-loaded="0"
+                                    data-loading="0"
+                                >
+                            <span class="d-flex justify-content-center"><p class="xlabel mb-2 text-center col-3">Channel</p></span>
+                            <div class="ceksubs position-sticky w-100 d-flex mb-1 py-1 border align-items-center justify-content-between pe-3">
+                              <div class="channellabel d-flex" data-channel-id=""><span class="mx-2 my-auto" style="width:42px"><img style="width:100%" class="ithumb"></span>
+                              <div class="me-1 d-flex flex-column justify-content-center">
+                                <h5 class="ichannel mb-1" style="font-size:1em"></h5>
+                                <span class="isubs" style="color:rgba(0,0,0,.7);font-size:.8em"></span>
+                              </div></div>
+                               <img src="bell.svg" style="scale:1.5" class="bell">
+                               <img src="xbell.svg" style="scale:1.5" class="xbell d-none">
+                             
+                              <div class="loadchn spinner-border spinner-border-sm text-secondary" style="scale:1.5" role="status"><span class="visually-hidden">Loading...</span></div>
+                           
+                            </div>
+                            <div class="divchannel d-flex flex-column h-100 overflow-y-auto" 
+                                    data-imgloaded="0"></div>
+                              </div>
+                            <div class="d-flex flex-column divsubrek" 
+                              data-index=""
+                                data-imgloading="0"
+                                data-is-loaded="0"
+                                data-loading="0"
+                                data-lastindex="0"
+                                data-next-token="undefined"
+                                data-ambilnext="0"
+                            >
+                                <span class="d-flex justify-content-center"><p class="xlabel mb-2 text-center col-3">Subscribed</p></span>
+                                 <div class="d-flex flex-column h-100 overflow-y-auto"
+                                 data-imgloaded="0"></div>
+                             </div>
+                            </div>
+                        
+                        </div>
+                        <img id="img0" class="d-none">
+                        <img id="img01" class="d-none">
+                        <img id="imgx0" class="d-none">
+                        <img id="imgx1" class="d-none">
+                        <img id="imgx2" class="d-none">
+                        <img id="imgx3" class="d-none">
+                        <img id="imgxi" class="d-none">
+                        <img id="imgxi1" class="d-none">
+                        <img id="imgxi2" class="d-none">
+                    </div>
+                    <div class="carousel-item">b</div>
+                    <div class="carousel-item">c</div>
+                </div>
+            
+            <div class="navdown py-2 d-none">
+                <button
+                    type="button"
+                    data-slide-to="0"
+                >
+                    aaaa
+                </button>
+                <button
+                    type="button"
+                    data-slide-to="1"
+                >
+                    bbbb
+                </button>
+                <button
+                    type="button"
+                    data-slide-to="2"
+                >
+                    cccc
+                </button>
+            </div>
+            <span id="chevron" class="position-absolute bg-black rounded-circle h-auto" style="bottom:15px;right:15px;width:10.5%;transform:none"><img src="chevron.svg" class="w-100" style="transform:scale(1.1)"></span>
+        </div>
+<iframe name="downloadIframe" id="downloadIframe" style="display: none"></iframe>
+       <button id="stopfetch" class="d-none"></button>
+        <script>
+        const playauto = document.getElementById("auto");
+           
+        if(localStorage.getItem('autoplay') && localStorage.getItem('autoplay') == "true"){
+                              playauto.checked = true;
+                            }
+          const height =
+                (document.querySelector(".carousel-item").offsetWidth *
+                    ((232 * 100) / 412)) /
+                100;
+          const jarak = document.getElementById("chevron").offsetWidth+15+"px";
+          const ikomen = document.getElementById("ikomen");
+         const downdiv = document.getElementById("downdiv");
+         const ideskrip = document.getElementById("ideskrip");
+           
+        document.querySelector(".divsubrek>div").style.paddingBottom = jarak;
+        ikomen.style.paddingBottom = jarak;
+        downdiv.style.paddingBottom = jarak;
+        ideskrip.children[0].style.marginBottom = jarak;
+        </script>
+        
+        <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+-->
+        <!-- <script src="youtube_iframe_api.js"></script>
+        <script src="demo.js"></script>-->
+        <script>
+            let timeload = setTimeout(()=>{
+                    document.body.innerHTML = `<h1 class="text-center" style="margin-top:40vh">Oops !</h1><p class="text-center"><button class="btn btn-dark" onclick="location.reload()">Try again</button></p>`;
+            }, 90000);
+            document.getElementById("ytplayer").onerror=()=>{
+                    document.body.innerHTML = `<h1 class="text-center" style="margin-top:40vh">Oops !</h1><p class="text-center"><button class="btn btn-dark" onclick="location.reload()">Try again</button></p>`;
+            }
+            // Load the IFrame Player API code asynchronously.
+            const tag = document.createElement("script");
+            tag.src = "https://www.youtube.com/player_api";
+            const firstScriptTag = document.getElementsByTagName("script")[0];
+            firstScriptTag.parentElement.insertBefore(tag, firstScriptTag);
+
+            // Replace the 'ytplayer' element with an <iframe> and
+            // YouTube player after the API code downloads.
+            
+           // document.querySelector(".iframe").height = height;
+            const resol1 = ["tiny","small","medium","large","hd720","hd1080","hd1440","hd2160","highres"];
+            const resol2 = ["144p","240p","360p","480p","720p","HD","UHD","4K","8K"];
+            const hasilcari = document.querySelector(".hasilcari");
+            const trending = document.querySelector(".trending");
+            const navhasil = document.getElementById("navhasil");
+           const divhasil = document.getElementById("divhasil");
+            
+             let ytplayer;
+           let isReady;
+            let player;
+            let idplay = "Xu1wA7CfhQg";
+            let arrlist;
+            let arrsub;
+            
+            function onYouTubePlayerAPIReady() {
+                player = new YT.Player("ytplayer", {
+                    height: height,
+
+                    videoId: idplay,
+                    events: {
+                        onReady: function (e) {
+                            player.setPlaybackQuality("tiny");
+                            //player.loadVideoById("pPh0dqgsnpI");
+                            /*player.loadPlaylist([
+                                "Ww4UWCbo18E",
+                                "pPh0dqgsnpI",
+                                "Xu1wA7CfhQg"
+                            ]);*/
+                            
+                            if(!ytplayer){
+                              clearTimeout(timeload);
+                ytplayer = document.getElementById("ytplayer");
+                if(!arrlist && localStorage.getItem("playlist")){
+                arrlist = JSON.parse(localStorage.getItem("playlist"));
+              }else if(!localStorage.getItem("playlist")){
+                arrlist = [];
+                localStorage.setItem("playlist", JSON.stringify(arrlist));
+              }
+              if(!arrsub && localStorage.getItem('subrek')){
+                arrsub = JSON.parse(localStorage.getItem("subrek"));
+              }else if(!localStorage.getItem('subrek')){
+                arrsub = [];
+              }
+              ceklist();
+              ceksubs();
+                togglecari();
+                            }
+                        },
+                        onStateChange: function(e){
+                            fresolusi();
+                            if(e.data == 0 && playauto.checked){
+                              /*if(hasilcari.dataset.index != ""){
+                                hasilcari.querySelectorAll(".kosong")[parseInt(hasilcari.dataset.index)+1].click();
+                              }else if(trending.dataset.index != ""){
+                                trending.querySelectorAll(".kosong")[parseInt(trending.dataset.index)+1].click();
+                              }*/
+                              if(parseInt(divhasil.children[navhasil.dataset.active].dataset.index) < divhasil.children[navhasil.dataset.active].querySelectorAll(".kosong").length-1){
+                              divhasil.children[navhasil.dataset.active].querySelectorAll(".kosong")[parseInt(divhasil.children[navhasil.dataset.active].dataset.index)+1].click();
+                              }
+                           
+                            }
+                        },
+                        onPlaybackQualityChange: function(e){
+                          fresolusi()
+                        },
+                        onApiChange: function(e){
+                          //!playauto.checked?player.stopVideo():0;
+                          player.setOption("captions", "fontSize",1);
+                        }
+                    }
+                });
+            }
+            
+            playauto.onclick = function(e){
+                localStorage.setItem('autoplay', JSON.stringify(this.checked));
+            }
+            
+            document.querySelector(".navig").onclick =e=>{
+              if(!ytplayer){
+                e.preventDefault();
+                return;
+              }
+            }
+            
+            document.getElementById("mode").onclick = e=>{
+              if(!ytplayer)return;
+              document.querySelector(".iframe").classList.toggle("position-absolute");
+                document.getElementById("theme").content = "black"
+             document.getElementById("terang").classList.toggle("d-none");
+             if(ytplayer.classList.contains("d-none")){
+               ytplayer.classList.toggle("d-none")
+             }
+           //  ytplayer.style.top = tinggi/2-(ytplayer.offsetHeight/1.7)+"px"
+               // ytplayer.style.top = -ytplayer.getBoundingClientRect().top/2*2.6+document.querySelector(".carousel-item.active").offsetHeight/2-ytplayer.offsetHeight/2+"px";
+            //  ytplayer.style.margin = "auto";
+              //ytplayer.style.bottom = "40%";
+              
+            }
+            
+            document.getElementById("terang").onclick =e=>{
+              document.querySelector(".iframe").classList.toggle("position-absolute");
+              document.getElementById("theme").content="";
+              document.getElementById("terang").classList.toggle("d-none")
+              if(chevron.style.rotate != ""){
+               ytplayer.classList.toggle("d-none")
+             }
+            //  ytplayer.style.top = "0";
+            }
+            
+            
+            
+            const resolusi = document.getElementById("resolusi");
+            function fresolusi(){
+              
+               if(player.getPlaybackQuality() && player.getPlaybackQuality() != "unknown"){
+                              resolusi.textContent = resol2[resol1.indexOf(player.getPlaybackQuality())];
+                  
+                
+              }else{
+                              resolusi.innerHTML = "&#183;&#183;&#183;";
+                            }
+            }
+            resolusi.onclick = e=>{
+              if(player){
+              player.stopVideo();
+              }
+            }
+            const btncari = document.getElementById("btncari");
+            const xbtncari = document.getElementById("xbtncari");
+
+            function togglecari() {
+                btncari.classList.toggle("d-none");
+                xbtncari.classList.toggle("d-none");
+            }
+            const inputcari = document.getElementById("inputcari");
+
+            inputcari.onkeyup = e => {
+                e.keyCode == 13 ? btncari.click() : 1;
+            };
+
+            //console.log(youtubeDurationToSeconds("PT4M59S"));
+
+            // x AIzaSyCjohtlocUgYy8-gC2XNDnTVlOuusFftkQ
+
+            // AIzaSyC7DpBLBdMRsdVKcJHsYFP2zZQQnW4_RzU
+            // AIzaSyBh18r-wQlNVTDKYccaf41p4xA8r8HZC_Y
+            // * AIzaSyDv3O8b6aS9UPYu6snKtvVF8ejNq3J2wj0
+            const key = "AIzaSyDv3O8b6aS9UPYu6snKtvVF8ejNq3J2wj0";
+            const language =
+                        window.navigator.userLanguage ||
+                        window.navigator.language;
+          const infodown = document.querySelector(".infodown");
+           const chevron = document.getElementById("chevron");
+         const channellabel = document.querySelector(".channellabel");
+          
+            // let channels =[];
+           //  let idcs;
+           //  let thumbs = [];
+           
+        //    let imgloaded;
+          
+        //    let nextToken;
+            //let ambilnext;
+            const maxResults = 50;
+          //  let timeout;
+       //     let isTrending;
+
+            async function search(url,next,tampil,label,type,imgx) {
+                let token = "";
+                let xtampil = tampil;
+                    if(type == "channel"){
+                      xtampil = tampil.querySelector(".divchannel");
+                    }else if(type == "subrek"){
+                      xtampil = document.querySelector(".divsubrek>div")
+                    }
+                if (next) {
+                    token = "&pageToken=" + tampil.dataset.nextToken;
+                    tampil.dataset.ambilnext = 1;
+                } else {
+                    if(type != "search"){
+                      tampil.dataset.loading = "1";
+                      if(type == "channel"){
+                        tampil.querySelector(".loadchn").style.display ="block";
+                          tampil.querySelector(".bell").style.display ="none";
+                          tampil.querySelector(".xbell").style.display ="none";
+                          xtampil.innerHTML="";
+                       //   tampil.querySelector(".isubs").innerHTML="";
+                          ceksubs();
+                      }
+                    }
+                    tampil.dataset.ambilnext = 0;
+                }
+                
+                let playlistnext;
+                
+                togglecari();
+                try {
+                  let r = {};
+                  if(type != "playlist" && type != "subrek"){
+                    r = await Fetch(url+token);
+                  }else{
+                    const itemlist =type=="playlist"?arrlist:arrsub;
+                    if(next){
+                      r={items:itemlist.slice(parseInt(tampil.dataset.lastindex)+maxResults,parseInt(tampil.dataset.lastindex)+maxResults*2)};
+                    }else{
+                      r={items:itemlist.slice(0,maxResults)};
+                    }
+                    
+                    if((tampil.dataset.isLoaded != "1" && itemlist.length > maxResults) || itemlist.length > parseInt(tampil.dataset.lastindex)+maxResults*2){
+                      tampil.dataset.nextToken="1";
+                      playlistnext=1;
+                    }
+                  }
+                    console.log(r);
+                    if(!r.items){
+                      throw r;
+                     //return eror(r,url,next,tampil,label,type,imgx);
+                    }
+                    if(r.items.length < 1){
+                      togglecari();
+                      setTimeout(()=>{return alert("Not found!")},100)
+                    }else if(r.items.length > maxResults){
+                      r.items.pop();
+                    }
+                    let ids = "";
+                    
+                    r.items.forEach((e, i) => {
+                      if(i<maxResults){
+                       // ids += type=="trending"?e.id:e.id.videoId;
+                       if(type == "trending"){
+                         ids += e.id;
+                       }else if(type == "playlist" || type == "subrek"){
+                         ids+=e;
+                       }else{
+                         ids+=e.id.videoId;
+                       }
+                       
+                        i < maxResults - 1 ? (ids += ",") : 0;
+                      }
+                    });
+                    if(type == "search" && !next){inputcari.blur();}
+                    let d = {};
+                    if(type != "subrek"){
+                     d = await Fetch(
+                        "https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&key=" +
+                            key +
+                            "&hl="+language.split("-")[1]+
+                            "&maxResults=" +
+                            maxResults +
+                            "&id=" +
+                            ids
+                    );
+                    }else{
+                      d = r;
+                    }
+                    console.log(d);
+                    if(!d.items){
+                      throw d;
+                     //return eror(d,url,next,tampil,label,type,imgx);
+                    }
+                    let idcs = "";
+                    //const idchannels=[];
+                      d.items.forEach((e,i)=>{
+                        idcs += type=="subrek"?e:e.snippet.channelId;
+                        i < maxResults - 1 ? (idcs += ",") : 0;
+                       // idchannels.push(e.snippet.channelId);
+                      });
+                      //console.log(idchannels);
+                    
+                    const c = await Fetch(
+                        "https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&key=" +
+                            key +
+                            "&hl="+language.split("-")[1]+
+                            "&maxResults=" +
+                            maxResults +
+                            "&id=" +
+                            idcs
+                    );
+                    console.log(c);
+                    if(!c.items){
+                      throw c;
+                   //  return eror(c,url,next,tampil,label,type,imgx);
+                    }
+                   // clearTimeout(timeout);
+                    const idchannels = c.items.map(e=>e.id);
+                  //  console.log(idchannels);
+                  if(!playlistnext){
+                    tampil.dataset.nextToken = r.nextPageToken;
+                  }
+                    
+                    if (!next) {
+                        tampil.dataset.index = "";
+                        xtampil.innerHTML = "";
+                        if(type=="channel"){
+                          tampil.querySelector(".isubs").innerHTML = `${hitung(c.items[0].statistics.videoCount)} videos &#183; ${hitung(c.items[0].statistics.subscriberCount)} subscribs`;
+                          imgchannel(c.items[0].snippet.thumbnails.default.url,document.getElementById("imgxi1"),document.querySelector(".vidchannel .ithumb"));
+                        }
+                        tampil.dataset.lastindex = "0";
+                        tampil.dataset.imgloading = "0";
+                    } else {
+                        tampil.dataset.lastindex = parseInt(tampil.dataset.lastindex) + maxResults;
+                        tampil.querySelector(".nextpage").remove();
+                    }
+                    
+                    r.items.forEach((e, i) => {if(i>=maxResults){return;}
+                       // thumbs.push(d.items[i].snippet.thumbnails.high.url);
+                      //  channels.push(c.items[idchannels.indexOf(e.snippet.channelId)]);
+                        let likes = "";
+                        let komens = "";
+                        if(type!="subrek"&&d.items[i].statistics.likeCount){
+                          likes = "&#183; "+hitung(
+                                            d.items[i].statistics.likeCount
+                                        )+" likes";
+                        }
+                        if(type!="subrek"&&d.items[i].statistics.commentCount){
+                          komens = hitung(d.items[i].statistics.commentCount);
+                        }
+                        
+                        let xvideoid;
+                        if(type == "trending"){
+                         xvideoid= e.id;
+                       }else if(type == "playlist"){
+                         xvideoid=e;
+                       }else if(type!="subrek"){
+                         xvideoid=e.id.videoId;
+                       }
+                        
+                        if(type != "subrek"){
+                        xtampil.innerHTML += `<div class="d-flex flex-column position-relative">
+                                         <div class="kosong" style="z-index:1" data-index="${
+                                             i + parseInt(tampil.dataset.lastindex)
+                                         }" data-video-id="${
+                                             xvideoid
+                                         }" data-deskrip="${d.items[i].snippet.localized.description}"
+                                         data-subs="${hitung(c.items[idchannels.indexOf(d.items[i].snippet.channelId)].statistics.videoCount)} videos &#183; ${hitung(c.items[idchannels.indexOf(d.items[i].snippet.channelId)].statistics.subscriberCount)} subscribs"
+                                         data-komen="${komens}" 
+                                         data-channelimg="${c.items[idchannels.indexOf(d.items[i].snippet.channelId)].snippet.thumbnails.default.url}"
+                                         data-thumb="${d.items[i].snippet.thumbnails.high.url}"
+                                         data-channel-id="${d.items[i].snippet.channelId}"
+                                         ></div>
+                                        <div style="height:${height}px;background-color:#eee" class="text-center d-flex align-items-center overflow-hidden position-relative">
+                                          <img class="w-100 thumb">
+                                          <div class="onplay">
+                                                <div class="playing">
+                                                    <span
+                                                    <span
+                                                        class="playing__bar playing__bar1"
+                                                    ></span>
+                                                    <span
+                                                        class="playing__bar playing__bar2"
+                                                    ></span>
+                                                    <span
+                                                        class="playing__bar playing__bar3"
+                                                    ></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="channeldurasi d-flex px-2 justify-content-between mt-1" style="color:rgba(0,0,0,.7); font-size: .9em;line-height:1em;"><span class="channel">${c.items[idchannels.indexOf(d.items[i].snippet.channelId)].snippet.localized.title
+                                        }</span><span>${d.items[i].snippet.liveBroadcastContent=="live"?'<span class="text-danger">&#9679;</span> LIVE':durasi(
+                                            d.items[i].contentDetails.duration
+                                        )}</span></div>
+                                        <h5 class="judul mb-0 px-2" style="font-size:1.14em;">${
+                                            d.items[i].snippet.localized.title
+                                        }</h5>
+                                        <div class="views d-flex mb-2 px-2 justify-content-between" style="color:rgba(0,0,0,.7);font-size: .8em;"><span>${hitung(
+                                            d.items[i].statistics.viewCount
+                                        )} views ${likes}</span><span>${rilis(
+                                            d.items[i].snippet.publishedAt
+                                        )}</span></div>
+                                      </div>`;
+                        }else{
+                          xtampil.innerHTML +=`
+                        <div class="d-flex py-1 mb-1 border align-items-center justify-content-between pe-3">
+                              <div class="position-relative d-flex">
+                              <span class="kosong channellabel position-absolute top-0 bottom-0 start-0 end-0" data-channel-id="${e}" data-thumb="${c.items[idchannels.indexOf(e)].snippet.thumbnails.default.url}"></span>
+                              <span class="mx-2 my-auto" style="width:42px"><img style="width:100%" class="thumb"></span>
+                              <div class="me-1 d-flex flex-column justify-content-center">
+                                <h5 class="ichannel mb-1" style="font-size:1em">${c.items[idchannels.indexOf(e)].snippet.localized.title}</h5>
+                                <span class="isubs" style="color:rgba(0,0,0,.7);font-size:.8em">${hitung(c.items[idchannels.indexOf(e)].statistics.videoCount)} videos &#183; ${hitung(c.items[idchannels.indexOf(e)].statistics.subscriberCount)} subscribs</span>
+                              </div></div>
+                               <img src="xbell.svg" style="scale:1.5" class="xbell">
+                            
+                            </div>`;
+                        }
+                    });
+                    if(r.nextPageToken || playlistnext){
+                    xtampil.innerHTML += `<div class="nextpage d-flex justify-content-center align-items-center p-1 mb-2">
+                    <div class="spinner-border text-secondary" role="status"><span class="visually-hidden">Loading...</span></div></div>`;
+                    }
+                    
+                        togglecari();
+                        imgx.src="";
+                    if (!next) {
+                        if(type == "trending"){
+                          label.innerHTML = "Trending";
+                          
+                        }else if(type == "channel"){
+                          tampil.dataset.channelId = label.dataset.channelId;
+                      
+                          tampil.querySelector(".loadchn").style.display ="none";
+                          tampil.querySelector(".bell").style.display ="inline";
+                          tampil.querySelector(".xbell").style.display ="inline";
+                        }else if(type == "playlist"){
+                          label.innerHTML = "Playlist";
+                        }else if(type == "subrek"){
+                          tampil.querySelector(".xlabel").innerHTML = "Subscribed";
+                       }
+                        tampil.dataset.loading = "0";
+                          tampil.dataset.isLoaded = "1";
+                        
+                          label.click();
+                        if(!infodown.classList.contains("d-none")){
+                          document.querySelectorAll('input[name="infodown"]')[infodown.dataset.active].click()
+                        }
+                        
+                        if(chevron.style.rotate == ""){
+                      chevron.click();
+                    }
+                        xtampil.scrollTop=0;
+                        
+                        xtampil.dataset.imgloaded = 0;
+                      //  setTimeout(()=>imgload(tampil.querySelectorAll("img")[tampil.dataset.imgloaded],imgx,url,tampil,label,type,imgx),100);
+                       } else {
+                        tampil.dataset.ambilnext = 0;
+                    }
+                        setTimeout(()=>imgload(tampil.querySelectorAll(".thumb")[xtampil.dataset.imgloaded],imgx,url,tampil,label,type),100);
+                }catch(err){
+                  /*if(err.name == "AbortError"){
+                    alert("gagal cari");
+                  }*/
+                  return eror(err,next,xtampil,label,type);
+                }
+                
+            }
+            
+            function eror(err,next,tampil,label,type) {
+                   // clearTimeout(timeout);
+                    
+                    console.log(err);
+                    
+                    if(!next){
+                      if(type == "search"){
+                        setTimeout(()=>alert("Failed to search!"),100);
+                    }else if(type!="search"){
+                      label.click();
+                          if(type == "trending" || type == "playlist"){
+                          tampil.dataset.loading = "0";
+                            if(type == "trending"){
+                            label.innerHTML = "Trending";
+                            label = "document.querySelector('.trendbtn').click()";
+                          
+                            }else{
+                            label.innerHTML="Playlist";
+                            label = "document.querySelector('.playlistbtn').click()";
+                            }
+                          }else{
+                          tampil.parentElement.dataset.loading = "0";
+                          if(type =="channel"){
+                            tampil.parentElement.querySelector(".loadchn").style.display ="none";
+                          tampil.parentElement.querySelector(".bell").style.display ="inline";
+                          tampil.parentElement.querySelector(".xbell").style.display ="inline";
+                         label = "document.querySelector('.channelbtn').click()"
+                          }else{
+                            tampil.parentElement.querySelector(".xlabel").innerHTML = "Subscribed";
+                         label = "document.querySelector('.subrekbtn').click()";
+                            
+                          }
+                          }
+                         
+                        
+                        tampil.innerHTML = `
+                <div class="mx-auto d-flex flex-column justify-content-center text-center mt-5"><h6>Oops !</h6>
+                <button class="btn btn-dark" onclick="${label}">Try again!</button></div>
+              `;
+                    }
+                    }else{
+                      tampil.dataset.ambilnext = 0;
+                    }
+                    
+                    
+                      if (btncari.classList.contains("d-none")) {
+                        togglecari();
+                    }
+                    
+                    if(err.error && err.error.message && err.error.message.includes("quota")){
+                      setTimeout(()=>alert("quota"),100);
+                    }
+                    
+                }
+                
+             // const imgx = document.getElementById("imgx");
+           const searchbtn = document.querySelector(".searchbtn");
+            btncari.onclick = e => {
+                if (btncari.classList.contains("d-none") || !inputcari.value) {
+                    return;
+                }
+               // imgx.src = "";
+              //  thumbs = [];
+               // channels = [];
+                inputcari.blur();
+                search("https://www.googleapis.com/youtube/v3/search?type=video&videoEmbeddable=true&part=snippet&key=" +
+                            key +
+                            "&maxResults=" +
+                            maxResults +
+                            "&q=" +
+                            encodeURI(inputcari.value),0,hasilcari,searchbtn,"search",document.getElementById("imgx1"));
+            };
+            
+            searchbtn.onclick = e=>{
+              if(hasilcari.dataset.isLoaded == "1" && navhasil.querySelectorAll("label")[navhasil.dataset.active] != searchbtn &&chevron.style.rotate == ""){
+                chevron.click();
+                }
+            }
+            
+            const trendbtn = document.querySelector(".trendbtn");
+            trendbtn.onclick = e=>{
+              if(trending.dataset.isLoaded == "1" && navhasil.querySelectorAll("label")[navhasil.dataset.active] != trendbtn){
+                if(chevron.style.rotate == ""){
+                chevron.click();
+                }
+                return;
+              }else if((btncari.classList.contains("d-none") && trending.dataset.loading != "1") || trending.dataset.isLoaded == "1"){
+                e.preventDefault();
+                return;
+              }else if(trending.dataset.loading == "1"){
+                return;
+              }
+              trending.innerHTML = "";
+              trendbtn.innerHTML += ` <div class="spinner-border spinner-border-sm text-secondary" role="status"><span class="visually-hidden">Loading...</span></div>`;
+              search("https://www.googleapis.com/youtube/v3/videos?chart=mostPopular&part=snippet,contentDetails,statistics&key="+
+                  key +
+                "&hl="+language.split("-")[1]+
+            "&regionCode="+language.split("-")[1]+
+            "&maxResults="+maxResults,0,trending,trendbtn,"trending",document.getElementById("imgx2"));
+            }
+            
+            const divplaylist = document.querySelector(".divplaylist");
+            
+            const playlistbtn = document.querySelector(".playlistbtn");
+            playlistbtn.onclick=e=>{
+              if(divplaylist.dataset.isLoaded == "1" && navhasil.querySelectorAll("label")[navhasil.dataset.active] != playlistbtn){
+                if(chevron.style.rotate == ""){
+                  chevron.click();
+                }
+                return;
+              }else if((btncari.classList.contains("d-none") && divplaylist.dataset.loading != "1") || divplaylist.dataset.isLoaded == "1"){
+                e.preventDefault();
+                return;
+              }else if(divplaylist.dataset.loading == "1"){
+                return;
+              }
+            //  const data = {items:arrlist};
+              divplaylist.innerHTML = "";
+              playlistbtn.innerHTML += ` <div class="spinner-border spinner-border-sm text-secondary" role="status"><span class="visually-hidden">Loading...</span></div>`;
+             
+              search(0,0,divplaylist,playlistbtn,"playlist",document.getElementById("imgx0"));
+            }
+             const vidchannel = document.querySelector(".vidchannel");
+              const channelbtn = document.querySelector(".channelbtn");
+            channellabel.onclick =e=>{
+              channelbtn.dataset.thumb = channellabel.dataset.thumb;
+              channelbtn.dataset.channel = channellabel.dataset.channel;
+              channelbtn.dataset.channelId = channellabel.dataset.channelId;
+              channelbtn.dataset.subs = channellabel.querySelector(".isubs").innerHTML;
+              channelbtn.click();
+            }
+           
+            channelbtn.onclick = function(e){
+              if(vidchannel.dataset.channelId == channelbtn.dataset.channelId){
+                if(chevron.style.rotate == ""){
+                chevron.click();
+                }
+                return;
+              }else if((btncari.classList.contains("d-none") && vidchannel.dataset.loading != "1") || vidchannel.dataset.channelId == channelbtn.dataset.channelId){
+                e.preventDefault();
+                return;
+              }else if(vidchannel.dataset.loading == "1"){
+                return;
+              }console.log(this.dataset.channelId);
+              vidchannel.querySelector(".ithumb").src = this.dataset.thumb;
+              vidchannel.querySelector(".ichannel").innerHTML = this.dataset.channel;
+              vidchannel.querySelector(".channellabel").dataset.channelId = this.dataset.channelId;
+              vidchannel.querySelector(".isubs").innerHTML = this.dataset.subs;
+              search("https://www.googleapis.com/youtube/v3/search?type=video&videoEmbeddable=true&part=snippet&order=date&key="+
+              key +
+                "&hl="+language.split("-")[1]+
+            "&regionCode="+language.split("-")[1]+
+            "&channelId="+this.dataset.channelId+
+            "&maxResults="+maxResults,0,vidchannel,channelbtn,"channel",document.getElementById("imgx3"));
+           
+            }
+            
+           const topbell = document.querySelector(".topbell");
+           const subrekbtn = document.querySelector(".subrekbtn");
+           topbell.onclick =e=>{
+             
+             if(!arrsub && localStorage.getItem('subrek')){
+               loadsubrek()
+             }
+             if(!localStorage.getItem('subrek') || arrsub.length<1){
+               e.preventDefault();
+               return alert("0 subscribed!");
+             }
+             subrekbtn.click();
+             
+           }
+           
+           const divsubrek = document.querySelector(".divsubrek");
+            
+           subrekbtn.onclick =function(e){
+             if(divsubrek.dataset.isLoaded == "1"){
+                if(arrsub.length>0 && chevron.style.rotate == ""){
+                chevron.click();
+                }
+                return;
+              }else if((btncari.classList.contains("d-none") && divsubrek.dataset.loading != "1") || divsubrek.dataset.isLoaded == "1"){
+                e.preventDefault();
+                return;
+              }else if(divsubrek.dataset.loading == "1"){
+                return;
+              }
+              document.querySelector(".divsubrek > div").innerHTML = "";
+              divsubrek.querySelector(".xlabel").innerHTML += ` <div class="spinner-border spinner-border-sm text-secondary" role="status"><span class="visually-hidden">Loading...</span></div>`;
+              search(0,0,divsubrek,subrekbtn,"subrek",document.getElementById("imgxi2"));
+            
+           }
+           
+           const ijudul = document.getElementById("ijudul");
+            const isubs = document.querySelector(".isubs");
+             const icombtn = document.getElementById("icombtn");
+            const iviews = document.getElementById("iviews");
+           
+         //   https://www.googleapis.com/youtube/v3/search?type=video&videoEmbeddable=true&part=snippet&channelId=UCaIbbu5Xg3DpHsn_3Zw2m9w&order=date&
+           const addbtn = document.querySelector(".addbtn");
+           const movebtn = document.querySelector(".movebtn");
+           addbtn.onclick = function(){
+              if(!confirm("Add to playlist?")){
+                return;
+              }
+               arrlist.push(idplay);
+               localStorage.setItem("playlist", JSON.stringify(arrlist));
+               togglelist();
+               divplaylist.innerHTML +=`<div class="d-flex flex-column position-relative">
+                                         <div class="kosong" style="z-index:1" data-index="${
+                                             divplaylist.querySelectorAll(".kosong").length
+                                         }" data-video-id="${
+                                             idplay
+                                         }" data-deskrip="${ideskrip.children[0].innerHTML}"
+                                         data-subs="${isubs.innerHTML}"
+                                         data-komen="${icombtn.dataset.jml}" 
+                                         data-channelimg="${channellabel.dataset.thumb}"
+                                         data-thumb="${channellabel.dataset.videoimg}"
+                                         data-channel-id="${channellabel.dataset.channelId}"
+                                         ></div>
+                                        <div style="height:${height}px;background-color:#eee" class="text-center d-flex align-items-center overflow-hidden position-relative">
+                                          <img class="w-100 thumb">
+                                          <div class="onplay">
+                                                <div class="playing">
+                                                    <span
+                                                    <span
+                                                        class="playing__bar playing__bar1"
+                                                    ></span>
+                                                    <span
+                                                        class="playing__bar playing__bar2"
+                                                    ></span>
+                                                    <span
+                                                        class="playing__bar playing__bar3"
+                                                    ></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="channeldurasi d-flex px-2 justify-content-between mt-1" style="color:rgba(0,0,0,.7); font-size: .9em;line-height:1em;">${channellabel.dataset.channeldurasi}</div>
+                                        <h5 class="judul mb-0 px-2" style="font-size:1.14em;">${ijudul.innerHTML}</h5>
+                                        <div class="views d-flex mb-2 px-2 justify-content-between" style="color:rgba(0,0,0,.7);font-size: .8em;">${iviews.innerHTML}</div>
+                                      </div>`;
+                if(divplaylist.dataset.imgloaded == divplaylist.querySelectorAll(".thumb").length-1){
+                  imgchannel(channellabel.dataset.videoimg,document.getElementById("img0"),divplaylist.querySelectorAll(".thumb")[divplaylist.querySelectorAll(".thumb").length-1],divplaylist);
+                }
+            }
+            
+            movebtn.onclick = e=>{
+              if(!confirm("Remove from playlist?")){
+                return;
+              }
+              const index = arrlist.indexOf(idplay);
+              arrlist.splice(index,1);
+              localStorage.setItem("playlist", JSON.stringify(arrlist));
+               togglelist();
+               if(parseInt(divplaylist.dataset.imgloaded) > index){
+               divplaylist.dataset.imgloaded = parseInt(divplaylist.dataset.imgloaded)-1;
+              }
+               document.querySelectorAll(".divplaylist>div:not(.nextpage)")[index].remove();
+            }
+            
+            function togglelist(){
+              addbtn.classList.toggle("d-none");
+              movebtn.classList.toggle("d-none");
+            }
+            
+            function ceklist(){
+              if(arrlist.includes(idplay) && movebtn.classList.contains("d-none")){
+                togglelist();
+              }else if(!arrlist.includes(idplay) && addbtn.classList.contains("d-none")){
+                togglelist();
+              }
+           }
+            
+            const ichannel = document.querySelector(".ichannel");
+             const ideskbtn = document.getElementById("ideskbtn");
+            const stopfetch = document.getElementById("stopfetch");
+            
+            let tabplaying;
+          
+        //    let imgloading;
+            const bottom = divhasil.getBoundingClientRect().bottom;
+            function imgload(img,imgx,url,tampil,label,type) {
+                tampil.dataset.imgloading = "1";
+                    //  imgx.src = tampil.querySelectorAll(".kosong")[tampil.dataset.imgloaded].dataset.thumb;
+                let xtampil = tampil;
+                    if(type == "channel"){
+                      xtampil = tampil.querySelector(".divchannel");
+                    }else if(type == "subrek"){
+                      xtampil = document.querySelector(".divsubrek>div")
+                    }
+                imgx.onerror =()=>{
+                  if(parseInt(xtampil.dataset.imgloaded) <
+                        xtampil.querySelectorAll(".thumb").length && tampil
+                        .querySelectorAll(".thumb")
+                        [xtampil.dataset.imgloaded].getBoundingClientRect().top <
+                        bottom+height){
+                    setTimeout(() => {
+                      imgx.src = xtampil.querySelectorAll(".kosong")[xtampil.dataset.imgloaded].dataset.thumb;
+                    }, 100);
+                        }else{
+                          tampil.dataset.imgloading = "0";
+                        }
+                }
+                img.onerror = () => {
+                    imgx.src = "";
+                };
+                img.src="";
+                
+                
+            imgx.onload = () => {
+              if(imgx.src == ""){
+                return;
+              }
+                    xtampil.querySelectorAll(".thumb")[xtampil.dataset.imgloaded].src = imgx.src;
+                  //  imgx.src = "";
+                    xtampil.dataset.imgloaded = parseInt(xtampil.dataset.imgloaded)+1;
+                    
+                    if (parseInt(xtampil.dataset.imgloaded) <
+                        xtampil.querySelectorAll(".thumb").length &&
+                    xtampil
+                        .querySelectorAll(".thumb")
+                        [xtampil.dataset.imgloaded].getBoundingClientRect().top <
+                        bottom+height
+                ) {
+                    imgload(
+                        xtampil.querySelectorAll(".thumb")[xtampil.dataset.imgloaded],
+                        imgx,url,tampil,label,type,imgx
+                    );
+                    } else if (
+                        tampil.dataset.ambilnext != "1" && tampil.dataset.nextToken != "undefined" &&
+                        xtampil
+                            .querySelector(".nextpage")
+                            .getBoundingClientRect().top <
+                            bottom+height
+                    ) {
+                        tampil.dataset.imgloading = "0";
+                        search(url,1,tampil,label,type,imgx);
+                    } else {
+                        tampil.dataset.imgloading = "0";
+                    }
+                };
+                
+            xtampil.onscroll = () => {
+              if(parseInt(xtampil.dataset.imgloaded) < 1){
+                return;
+              }
+                if (tampil.dataset.imgloading != "1" && parseInt(xtampil.dataset.imgloaded) <
+                        xtampil.querySelectorAll(".thumb").length &&
+                    xtampil
+                        .querySelectorAll(".thumb")
+                        [xtampil.dataset.imgloaded].getBoundingClientRect().top <
+                        bottom+height
+                ) {
+                  
+                    imgload(
+                        xtampil.querySelectorAll(".thumb")[xtampil.dataset.imgloaded],
+                        imgx,url,tampil,label,type,imgx
+                    );
+                } else if (tampil.dataset.imgloading != "1" && tampil.dataset.ambilnext == "0" && tampil.dataset.nextToken != "undefined" &&
+                    xtampil.querySelector(".nextpage").getBoundingClientRect()
+                        .top <
+                        bottom+height
+                ) {
+                  tampil.dataset.imgloading = "0";
+                              imgx.src="";
+                    search(url,1,tampil,label,type,imgx);
+                }else if(tampil.dataset.imgloading == "1" && parseInt(xtampil.dataset.imgloaded) <
+                        xtampil.querySelectorAll(".thumb").length && xtampil
+                        .querySelectorAll(".thumb")
+                        [xtampil.dataset.imgloaded].getBoundingClientRect().top >=
+                        bottom+height){
+                              tampil.dataset.imgloading = "0";
+                              imgx.src="";
+                            }
+            };
+        
+           
+            
+            
+           if(type == "channel"){
+             subscribe(vidchannel.querySelector(".bell"),vidchannel.querySelector(".xbell"))
+           }
+            }
+            
+            document.querySelectorAll("#divhasil>div").forEach((x,i)=>{
+              x.onclick = function (e) {
+                if (i!==4&&e.target.classList.contains("kosong") &&
+                    e.target.dataset.index != this.dataset.index
+                ) {
+                    
+                    if(tabplaying && document.querySelectorAll("#divhasil > div")[tabplaying].dataset.index!=""){
+                      const target = document.querySelectorAll("#divhasil>div")[tabplaying];
+                      target.querySelectorAll(".kosong")[target.dataset.index].classList.remove("a");
+                      target.dataset.index = "";
+                    }
+                    
+                    this
+                        .querySelectorAll(".kosong")
+                        [e.target.dataset.index].classList.toggle("a");
+                    if(x.classList.contains("vidchannel")){
+                    vidchannel.dataset.index = e.target.dataset.index;
+                    }else{
+                    this.dataset.index = e.target.dataset.index;
+                    }
+                    tabplaying = navhasil.dataset.active;
+                    if(idplay != e.target.dataset.videoId){
+                      player.loadVideoById(e.target.dataset.videoId);
+                   
+                      
+                    ijudul.innerHTML = e.target.parentElement.querySelector(".judul").innerHTML;
+                    ichannel.innerHTML = e.target.parentElement.querySelector(".channel").innerHTML;
+                    ideskrip.children[0].innerHTML = e.target.dataset.deskrip;
+                    isubs.innerHTML = e.target.dataset.subs;
+                    iviews.innerHTML = e.target.parentElement.querySelector(".views").innerHTML;
+                    channellabel.dataset.channelId = e.target.dataset.channelId;
+                    channellabel.dataset.channel = e.target.parentElement.querySelector(".channel").innerHTML;
+                    channellabel.dataset.thumb = e.target.dataset.channelimg;
+                    channellabel.dataset.videoimg = e.target.dataset.thumb;
+                    channellabel.dataset.channeldurasi = e.target.parentElement.querySelector(".channeldurasi").innerHTML;
+                    icombtn.dataset.jml = e.target.dataset.komen;
+                    
+                    ideskbtn.click();
+                    if(icombtn.dataset.loadkomen == "1"){
+                    stopfetch.click();
+                    }
+                    imgchannel(e.target.dataset.channelimg,document.getElementById("imgxi"),document.querySelector(".ithumb"));
+                    
+                    //  document.querySelector(".hasilcari").scrollTop = parseInt(e.target.dataset.scrollH);
+                    if(chevron.style.rotate != ""){
+                      chevron.click();
+                      
+                    }
+                    
+                     }
+                    idplay = e.target.dataset.videoId;
+                    ceklist();
+                    if(idplay == icombtn.dataset.videoId){
+                      icombtn.innerHTML = "Comments ("+e.target.dataset.komen+")";
+                    }else{
+                    icombtn.dataset.jml == "0"?icombtn.innerHTML="Comments (0)":icombtn.innerHTML = "Comments";
+                      
+                    }
+                    ceksubs();
+                    
+                }else if(i == 4){
+                  if(e.target.classList.contains("channellabel")){
+                  channelbtn.dataset.thumb = e.target.dataset.thumb;
+                      channelbtn.dataset.channel = e.target.parentElement.querySelector(".ichannel").innerHTML;
+                      channelbtn.dataset.channelId = e.target.dataset.channelId;
+                     channelbtn.dataset.subs = e.target.parentElement.querySelector(".isubs").innerHTML;
+                      channelbtn.click();
+                  }else if(e.target.classList.contains("xbell")){
+                    unsubs(e.target.parentElement.querySelector(".channellabel").dataset.channelId);
+                  }
+                }
+            };
+            });
+            
+            subscribe(document.querySelector(".bell"),document.querySelector(".xbell"));
+            function subscribe(bell,xbell){
+              bell.onclick = function(){
+                if(confirm("Subscribe this channel?")){
+                subs(
+                  this.parentElement.querySelector(".channellabel").dataset.channelId,
+                  this.parentElement.querySelector(".ithumb").src,
+                  this.parentElement.querySelector(".ichannel").innerHTML,
+                  this.parentElement.querySelector(".isubs").innerHTML
+                );
+                }
+              }
+                xbell.onclick = function(){
+                    unsubs(this.parentElement.querySelector(".channellabel").dataset.channelId);
+                }
+                
+              //  localStorage.getItem('autoplay')
+            }
+            
+            function togglebell(bell,xbell){
+              bell.classList.toggle("d-none");
+              xbell.classList.toggle("d-none");
+            }
+            
+            function imgsubrek(img,imgx,tampil){
+              tampil.dataset.imgloading = "1";
+              imgx.onerror =()=>{
+                  if(parseInt(tampil.dataset.imgloaded) <
+                        tampil.querySelectorAll(".ithumb").length&&tampil
+                        .querySelectorAll(".ithumb")
+                        [tampil.dataset.imgloaded].getBoundingClientRect().top <
+                        bottom+height){
+                    setTimeout(() => {
+                      imgx.src = tampil.querySelectorAll(".channellabel")[tampil.dataset.imgloaded].dataset.thumb;
+                    }, 100);
+                        }else{
+                          tampil.dataset.imgloading = "0";
+                        }
+                }
+                img.onerror = () => {
+                    imgx.src = "";
+                };
+                img.src="";
+                
+                
+            imgx.onload = () => {
+              if(imgx.src == ""){
+                return;
+              }
+                    tampil.querySelectorAll(".ithumb")[tampil.dataset.imgloaded].src = imgx.src;
+                  //  imgx.src = "";
+                    tampil.dataset.imgloaded = parseInt(tampil.dataset.imgloaded)+1;
+                    
+                    if (parseInt(tampil.dataset.imgloaded) <
+                        tampil.querySelectorAll(".ithumb").length &&
+                    tampil
+                        .querySelectorAll(".ithumb")
+                        [tampil.dataset.imgloaded].getBoundingClientRect().top <
+                        bottom+height
+                ) {
+                    imgsubrek(
+                        tampil.querySelectorAll(".ithumb")[tampil.dataset.imgloaded],
+                        imgx,tampil
+                    );
+                }else{
+                  tampil.dataset.imgloading = "0";
+                }
+            }
+            
+              tampil.onscroll = () => {
+              if(parseInt(tampil.dataset.imgloaded) < 1){
+                return;
+              }
+                if (tampil.dataset.imgloading != "1" && parseInt(tampil.dataset.imgloaded) <
+                        tampil.querySelectorAll(".ithumb").length &&
+                    tampil
+                        .querySelectorAll(".ithumb")
+                        [tampil.dataset.imgloaded].getBoundingClientRect().top <
+                        bottom+height
+                ) {
+                  
+                    imgsubrek(
+                        tampil.querySelectorAll(".ithumb")[tampil.dataset.imgloaded],
+                        imgx,tampil
+                    );
+                }else if(tampil.dataset.imgloading == "1" && parseInt(tampil.dataset.imgloaded) <
+                        tampil.querySelectorAll(".ithumb").length && tampil
+                        .querySelectorAll(".ithumb")
+                        [tampil.dataset.imgloaded].getBoundingClientRect().top >=
+                        bottom+height){
+                              tampil.dataset.imgloading = "0";
+                              imgx.src="";
+                            }
+              };
+            }
+            
+           
+            function subs(channelId,thumb,channel,subs){
+              
+               arrsub.push(channelId);
+             /* arrsub.data.push({
+               thumb,channel
+              });*/
+              localStorage.setItem("subrek",JSON.stringify(arrsub));
+             // loadsubrek(1);
+             document.querySelector(".divsubrek>div").innerHTML += `<div class="d-flex py-1 mb-1 border align-items-center justify-content-between pe-3">
+                              <div class="position-relative d-flex">
+                              <span class="kosong channellabel position-absolute top-0 bottom-0 start-0 end-0" data-channel-id="${channelId}" data-thumb="${thumb}"></span>
+                              <span class="mx-2 my-auto" style="width:42px"><img style="width:100%" class="thumb"></span>
+                              <div class="me-1 d-flex flex-column justify-content-center">
+                                <h5 class="ichannel mb-1" style="font-size:1em">${channel}</h5>
+                                <span class="isubs" style="color:rgba(0,0,0,.7);font-size:.8em">${subs}</span>
+                              </div></div>
+                               <img src="xbell.svg" style="scale:1.5" class="xbell">
+                            </div>
+                        `;
+              ceksubs();
+              
+              if(document.querySelector(".divsubrek>div").dataset.imgloaded == divsubrek.querySelectorAll(".thumb").length-1){
+                  imgchannel(thumb,document.getElementById("img01"),divsubrek.querySelectorAll(".thumb")[divsubrek.querySelectorAll(".thumb").length-1],document.querySelector(".divsubrek>div"));
+                }
+                
+            }
+            
+            function unsubs(channelId){
+              if(!confirm("Unsubscribe this channel?")){return;}
+             // const arr = JSON.parse(localStorage.getItem('subrek'));
+              const index = arrsub.indexOf(channelId);
+              arrsub.splice(index,1);
+            //  arrsub.data.splice(index,1);
+              localStorage.setItem("subrek",JSON.stringify(arrsub));
+           //   loadsubrek(1);
+              ceksubs()
+              if(parseInt(document.querySelector(".divsubrek>div").dataset.imgloaded) > index){
+                document.querySelector(".divsubrek>div").dataset.imgloaded = parseInt(document.querySelector(".divsubrek>div").dataset.imgloaded)-1;
+              }
+               document.querySelectorAll(".divsubrek>div>div:not(.nextpage)")[index].remove();
+            }
+            
+            function ceksubs(){
+              document.querySelectorAll(".ceksubs").forEach((e,i)=>{
+                if(arrsub && arrsub.includes(e.querySelector(".channellabel").dataset.channelId)){
+                  if(e.querySelector(".xbell").classList.contains("d-none")){
+                    togglebell(e.querySelector(".bell"),e.querySelector(".xbell"))
+                  }
+                }else if(e.querySelector(".bell").classList.contains("d-none")){
+                    togglebell(e.querySelector(".bell"),e.querySelector(".xbell"));
+                  }
+                
+              })
+            }
+            
+            
+             function imgchannel(src,imgxi,ithumb,x){
+              //imgxi.src = src;
+                imgxi.onerror = ()=>{
+                  setTimeout(() => {
+                        imgxi.src = src;
+                    }, 100);
+                }
+                ithumb.onerror = () => {
+                    imgxi.src = "";
+                };
+                ithumb.src = "";
+                
+                imgxi.onload = () => {
+              if(imgxi.src == ""){
+                return;
+              }
+              
+                    ithumb.src = imgxi.src;
+                    if(x){
+                      x.dataset.imgloaded = x.querySelectorAll(".kosong").length;
+                    }
+            }
+            }
+            
+            
+            
+            function Fetch(url, options, type) {
+                const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 30000);
+           let ganti;
+           stopfetch.onclick = ()=>{ganti=1;controller.abort()};
+                !options?options={}:0;
+                options.signal = controller.signal;
+                 return fetch(url, options)
+                    .then(respon => {
+                        /*if (!respon.ok && !url.includes("commentThreads")) {
+                           // console.log(respon.url);
+                            throw new Error(""+respon.status+"\n"+respon.statusText);
+                        }*/
+                        if (type == undefined) {
+                            return respon.json();
+                        } else {
+                            return respon.text();
+                        }
+                    })
+                    .then(respon => {
+                     // if(!controller.signal.aborted){
+                        return respon;
+                     /* }else{
+                        return "Timeout !";
+                      }*/
+                    }).catch(err=>{
+                      if(err.name == 'AbortError') {
+                          if(ganti){
+                            return "ganti";
+                          }else{
+                          return "Timeout!";
+                          }
+                      }else{
+                     // if(!controller.signal.aborted){
+                        return err;
+                      }
+                      /*}else{alert("ok");
+                        return "Timeout !";
+                      }*/
+                    }).finally(()=>{
+                      clearTimeout(timeout);
+                      controller.abort();
+                    });
+            }
+              
+            navhasil.onclick = function (e) {
+              if(e.target.dataset.bsSlideTo && !infodown.classList.contains("d-none")){
+                      document.querySelectorAll('.navig input[name="infodown"]')[infodown.dataset.active].click()
+                    }
+                if (e.target.dataset.bsSlideTo && e.target.dataset.bsSlideTo != this.dataset.active) {
+                    divhasil.style.translate = -e.target.dataset.bsSlideTo * (100 / 5) + "%";
+
+                    
+                    this.dataset.active = e.target.dataset.bsSlideTo;
+                    
+                }
+            };
+
+            function durasi(duration) {
+                var hours = 0;
+                var minutes = 0;
+                var seconds = 0;
+
+                // Remove PT from string ref: https://developers.google.com/youtube/v3/docs/videos#contentDetails.duration
+                duration = duration.replace("PT", "");
+
+                // If the string contains hours parse it and remove it from our duration string
+                if (duration.indexOf("H") > -1) {
+                    hours_split = duration.split("H");
+                    hours = parseInt(hours_split[0]);
+                    duration = hours_split[1];
+                }
+
+                // If the string contains minutes parse it and remove it from our duration string
+                if (duration.indexOf("M") > -1) {
+                    minutes_split = duration.split("M");
+                    minutes = parseInt(minutes_split[0]);
+                    duration = minutes_split[1];
+                }
+
+                // If the string contains seconds parse it and remove it from our duration string
+                if (duration.indexOf("S") > -1) {
+                    seconds_split = duration.split("S");
+                    seconds = parseInt(seconds_split[0]);
+                }
+                var str = "";
+                // Math the values to return seconds
+                //return (hours * 60 * 60) + (minutes * 60) + seconds;
+
+                if (hours != 0) {
+                    str += hours + ":";
+                }
+
+                if (minutes == 0) {
+                    str += "00" + ":";
+                } else if (minutes < 10) {
+                    str += "0" + minutes + ":";
+                } else if (minutes >= 10) {
+                    str += minutes + ":";
+                } else if (minutes == 0) {
+                    str += "00:";
+                }
+
+                if (seconds > 0 && seconds < 10) {
+                    str += "0" + seconds;
+                } else if (seconds < 10) {
+                    str += "0" + seconds;
+                } else if (seconds >= 10) {
+                    str += seconds;
+                } else if (seconds == 0) {
+                    str += "00";
+                }
+
+                return str;
+            }
+
+            function hitung(a) {
+                let z = a;
+                let c;
+                let d;
+                if (a >= 1000000000) {
+                    c = 1000000000;
+                    d = "B";
+                } else if (a >= 1000000) {
+                    c = 1000000;
+                    d = "M";
+                } else if (a >= 1000) {
+                    c = 1000;
+                    d = "K";
+                }
+                if (a >= c) {
+                    z = a[0];
+                    if (a >= c * 100) {
+                        z += a[1] + a[2];
+                    } else if (a >= c * 10) {
+                        z += a[1];
+                        if (a[2] > 0) {
+                            z += "." + a[2];
+                        }
+                    } else if (a[1] > 0) {
+                        z += "." + a[1];
+                    }
+                    z += d;
+                }
+
+                return z;
+            }
+
+            function rilis(tgl) {
+                const a = new Date(tgl);
+
+                let year = new Date(
+                    a.getMonth() +
+                        1 +
+                        "/" +
+                        a.getDate() +
+                        "/" +
+                        new Date().getFullYear()
+                );
+                if (new Date().getTime() > year.getTime()) {
+                    year = year.getFullYear() - a.getFullYear();
+                } else {
+                    year = year.getFullYear() - a.getFullYear() - 1;
+                }
+
+                let aMonth;
+                let month = new Date(
+                    new Date().getMonth() +
+                        1 +
+                        "/" +
+                        a.getDate() +
+                        "/" +
+                        new Date().getFullYear()
+                );
+                if (month.getFullYear() > a.getFullYear()) {
+                    aMonth = 12 + month.getMonth() - a.getMonth();
+                } else {
+                    aMonth = month.getMonth() - a.getMonth();
+                }
+                if (new Date().getTime() > month.getTime()) {
+                    month = aMonth;
+                } else {
+                    month = aMonth - 1;
+                }
+
+                const week = Math.floor(
+                    (new Date() - a) / (1000 * 60 * 60 * 24 * 7)
+                );
+                const day = Math.floor(
+                    (new Date() - a) / (1000 * 60 * 60 * 24)
+                );
+                const hour = Math.floor((new Date() - a) / (1000 * 60 * 60));
+                const minute = Math.floor((new Date() - a) / (1000 * 60));
+                const second = Math.floor((new Date() - a) / 1000);
+
+                let z;
+                let b;
+                if (year > 0) {
+                    z = year > 1? year+" years":year+" year";
+                } else if (month > 0 && month < 12) {
+                    z = month >1?month+ " months":month+" month";
+                } else if (week > 0 && week < 5) {
+                    z = week>1?week+ " weeks":week+" week";
+                } else if (day > 0 && day < 7) {
+                    z = day >1? day+" days":day+" day";
+                } else if (hour > 0 && hour < 24) {
+                    z = hour >1?hour+ " hours":hour+" hour";
+                } else if (minute > 0 && minute < 60) {
+                    z = minute >1?minute+ " minutes":minute+" minute";
+                } else if (second > 0 && second < 60) {
+                    z = second >1 ?second+" seconds":second+" second";
+                }
+                return z+" ago";
+            }
+            
+            const hasil = document.querySelector(".hasil");
+             
+                const viddiv = document.getElementById("viddiv");
+           function downinfo(a){
+             if(infodown.classList.contains("d-none") || infodown.dataset.active == a.value){
+              hasil.classList.toggle("d-none");
+               infodown.classList.toggle("d-none");
+            }
+            
+             if(infodown.dataset.active == a.value && infodown.classList.contains("d-none")){
+               a.checked = false;
+             }else{
+                infodown.style.translate = - parseInt(a.value) * (100 / 3) + "%";
+                
+                if(a.id == "info"){
+                  setTimeout(()=>{ideskrip.scrollTop=0;},100);
+                }
+                
+              }
+              
+               infodown.dataset.active = a.value;
+               
+           }
+            
+            const down = document.getElementById("down");
+           
+            let iddown = "";
+            down.onclick = function(e){
+              downinfo(this);
+               if(iddown != idplay){
+                  viddiv.querySelectorAll(".btn:not(#downvid)").forEach(e=>{
+                    
+                    if(player.getAvailableQualityLevels().length>0 && !player.getAvailableQualityLevels().includes(e.dataset.resol)){
+                      if(!e.classList.contains("disabled")){
+                        if(e.classList.contains("active")){
+                          viddiv.querySelectorAll(".btn:not(#downvid)")[2].click();
+                        }
+                        e.classList.toggle("disabled");
+                      }
+                    }else{
+                      e.classList.remove("disabled");
+                    }
+                  });
+                  if(player.getAvailableQualityLevels().length>0){
+                    iddown = idplay;
+                  }
+              }
+            }
+            
+             viddiv.onclick = function(e){
+              if(e.target.classList.contains("disabled") || !e.target.dataset.index || this.dataset.active == e.target.dataset.index){
+                return;
+              }
+              this.querySelectorAll(".btn:not(#downvid)")[this.dataset.active].classList.toggle("active");
+              e.target.classList.toggle("active");
+              this.dataset.active = e.target.dataset.index
+            }
+            
+            const xdownvid = document.getElementById("xdownvid");
+            downvid.onclick = async function(e){
+              downvid.classList.toggle("d-none");
+              xdownvid.classList.toggle("d-none");
+              let codec = "";
+              viddiv.dataset.active > 3?codec = "av1":0;
+            
+              const options ={
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    url: "https://m.youtube.com/watch?v="+idplay,
+                    vCodec: codec,
+                    vQuality: viddiv.querySelectorAll(".btn:not(#downvid)")[viddiv.dataset.active].dataset.value,
+                    filenamePattern: "basic"
+                })
+              }
+            try{
+              const r = await Fetch("https://co.wuk.sh/api/json",options);
+            console.log(r);
+            if(!r.url){
+              downvid.classList.toggle("d-none");
+              xdownvid.classList.toggle("d-none");
+                return alert(r);
+              };
+            
+          const downloadLink = document.createElement('a');
+
+      downloadLink.href = r.url;
+      downloadLink.setAttribute('download', '');
+      downloadLink.target = 'downloadIframe';
+      downloadLink.click();
+      
+  setTimeout(()=>{
+          downvid.classList.toggle("d-none");
+              xdownvid.classList.toggle("d-none");
+  },4000);
+              }catch(err){
+          downvid.classList.toggle("d-none");
+              xdownvid.classList.toggle("d-none");
+                console.log(err);
+                setTimeout(()=>alert(err),100);
+              };
+            }
+            
+            const downaud = document.getElementById("downaud");
+            const xdownaud = document.getElementById("xdownaud");
+            downaud.onclick = async function(e){
+              downaud.classList.toggle("d-none");
+              xdownaud.classList.toggle("d-none");
+                
+                const options = {
+                  method: "POST",headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    url: "https://m.youtube.com/watch?v="+idplay,
+                    isAudioOnly: "true",
+                    aFormat: auddiv.querySelectorAll(".btn:not(#downaud)")[auddiv.dataset.active].dataset.value,
+                    filenamePattern: "basic"
+                })
+                }
+            try{
+              const r = await Fetch("https://co.wuk.sh/api/json",options);
+             console.log(r);
+             if(!r.url){
+              downaud.classList.toggle("d-none");
+              xdownaud.classList.toggle("d-none");
+                return alert(r);
+              };
+          const downloadLink = document.createElement('a');
+
+      downloadLink.href = r.url;
+      downloadLink.setAttribute('download', '');
+      downloadLink.target = 'downloadIframe';
+      downloadLink.click();
+  
+  setTimeout(()=>{
+          downaud.classList.toggle("d-none");
+              xdownaud.classList.toggle("d-none");
+  },4000);
+              }catch(err){
+          downaud.classList.toggle("d-none");
+              xdownaud.classList.toggle("d-none");
+                console.log(err);
+                setTimeout(()=>alert(err),100)
+              };
+            }
+            
+            auddiv.onclick = function(e){
+              if(!e.target.dataset.index || this.dataset.active == e.target.dataset.index){
+                return;
+              }
+              this.querySelectorAll(".btn:not(#downaud)")[this.dataset.active].classList.toggle("active");
+              e.target.classList.toggle("active");
+              this.dataset.active = e.target.dataset.index
+            }
+            
+           
+          
+          const info = document.getElementById("info");
+          info.onclick = function(){
+            downinfo(this);
+          }
+          
+          const ads = document.getElementById("ads");
+          ads.onclick = function(){
+            downinfo(this);
+          }
+          
+          
+          
+          const deskom = document.getElementById("deskom");
+          const deskombtn = document.getElementById("deskombtn");
+          deskombtn.onclick= function(e){
+            if(e.target.id == "icombtn" && icombtn.dataset.loadkomen != "1" && btncari.classList.contains("d-none")){
+              e.preventDefault();
+              return;
+            }
+            if(e.target.dataset.index){
+              deskom.style.transform = `translateX(${
+                        -e.target.dataset.index * (100 / 2) + "%"
+                    })`;
+            }
+          }
+          
+           let idcomloading;
+          icombtn.onclick = async function(e){
+            if(this.dataset.jml == "0"){
+              ikomen.innerHTML = "";
+              this.dataset.videoId = idplay;
+            }
+            if(btncari.classList.contains("d-none") || this.dataset.loadkomen == "1" || this.dataset.jml == "0" || (idplay == this.dataset.videoId && ikomen.innerHTML != "")){
+              return;
+            }
+            this.innerHTML += ` <div
+                                        class="spinner-border spinner-border-sm text-secondary"
+                                        role="status"
+                                    >
+                                        <span class="visually-hidden"
+                                            >Loading...</span
+                                        >
+                                    </div>`;
+            this.dataset.loadkomen = "1";
+            ikomen.innerHTML = "";
+            idcomloading = idplay;
+            setTimeout(()=>togglecari(),100);
+            try{
+             const r = await Fetch("https://www.googleapis.com/youtube/v3/commentThreads?part=snippet,replies,id&textFormat=plainText&maxResults=100&videoId="+idplay+"&key="+key);
+              
+              console.log(r);
+              
+              if(r.error && r.error.message.includes("disabled comments")){
+                  ikomen.innerHTML = `<h6 class="text-center mt-5">Forbidden !<br>The video has comments disabled</h6>`;
+                this.dataset.videoId = idplay;
+                throw r;
+              }else if(r == "ganti" || !r.items){
+                if(r=="ganti"){
+                  ikomen.innerHTML = "";
+                }
+               throw r;
+              }
+              this.innerHTML = "Comments ("+this.dataset.jml+")";
+              this.dataset.videoId = idplay;
+              ikomen.innerHTML = "";
+              r.items.forEach((e,i)=>{
+                 let likes = hitung(e.snippet.topLevelComment.snippet.likeCount.toString())+" likes";
+                if(e.snippet.topLevelComment.snippet.likeCount == undefined){
+                  likes = "";
+                }
+                let replies = "";
+                if(e.snippet.totalReplyCount >0 && e.replies && e.replies.comments){
+                  replies = reply(e.replies.comments);
+                }
+                ikomen.innerHTML += `
+                  <div class="d-flex flex-column w-100 px-2 mb-1 border rounded">
+                                  <span class="namakomen" style="font-size: .8em;">${e.snippet.topLevelComment.snippet.authorDisplayName}</span>
+                                  <p class="isikomen mb-0" style="font-size:.9em;white-space: pre-wrap;word-wrap: break-word;">${e.snippet.topLevelComment.snippet.textDisplay}</p>
+                                  <div class="comstats d-flex justify-content-between" style="font-size: .8em;">
+                                    <span>${likes} &#183; ${e.snippet.totalReplyCount} replies</span>
+                                    <span>${rilis(e.snippet.topLevelComment.snippet.updatedAt)}</span>
+                                  </div>
+                                </div>
+                                ${replies}
+                `;
+              });
+              
+              function reply(rep){
+                let a = "";
+                rep.forEach((e,i)=>{
+                  a+= `
+                    <div class="d-flex align-items-start"><img src="reply.svg" style="width:7%">
+                    <div class="d-flex w-100 flex-column px-2 mb-1 border rounded">
+                                  <span class="namakomen" style="font-size: .8em;">${e.snippet.authorDisplayName}</span>
+                                  <p class="isikomen mb-0" style="font-size:.9em;white-space: pre-wrap;word-wrap: break-word;">${e.snippet.textDisplay}</p>
+                                  <div class="comstats d-flex justify-content-between" style="font-size: .8em;">
+                                    <span>${hitung(e.snippet.likeCount.toString())} likes</span>
+                                    <span>${rilis(e.snippet.updatedAt)}</span>
+                                  </div>
+                                </div></div>
+                  `;
+                });
+                return a;
+              }
+              this.dataset.loadkomen = "0";
+              togglecari();
+            }catch(err){/*
+              if(err.error.message.includes("disabled comments")){
+                ikomen.innerHTML = "error: 403\nThe video has comments disabled"
+              }*/
+              this.dataset.loadkomen = "0";
+              erorkomen(err)
+            }
+          }
+          
+          function erorkomen(err){
+            console.log(err);
+            
+              if(idcomloading == idplay){
+                icombtn.click();
+              if(infodown.classList.contains("d-none")){
+                info.click();
+              }
+              icombtn.innerHTML = "Comments";
+              if((err != "ganti" && !err.error) || (err.error.message && !err.error.message.includes("disabled comments"))){
+              ikomen.innerHTML = `
+                <div class="mx-auto d-flex flex-column justify-content-center text-center mt-5"><h6>Oops !</h6>
+                <button class="btn btn-dark" onclick="document.getElementById('icombtn').click()">Try again!</button></div>
+              `;
+              }
+              
+              }
+              
+              if(btncari.classList.contains("d-none")){
+                togglecari();
+              }
+          }
+          
+           chevron.onclick = function(){
+             if(!ytplayer){
+               return;
+             }
+            if(!ytplayer.classList.contains('d-none')){
+              this.style.rotate = "180deg";
+              divhasil.querySelectorAll("div")[navhasil.dataset.active].scrollTop += 1;
+            }else{
+              this.style.rotate = "";
+              divhasil.querySelectorAll("div")[navhasil.dataset.active].scrollTop -= 1;
+             // document.querySelectorAll(".carousel2")[carousel2.dataset.active].scrollBy =(0,-100);
+              
+            }
+            ytplayer.classList.toggle('d-none');
+          }
+          
+          
+          
+            /*  let isLoop;
+                    let isShuffle;
+                    const prev = document.getElementById("prev");
+                    const next = document.getElementById("next");
+                    function ready() {
+                        setTimeout(() => {
+                            console.log(player.getPlaylist().length);
+                        }, 5000);
+                        prev.textContent = "!prev";
+                        prev.onclick = () => {
+                            if (isLoop || player.getPlaylistIndex() > 0) {
+                                player.previousVideo(),
+                                    (prev.textContent = "prev"),
+                                    (next.textContent = "next");
+                            } else {
+                                prev.textContent = "!prev";
+                            }
+                        };
+                        next.onclick = () => {
+                            if (
+                                (isLoop || player.getPlaylist().length > 1) &&
+                                player.getPlaylistIndex() <
+                                    player.getPlaylist().length - 1
+                            ) {
+                                player.getPlaylistIndex() + 1 ==
+                                player.getPlaylist().length - 1
+                                    ? (next.textContent = "!next")
+                                    : (next.textContent = "next");
+
+                                player.nextVideo(), (prev.textContent = "prev");
+                            }
+                        };
+                        document.getElementById("loop").onclick = () =>
+                            !isLoop
+                                ? (player.setLoop(true), (isLoop = 1))
+                                : (player.setLoop(false), (isLoop = 0));
+                        document.getElementById("shuffle").onclick = () => shuffle();
+                    }
+
+                    function shuffle() {
+                        !isShuffle
+                            ? (player.setShuffle(true), (isShuffle = 1))
+                            : (player.setShuffle(false), isShuffle == 0);
+
+                        player.getPlaylistIndex() == 0
+                            ? (prev.textContent = "!prev")
+                            : (prev.textContent = "prev");
+
+                        player.getPlaylistIndex() == player.getPlaylist().length - 1
+                            ? (next.textContent = "!next")
+                            : (next.textContent = "next");
+                    }*/
+        </script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+            integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.min.js"
+            integrity="sha512-TToQDr91fBeG4RE5RjMl/tqNAo35hSRR4cbIFasiV2AAMQ6yKXXYhdSdEpUcRE6bqsTiB+FPLPls4ZAFMoK5WA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <script>
+            function isValidURL(str) {
+                var a = document.createElement("a");
+                a.href = str;
+                return a.host && a.host != window.location.host;
+            }
+            $("#inputcari").autoComplete({
+                minChars: 1,
+                source: function (term, response) {
+                    if (isValidURL(term)) {
+                        $("#dlBTNtext").text("CONVERT");
+                        return;
+                    }
+                    var language =
+                        window.navigator.userLanguage ||
+                        window.navigator.language;
+                    $.getJSON(
+                        "https://suggestqueries.google.com/complete/search?callback=?",
+                        {
+                            hl: language,
+                            ds: "yt",
+                            jsonp: "suggestCallBack",
+                            q: term,
+                            client: "youtube"
+                        }
+                    );
+                    suggestCallBack = function (data) {
+                        var suggestions = [];
+                        $.each(data[1], function (key, val) {
+                            suggestions.push(val[0]);
+                        });
+                        suggestions.length = 10;
+                        document.activeElement.id == "inputcari"
+                            ? response(suggestions)
+                            : 0;
+                    };
+                },
+                onSelect: function (event, term, item) {
+                    $("#inputcari").val = term;
+                    btncari.click();
+                }
+            });
+        </script>
+    </body>
+</html>
